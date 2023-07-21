@@ -1,0 +1,18 @@
+@import url(./vendor/normalize.css);
+@import url(./vendor/inter.css);
+@import url(./vendor/variables.css);
+
+.page {
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--color-main);
+  color: var(--color-second);
+
+  display: flex;
+  flex-direction: column;
+
+  font-family: 'Inter', 'Arial', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+}
