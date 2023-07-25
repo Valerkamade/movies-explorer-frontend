@@ -131,5 +131,5 @@ export {
   popupInfo,
   popupImage,
   formRegister,
-  formLogin
+  formLogin,
 };

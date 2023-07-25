@@ -1,0 +1,51 @@
+.about {
+  padding: 70px 18px 62px;
+}
+
+.about__list {
+  list-style: none;
+  padding: 60px 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 56px;
+}
+
+.about__subtitle {
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 22px;
+  letter-spacing: -0.72px;
+  margin: 0;
+  padding-bottom: 16px;
+}
+
+.about__description {
+  margin: 0;
+}
+
+.about__stats {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  margin: 0;
+}
+
+.about__stats-duration {
+  background-color: var(--color-grey30);
+  padding: 11px 10px;
+  text-align: center;
+  line-height: 13px;
+}
+
+.about__stats-wrap:first-of-type > .about__stats-duration {
+  background-color: var(--color-second-one);
+  color: var(--color-black);
+}
+
+.about__stats-name {
+  color: var(--color-greyA0);
+  padding: 10px;
+  margin: 0;
+  text-align: center;
+  line-height: 12px;
+}

@@ -1,0 +1,15 @@
+.promo__title {
+  font-size: 31px;
+  letter-spacing: -1.24px;
+  line-height: 39px;
+  text-align: center;
+  font-weight: 400;
+
+  padding: 207px 10px 246px;
+  margin: 0;
+
+  background-color: var(--color-cover);
+  background-image: url(../../../images/pic__COLOR_landing-logo.svg);
+  background-repeat: no-repeat;
+  background-position: center 142px;
+}

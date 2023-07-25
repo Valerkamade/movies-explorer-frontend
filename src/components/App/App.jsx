@@ -1,8 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import './App.css';
-import ProtectedRouteElement from '../ProtectedRoute/ProtectedRoute';
-import Header from '../Header/Header'
+// import Header from '../Header/Header';
 import Main from '../Main/Main';
 import Register from '../Register/Register';
 import Login from '../Login/Login';
@@ -15,63 +14,71 @@ const App = () => {
   // const [currentUser, setCurrentUser] = useState({});
   // const [cards, setCards] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [emailUser, setEmailUser] = useState('');
+  const [loggedIn, setLoggedIn] = useState(true);
+  // const [emailUser, setEmailUser] = useState('');
   // const [valueProfile, setValueProfile] = useState({});
   // const [valueCard, setValueCard] = useState({});
   // const [valueAvatar, setValueAvatar] = useState({});
   const [valueRegister, setValueRegister] = useState({});
   const [valueLogin, setValueLogin] = useState({});
   const [loadingContent, setLoadingContent] = useState(true);
-  
-  useEffect(() => {
+
+  const ghk = () => {
+    setLoggedIn(!loggedIn);
     setIsLoading(true);
-    setEmailUser('ya@ya.ru')
+    // setEmailUser('ya@ya.ru');
     setLoadingContent(false);
-  }, [] )
+  };
 
   return (
     <>
-      <Header email={emailUser} loggedIn={loggedIn} setLoggedIn={setLoggedIn} />
+      {/* <button onClick={ghk}>click</button> */}
       <Routes>
-        <Route
-          path='/'
-          element={
-            <ProtectedRouteElement
-              element={Main}
-              // onEditProfile={handleEditProfileClick}
-              // onAddPlace={handleAddPlaceClick}
-              // onEditAvatar={handleEditAvatarClick}
-              // onCardClick={handleCardClick}
-              // onCardLike={handleCardLike}
-              // onCardDelete={handle}
-              // cards={cards}
-              loggedIn={loggedIn}
-              isLoading={isLoading}
-              isLoadingContent={loadingContent}
-            />
-          }
-        />
+        <Route path='/' element={<Main />} loggedIn={loggedIn} />
         <Route
           path='/movies'
-          element={
-            <ProtectedRouteElement
-              element={Movies}
-              // onEditProfile={handleEditProfileClick}
-              // onAddPlace={handleAddPlaceClick}
-              // onEditAvatar={handleEditAvatarClick}
-              // onCardClick={handleCardClick}
-              // onCardLike={handleCardLike}
-              // onCardDelete={handle}
-              // cards={cards}
-              loggedIn={loggedIn}
-              isLoading={isLoading}
-              isLoadingContent={loadingContent}
-            />
-          }
+          element={<Movies />}
+          // onEditProfile={handleEditProfileClick}
+          // onAddPlace={handleAddPlaceClick}
+          // onEditAvatar={handleEditAvatarClick}
+          // onCardClick={handleCardClick}
+          // onCardLike={handleCardLike}
+          // onCardDelete={handle}
+          // cards={cards}
+          loggedIn={loggedIn}
+          isLoading={isLoading}
+          isLoadingContent={loadingContent}
         />
         <Route
-          path='/sign-up'
+          path='/saved-movies'
+          element={<Movies />}
+          // onEditProfile={handleEditProfileClick}
+          // onAddPlace={handleAddPlaceClick}
+          // onEditAvatar={handleEditAvatarClick}
+          // onCardClick={handleCardClick}
+          // onCardLike={handleCardLike}
+          // onCardDelete={handle}
+          // cards={cards}
+          loggedIn={loggedIn}
+          isLoading={isLoading}
+          isLoadingContent={loadingContent}
+        />
+        <Route
+          path='/profile'
+          element={<Movies />}
+          // onEditProfile={handleEditProfileClick}
+          // onAddPlace={handleAddPlaceClick}
+          // onEditAvatar={handleEditAvatarClick}
+          // onCardClick={handleCardClick}
+          // onCardLike={handleCardLike}
+          // onCardDelete={handle}
+          // cards={cards}
+          loggedIn={loggedIn}
+          isLoading={isLoading}
+          isLoadingContent={loadingContent}
+        />
+        <Route
+          path='/signup'
           element={
             loggedIn ? (
               <Navigate to='/' replace />
@@ -87,7 +94,7 @@ const App = () => {
           }
         />
         <Route
-          path='/sign-in'
+          path='/signin'
           element={
             loggedIn ? (
               <Navigate to='/' replace />
@@ -107,6 +114,6 @@ const App = () => {
       {loggedIn && <Footer />}
     </>
   );
-}
+};
 
 export default App;

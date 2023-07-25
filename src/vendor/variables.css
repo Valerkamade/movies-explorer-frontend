@@ -4,24 +4,26 @@
   --color-white: #fff;
   --color-main: #202020;
 
-  --color-grey10: #222222;
-  --color-grey9: #272727;
-  --color-grey8: #2F2F2F;
-  --color-grey7: #303030;
-  --color-grey6: #313131;
-  --color-grey5: #424242;
-  --color-grey4: #8B8B8B;
-  --color-grey3: #A0A0A0;
-  --color-grey2: #DADADA;
-  --color-grey1: #E6E6E6;
+  --color-grey22: #222222;
+  --color-grey27: #272727;
+  --color-grey2F: #2F2F2F;
+  --color-grey30: #303030;
+  --color-grey31: #313131;
+  --color-grey42: #424242;
+  --color-grey50: #505050;
+  --color-grey8B: #8B8B8B;
+  --color-grey95: #959595;
+  --color-greyA0: #A0A0A0;
+  --color-greyDA: #DADADA;
+  --color-greyE6: #E6E6E6;
 
   --color-cover: #073042;
   --color-selection: #EE3465;
   --color-second-one: #3DDC84;
   --color-second-two: #4285F4;
 
-  --color-main-20: rgba(0, 0, 0, 0.2);
-  --color-main-50: rgba(0, 0, 0, 0.5);
+  --color-main-08: rgba(0, 0, 0, 0.08);
+  /* --color-main-50: rgba(0, 0, 0, 0.5);
   --color-main-80: rgba(0, 0, 0, 0.8);
   --color-main-90: rgba(0, 0, 0, 0.9);
 
@@ -30,5 +32,12 @@
 
   --color-placeholder: #c4c4c4;
   --color-placeholder-sing: #ccc;
-  --color-light-gray: #A9A9A9;
+  --color-light-gray: #A9A9A9; */
+
+  /* Отступы */
+  --indent-mobile: 14px;
+
+  /* Параметры текста */
+  --text-mobile: 11px;
+  --height-mobile: 16px;
 }

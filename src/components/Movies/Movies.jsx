@@ -1,11 +1,10 @@
 import './Movies.css';
-import Main from '../Main/Main';
 
 const Movies = () => {
   return (
-    <Main>
-
-    </Main>
+    <main>
+      <h1>fg</h1>
+    </main>
   )
 }
 
