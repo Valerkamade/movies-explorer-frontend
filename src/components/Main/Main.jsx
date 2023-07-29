@@ -2,8 +2,9 @@ import AboutProject from './AboutProject/AboutProject';
 import Header from '../Header/Header';
 import Promo from './Promo/Promo';
 import './Main.css';
-import Techs from '../Techs/Techs';
-import AboutMe from './AboutMe/AbouteMe';
+import Techs from './Techs/Techs';
+import AboutMe from './AboutMe/AboutMe';
+import Portfolio from './Portfolio/Portfolio';
 
 const Main = (loggedIn) => {
   return (
@@ -13,6 +14,7 @@ const Main = (loggedIn) => {
       <AboutProject />
       <Techs />
       <AboutMe/>
+      <Portfolio />
     </main>
   );
 };

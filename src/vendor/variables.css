@@ -36,8 +36,18 @@
 
   /* Отступы */
   --indent-mobile: 14px;
+  --indent-tablet: 30px;
+  --indent-desktop: 70px;
 
   /* Параметры текста */
   --text-mobile: 11px;
   --height-mobile: 16px;
+  --text-tablet: 12px;
+  --height-tablet: 18px;
+  --text-desktop: 14px;
+  --height-desktop: 20px;
+
+  /* Параметры наведения */
+  --hover-button: 0.8;
+  --hover-link: 0.6;
 }

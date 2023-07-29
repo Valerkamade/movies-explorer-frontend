@@ -1,9 +1,9 @@
-import SectionTite from '../Main/SectionTitle/SectionTitle';
+import SectionTite from '../SectionTitle/SectionTitle';
 import './Techs.css';
 
 const Techs = () => {
   return (
-    <section className='techs' id='techs'>
+    <section className='techs main__container' id='techs'>
       <SectionTite>Технологии</SectionTite>
       <h3 className='techs__title'>7 технологий</h3>
       <p className='techs__subtitle'>

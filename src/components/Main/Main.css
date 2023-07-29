@@ -1,3 +1,16 @@
 .main__container {
-  margin: 70px var(--indent-mobile);
+  padding-top: 70px;
+  padding-bottom: 70px;
+}
+
+@media (min-width: 768px) {
+  .main__container {
+    padding: 90px 50px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .main__container {
+    padding: 110px var(--indent-desktop)
+  }
 }

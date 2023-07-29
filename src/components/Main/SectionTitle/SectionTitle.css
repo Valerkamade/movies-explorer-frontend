@@ -2,7 +2,7 @@
   font-size: 18px;
   font-weight: 400;
   letter-spacing: -0.72px;
-  line-height: normal;
+  line-height: 22px;
   
   position: relative;
   padding-bottom: 30px;
@@ -21,4 +21,18 @@
 
 .techs > .title::after {
   background-color: var(--color-black);
+}
+
+@media (min-width: 768px) {
+  .title {
+    font-size: 22px;
+    letter-spacing: -0.88px;
+    line-height: 27px;
+
+    padding-bottom: 23px;
+  }
+
+  .techs > .title::after {
+    background-color: var(--color-greyDA);
+  }
 }

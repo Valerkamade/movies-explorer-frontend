@@ -2,6 +2,7 @@
   width: 100%;
   font-weight: 500;
   text-decoration: underline;
+  text-underline-offset: 2px;
   padding: 25px 0;
   list-style: none;
   margin: 0;
@@ -9,4 +10,17 @@
   gap: 24px;
   justify-content: center;
   background-color: var(--color-grey27);
+}
+
+.navigation__link {
+  color: var(--color-white);
+}
+
+@media (min-width: 768px) {
+  .navigation__list {
+    padding: 25px 0;
+    font-size: 13px;
+    gap: 40px;
+    line-height: 18px;
+  }
 }

@@ -13,3 +13,24 @@
   background-repeat: no-repeat;
   background-position: center 142px;
 }
+
+@media (min-width: 768px) {
+  .promo__title {
+    padding: 326px 19px 342px;
+    letter-spacing: -2px;
+    line-height: 58px;
+    font-size: 50px;
+
+    background-size: 320px;
+    background-position-y: 224px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .promo__title {
+    padding: 184px 275px 224px;
+    line-height: 58px;
+    font-size: 50px;
+    background-position-y: 82px;
+  }
+}

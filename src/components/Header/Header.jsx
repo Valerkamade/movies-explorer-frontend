@@ -17,18 +17,18 @@ const Header = ({ loggedIn }) => {
   return (
     <header
       className={`header page__container ${menuActive ? `header_active` : ''} ${
-        loggedIn ? `header_login` : ''
+        !loggedIn ? `header_login` : ''
       }`}
     >
       <Link className='header__link' to='/'>
         <img className='header__logo' src={logo} alt='SaveMovie' />
       </Link>
-      {!loggedIn ? (
+      {loggedIn ? ( // ToDo: исправить условие
         <Navigation>
           <Link to={path} className='header__link'>
             Регистрация
           </Link>
-          <Link to={path} className='header__link header__link-main'>
+          <Link to={path} className='header__button'>
             Войти
           </Link>
         </Navigation>

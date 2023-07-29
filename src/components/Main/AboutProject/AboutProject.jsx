@@ -3,7 +3,7 @@ import './AboutProject.css';
 
 const AboutProject = () => {
   return (
-    <section className='about' id='about'>
+    <section className='about main__container' id='about'>
       <SectionTite>О проекте</SectionTite>
       <ul className='about__list'>
         <li className='about__item'>

@@ -23,6 +23,7 @@ const App = () => {
   const [valueLogin, setValueLogin] = useState({});
   const [loadingContent, setLoadingContent] = useState(true);
 
+  // eslint-disable-next-line no-unused-vars
   const ghk = () => {
     setLoggedIn(!loggedIn);
     setIsLoading(true);

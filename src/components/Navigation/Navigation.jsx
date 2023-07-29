@@ -1,8 +1,8 @@
 import './Navigation.css';
 
-const Navigation = ({children}) => {
+const Navigation = ({className, children}) => {
   return (
-    <nav className='navigation'>
+    <nav className={`navigation ${className}`}>
         {children}
     </nav>
   );
