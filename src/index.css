@@ -5,12 +5,14 @@
 .page {
   width: 100%;
   max-width: 1280px;
-  min-height: 100vh;
+  min-height: 100dvh;
+  box-sizing: border-box;
   background-color: var(--color-main);
   color: var(--color-white);
 
   display: flex;
   flex-direction: column;
+  margin: 0 auto;
 
   font-family: 'Inter', Arial, sans-serif;
   font-weight: 400;
@@ -35,8 +37,6 @@
   box-shadow: none;
   border: none;
   padding: 0;
-
-  /* color: var(--color-second); */
 }
 
 @media (min-width: 880px) {
@@ -48,4 +48,17 @@
   .button:active {
     opacity: 1;
   }
+}
+/* 
+*:focus-visible {
+  outline-color: var(--color-second-two);
+  outline-style: solid;
+  outline-width: 1px;
+  outline-offset: 0;
+} */
+
+.main {
+  flex: auto;
+  display: flex;
+  flex-direction: column;
 }

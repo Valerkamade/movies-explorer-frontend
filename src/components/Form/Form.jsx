@@ -1,18 +1,23 @@
 import React, { useRef, useEffect, useState } from 'react';
+import './Form.css';
 
-export default function Form({ children, name, onSubmit, isOpen, buttonText }) {
+export default function Form({ children, name, onSubmit, validate, buttonText }) {
   const [isValidForm, setIsValidForm] = useState(false);
   const formRef = useRef(0);
 
   useEffect(() => {
-    Array.from(formRef.current)
-      .filter((item) => {
-        return item.localName !== 'button';
-      })
-      .forEach((item) => {
-        item.classList.toggle('form__input_type_error', item.validationMessage);
-        item.nextSibling.textContent = item.validationMessage;
-      });
+    validate &&
+      Array.from(formRef.current)
+        .filter((item) => {
+          return item.localName !== 'button';
+        })
+        .forEach((item) => {
+          item.classList.toggle(
+            'form__input_type_error',
+            item.validationMessage
+          );
+          item.nextSibling.textContent = item.validationMessage;
+        });
 
     function validation() {
       if (children === undefined) {
@@ -20,8 +25,8 @@ export default function Form({ children, name, onSubmit, isOpen, buttonText }) {
       }
       return formRef.current.checkValidity();
     }
-    isOpen && setIsValidForm(validation());
-  }, [children, isOpen]);
+    setIsValidForm(validation());
+  }, [children, validate]);
 
   return (
     <form
@@ -33,11 +38,7 @@ export default function Form({ children, name, onSubmit, isOpen, buttonText }) {
     >
       {children}
       <button
-        className={`form__button-save button${
-          name === 'register' || name === 'login'
-            ? ' form__button-save_type_auth'
-            : ''
-        }`}
+        className={`form__button-save form__button-save_type_${name}`}
         type='submit'
         disabled={!isValidForm}
       >

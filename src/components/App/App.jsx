@@ -1,82 +1,65 @@
 import { useState } from 'react';
-import { Navigate, Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import './App.css';
-// import Header from '../Header/Header';
+import Header from '../Header/Header';
 import Main from '../Main/Main';
-import Register from '../Register/Register';
-import Login from '../Login/Login';
 import Footer from '../Footer/Footer';
 import Error from '../Error/Error';
 import Movies from '../Movies/Movies';
+import Profile from '../Profile/Profile';
+import SavedMovies from '../SavedMovies/SavedMovies';
+import Auth from '../Auth/Auth';
+import ProtectedRouteElement from '../ProtectedRoute/ProtectedRoute';
 
 const App = () => {
-  // const [selectedCard, setSelectedCard] = useState({});
-  // const [currentUser, setCurrentUser] = useState({});
-  // const [cards, setCards] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [loggedIn, setLoggedIn] = useState(true);
-  // const [emailUser, setEmailUser] = useState('');
-  // const [valueProfile, setValueProfile] = useState({});
-  // const [valueCard, setValueCard] = useState({});
-  // const [valueAvatar, setValueAvatar] = useState({});
+  const [loggedIn, setLoggedIn] = useState(false);
   const [valueRegister, setValueRegister] = useState({});
   const [valueLogin, setValueLogin] = useState({});
-  const [loadingContent, setLoadingContent] = useState(true);
+  // const [loadingContent, setLoadingContent] = useState(true);
 
-  // eslint-disable-next-line no-unused-vars
-  const ghk = () => {
-    setLoggedIn(!loggedIn);
-    setIsLoading(true);
-    // setEmailUser('ya@ya.ru');
-    setLoadingContent(false);
-  };
+  const { pathname } = useLocation();
 
   return (
     <>
-      {/* <button onClick={ghk}>click</button> */}
+      <Header loggedIn={loggedIn} />
       <Routes>
         <Route path='/' element={<Main />} loggedIn={loggedIn} />
         <Route
           path='/movies'
-          element={<Movies />}
-          // onEditProfile={handleEditProfileClick}
-          // onAddPlace={handleAddPlaceClick}
-          // onEditAvatar={handleEditAvatarClick}
-          // onCardClick={handleCardClick}
-          // onCardLike={handleCardLike}
-          // onCardDelete={handle}
-          // cards={cards}
-          loggedIn={loggedIn}
-          isLoading={isLoading}
-          isLoadingContent={loadingContent}
+          element={
+            <ProtectedRouteElement
+              element={Movies}
+              loggedIn={loggedIn}
+              isLoading={isLoading}
+              // isLoadingContent={loadingContent}
+            />
+          }
         />
         <Route
           path='/saved-movies'
-          element={<Movies />}
-          // onEditProfile={handleEditProfileClick}
-          // onAddPlace={handleAddPlaceClick}
-          // onEditAvatar={handleEditAvatarClick}
-          // onCardClick={handleCardClick}
-          // onCardLike={handleCardLike}
-          // onCardDelete={handle}
-          // cards={cards}
-          loggedIn={loggedIn}
-          isLoading={isLoading}
-          isLoadingContent={loadingContent}
+          element={
+            <ProtectedRouteElement
+              element={SavedMovies}
+              loggedIn={loggedIn}
+              isLoading={isLoading}
+              setIsLoading={setIsLoading}
+              // isLoadingContent={loadingContent}
+            />
+          }
         />
         <Route
           path='/profile'
-          element={<Movies />}
-          // onEditProfile={handleEditProfileClick}
-          // onAddPlace={handleAddPlaceClick}
-          // onEditAvatar={handleEditAvatarClick}
-          // onCardClick={handleCardClick}
-          // onCardLike={handleCardLike}
-          // onCardDelete={handle}
-          // cards={cards}
-          loggedIn={loggedIn}
-          isLoading={isLoading}
-          isLoadingContent={loadingContent}
+          element={
+            <ProtectedRouteElement
+              element={Profile}
+              onSubmit={() => console.log('click')}
+              setLoggedIn={setLoggedIn}
+              isLoading={isLoading}
+              // isLoadingContent={loadingContent}
+              loggedIn={loggedIn}
+            />
+          }
         />
         <Route
           path='/signup'
@@ -84,9 +67,8 @@ const App = () => {
             loggedIn ? (
               <Navigate to='/' replace />
             ) : (
-              <Register
+              <Auth
                 name='registration'
-                // onRegister={onRegister}
                 value={valueRegister}
                 setValue={setValueRegister}
                 isLoading={isLoading}
@@ -98,13 +80,13 @@ const App = () => {
           path='/signin'
           element={
             loggedIn ? (
-              <Navigate to='/' replace />
+              <Navigate to='/movies' replace />
             ) : (
-              <Login
-                // onLogin={handleLogin}
+              <Auth
                 value={valueLogin}
                 setValue={setValueLogin}
                 isLoading={isLoading}
+                setLoggedIn={setLoggedIn}
               />
             )
           }
@@ -112,7 +94,7 @@ const App = () => {
         <Route path='*' element={<Error />} />
       </Routes>
 
-      {loggedIn && <Footer />}
+      {pathname !== '/signin' && '/signup' && <Footer />}
     </>
   );
 };

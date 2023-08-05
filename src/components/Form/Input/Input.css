@@ -1,0 +1,60 @@
+.form:not([novalidate]) .form__input:invalid {
+  color: var(--color-selection);
+}
+
+.form__input::placeholder {
+  font-size: 14px;
+  line-height: 20px;
+  padding: 0;
+  color: var(--color-grey8B);
+  background-color: transparent;
+}
+
+/* Auth */
+.form__label_type_register,
+.form__label_type_login {
+  color: var(--color-grey8B);
+  line-height: 12px;
+}
+
+.form__input_type_register,
+.form__input_type_login {
+  color: var(--color-white);
+  padding: 15px;
+  border-radius: 8px;
+  background: var(--color-grey2F);
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 16px;
+}
+
+
+.form__input_type_password {
+  font-size: 5px;
+  letter-spacing: 3px;
+}
+
+.form__input_type_register::placeholder,
+.form__input_type_login::placeholder {
+  color: var(--color-white);
+  opacity: 1;
+  font-size: 13px;
+  line-height: 16px;
+  letter-spacing: 1px;
+}
+
+.form__input_type_error {
+  color: var(--color-selection);
+}
+
+@media (min-width: 768px) {
+  .form__input::placeholder {
+    font-size: 18px;
+  }
+
+  .form__input_type_login::placeholder,
+  .form__input_type_register::placeholder {
+    font-size: 13px;
+    letter-spacing: 1px;
+  }
+}

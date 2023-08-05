@@ -1,64 +1,3 @@
-// import iconPositive from '../images/icon-positive.svg'
-// import iconNegative from '../images/icon-negative.svg'
-
-const popupProfile = {
-  name: 'profile',
-  title: 'Редактировать профиль',
-  buttonTextDefault: 'Сохранить',
-  buttonTextLoading: 'Сохранение...',
-  inputs: [
-    {
-      type: 'text',
-      name: 'name',
-      placeholder: 'Имя',
-      minLength: '2',
-      maxLength: '40',
-    },
-    {
-      type: 'text',
-      name: 'about',
-      placeholder: 'Вид деятельности',
-      minLength: '2',
-      maxLength: '200',
-    },
-  ]
-};
-
-const popupCard = {
-  name: 'place',
-  title: 'Новое место',
-  buttonTextDefault: 'Создать',
-  buttonTextLoading: 'Создание...',
-  inputs: [
-    {
-      type: 'text',
-      name: 'name',
-      placeholder: 'Название',
-      minLength: '2',
-      maxLength: '30',
-    },
-    {
-      type: 'url',
-      name: 'link',
-      placeholder: 'Ссылка на картинку',
-    },
-  ]
-};
-
-const popupAvatar = {
-  name: 'avatar',
-  title: 'Обновить аватар',
-  buttonTextDefault: 'Сохранить',
-  buttonTextLoading: 'Сохранение...',
-  inputs: [
-    {
-      type: 'url',
-      name: 'avatar',
-      placeholder: 'Ссылка на аватар',
-    },
-  ]
-};
-
 const popupConfirmation = {
   name: 'confirmation',
   title: 'Вы уверены?',
@@ -73,63 +12,122 @@ const popupInfo = {
   // iconNegative: iconNegative,
 };
 
-const popupImage = {
-  name: 'img',
-};
-
 const formRegister = {
+  validate: true,
   name: 'register',
-  title: 'Регистрация',
+  title: 'Добро пожаловать!',
   buttonTextDefault: 'Зарегистрироваться',
   buttonTextLoading: 'Регистрация...',
   inputs: [
     {
-      type: 'email',
-      name: 'email',
-      placeholder: 'Email',
+      type: 'text',
+      name: 'name',
+      label: 'Имя',
+      placeholder: 'Виталий',
       minLength: '5',
       maxLength: '40',
+      required: true,
+    },
+    {
+      type: 'email',
+      name: 'email',
+      label: 'E-mail',
+      placeholder: 'pochta@yandex.ru',
+      minLength: '4',
+      maxLength: '40',
+      required: true,
     },
     {
       type: 'password',
       name: 'password',
-      placeholder: 'Пароль',
+      label: 'Пароль',
+      placeholder: '••••••••••••••',
       minLength: '4',
       maxLength: '40',
+      required: true,
     },
   ]
 };
 
 const formLogin = {
+  validate: true,
   name: 'login',
-  title: 'Вход',
+  title: 'Рады видеть!',
   buttonTextDefault: 'Войти',
   buttonTextLoading: 'Вход...',
   inputs: [
     {
       type: 'email',
       name: 'email',
-      placeholder: 'Email',
+      label: 'E-mail',
+      placeholder: 'pochta@yandex.ru|',
       minLength: '4',
       maxLength: '40',
+      required: true,
     },
     {
       type: 'password',
       name: 'password',
-      placeholder: 'Пароль',
+      label: 'Пароль',
+      placeholder: '',
       minLength: '4',
       maxLength: '40',
+      required: true,
+    },
+  ]
+};
+
+const formProfile = {
+  validate: false,
+  name: 'profile',
+  title: 'Привет, Виталий!',
+  buttonTextDefault: 'Редактировать',
+  buttonTextLoading: 'Редактировать',
+  inputs: [
+    {
+      type: 'text',
+      name: 'name',
+      label: 'Имя',
+      placeholder: 'Виталий',
+      required: true,
+    },
+    {
+      type: 'email',
+      name: 'email',
+      label: 'E-mail',
+      placeholder: 'pochta@yandex.ru',
+      required: true,
+    },
+  ]
+}
+
+const formSearch = {
+  validate: false,
+  name: 'search',
+  title: 'Найти',
+  buttonTextDefault: 'Найти',
+  buttonTextLoading: 'Поиск...',
+  inputs: [
+    {
+      type: 'search',
+      name: 'search',
+      placeholder: 'Фильм',
+      required: true,
+    },
+    {
+      type: 'checkbox',
+      name: 'short',
+      placeholder: 'Короткометражки',
+      required: false,
     },
   ]
 };
 
 export {
-  popupProfile,
-  popupCard,
-  popupAvatar,
   popupConfirmation,
   popupInfo,
-  popupImage,
   formRegister,
   formLogin,
+  formSearch,
+  formProfile,
 };

@@ -1,0 +1,137 @@
+.form {
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.form_type_register,
+.form_type_login {
+  display: flex;
+  flex-direction: column;
+  flex: auto;
+  height: 100%;
+  max-width: 396px;
+}
+
+.form__label {
+  display: block;
+  position: relative;
+}
+
+.form__list {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.form__list_type_register,
+.form__list_type_login {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: auto;
+}
+
+.form__item {
+  position: relative;
+}
+
+.form__button-save {
+  cursor: pointer;
+  transition: 0.5s opacity ease-out;
+  background-color: transparent;
+  box-shadow: none;
+  border: none;
+  padding: 0;
+  background: var(--color-second-two);
+  padding: 8px 10px;
+  border-radius: 48px;
+  color: var(--color-white);
+}
+
+.form__input {
+  box-sizing: border-box;
+  border: none;
+  width: 100%;
+  appearance: none;
+  font-size: 14px;
+  line-height: 22px;
+  letter-spacing: 1px;
+}
+
+.form__button-save:disabled {
+  background-color: var(--color-second-two-40);
+  cursor: default;
+}
+
+.form__button-save:disabled:hover {
+  opacity: 1;
+}
+
+.form__button-save_type_register,
+.form__button-save_type_login {
+  width: 100%;
+  padding: 15px;
+  border-radius: 3px;
+  font-size: 12px;
+  line-height: 15px;
+}
+
+.form__error {
+  display: flex;
+  font-size: 10px;
+  line-height: 10px;
+  color: var(--color-selection);
+  transition: 0.5s;
+  min-height: 20px;
+  padding: 0;
+  align-items: end;
+}
+
+.form__error_visible {
+  opacity: 1;
+}
+
+@media (min-width: 768px) {
+  .form__button-save:not([disabled]):hover {
+    opacity: 0.8;
+  }
+
+  .form__list_type_login,
+  .form__list_type_register {
+    margin-bottom: 69px;
+    min-height: 266px;
+  }
+
+  .form_type_register,
+  .form_type_login {
+    flex: 0;
+  }
+
+  .form__button-save_type_register,
+  .form__button-save_type_login {
+    font-size: 14px;
+    line-height: 17px;
+    padding-top: 13px;
+    padding-bottom: 15px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .form__list_type_login,
+  .form__list_type_register {
+    margin-bottom: 69px;
+    min-height: 266px;
+  }
+
+  .form_type_register,
+  .form_type_login {
+    flex: 0;
+  }
+
+  .form__button-save_type_register,
+  .form__button-save_type_login {
+    font-size: 14px;
+    line-height: 17px;
+    padding-top: 13px;
+    padding-bottom: 15px;
+  }
+}

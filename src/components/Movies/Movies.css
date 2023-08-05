@@ -1,0 +1,19 @@
+.main-movies {
+  padding: 0 var(--indent-mobile);
+}
+
+.main-movies+.header {
+  background-color: transparent;
+}
+
+@media (min-width: 768px) {
+  .main-movies {
+    padding: 0 var(--indent-tablet);
+  }
+}
+
+@media (min-width: 1280px) {
+  .main-movies {
+    padding: 0 var(--indent-desktop);
+  }
+}

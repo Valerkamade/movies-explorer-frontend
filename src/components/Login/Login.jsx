@@ -1,6 +1,6 @@
 import React from 'react';
 import { formLogin } from '../../utils/data-list';
-import Input from '../Input/Input';
+import Input from '../Form/Input/Input';
 import Form from '../Form/Form';
 
 export default function Login({

@@ -1,0 +1,14 @@
+.page__button {
+  position: absolute;
+  left: calc(50% - 45px);
+  top: 55px;
+  width: 80px;
+  height: 30px;
+  z-index: 5;
+  font-size: 10px;
+  transform: 50% 0;
+  background-color: var(--color-second-two);
+  border: none;
+  border-radius: 40px;
+  color: var(--color-white);
+}
