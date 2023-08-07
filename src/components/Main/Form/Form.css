@@ -61,10 +61,6 @@
   opacity: var(--disabled);
 }
 
-.form__button-save:disabled:hover {
-  opacity: 1;
-}
-
 .form__button-save_type_register,
 .form__button-save_type_login {
   width: 100%;

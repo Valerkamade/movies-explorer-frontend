@@ -9,13 +9,31 @@ const Portfolio = () => {
       <Navigation className='portfolio__nav'>
         <ul className='portfolio__list'>
           <li className='portfolio__item'>
-            <Link className='portfolio__link' to='https://how-to-learn.valerkamade.ru/'>Статичный сайт</Link>
+            <Link
+              className='portfolio__link'
+              to='https://how-to-learn.valerkamade.ru/'
+              target='_blank'
+            >
+              Статичный сайт
+            </Link>
           </li>
           <li className='portfolio__item'>
-            <Link className='portfolio__link' to='https://russian-travel.valerkamade.ru/'>Адаптивный сайт</Link>
+            <Link
+              className='portfolio__link'
+              to='https://russian-travel.valerkamade.ru/'
+              target='_blank'
+            >
+              Адаптивный сайт
+            </Link>
           </li>
           <li className='portfolio__item'>
-            <Link className='portfolio__link' to='https://mesto-my.valerkamade.ru/'>Одностраничное приложение</Link>
+            <Link
+              className='portfolio__link'
+              to='https://mesto-my.valerkamade.ru/'
+              target='_blank'
+            >
+              Одностраничное приложение
+            </Link>
           </li>
         </ul>
       </Navigation>

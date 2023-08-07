@@ -20,6 +20,7 @@ const Footer = () => {
                 <Link
                   className='footer__link'
                   to='https://practicum.yandex.ru/'
+                  target='_blank'
                 >
                   Яндекс.Практикум
                 </Link>
@@ -28,6 +29,7 @@ const Footer = () => {
                 <Link
                   className='footer__link'
                   to='https://github.com/Valerkamade/movies-explorer-frontend'
+                  target='_blank'
                 >
                   Github
                 </Link>

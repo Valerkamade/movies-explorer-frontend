@@ -1,16 +1,16 @@
-const popupConfirmation = {
-  name: 'confirmation',
-  title: 'Вы уверены?',
-  buttonTextDefault: 'Да',
-  buttonTextLoading: 'Удаление...',
-};
+// const popupConfirmation = {
+//   name: 'confirmation',
+//   title: 'Вы уверены?',
+//   buttonTextDefault: 'Да',
+//   buttonTextLoading: 'Удаление...',
+// };
 
-const popupInfo = {
-  name: 'info',
-  title: 'Вы успешно зарегистрировались!',
-  // iconPositive: iconPositive,
-  // iconNegative: iconNegative,
-};
+// const popupInfo = {
+//   name: 'info',
+//   title: 'Вы успешно зарегистрировались!',
+//   // iconPositive: iconPositive,
+//   // iconNegative: iconNegative,
+// };
 
 const formRegister = {
   validate: true,
@@ -24,7 +24,7 @@ const formRegister = {
       name: 'name',
       label: 'Имя',
       placeholder: 'Виталий',
-      minLength: '5',
+      minLength: '2',
       maxLength: '40',
       required: true,
     },
@@ -89,6 +89,8 @@ const formProfile = {
       name: 'name',
       label: 'Имя',
       placeholder: 'Виталий',
+      minLength: '2',
+      maxLength: '40',
       required: true,
     },
     {
@@ -96,6 +98,8 @@ const formProfile = {
       name: 'email',
       label: 'E-mail',
       placeholder: 'pochta@yandex.ru',
+      minLength: '4',
+      maxLength: '40',
       required: true,
     },
   ]
@@ -119,13 +123,14 @@ const formSearch = {
       name: 'short',
       placeholder: 'Короткометражки',
       required: false,
+      checked: false,
     },
   ]
 };
 
 export {
-  popupConfirmation,
-  popupInfo,
+  // popupConfirmation,
+  // popupInfo,
   formRegister,
   formLogin,
   formSearch,

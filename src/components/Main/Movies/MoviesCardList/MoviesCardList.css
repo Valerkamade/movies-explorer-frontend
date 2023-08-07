@@ -33,6 +33,7 @@
 
 .movies__wrapper {
   min-height: 140px;
+  display: flex;
 }
 
 @media (min-width: 520px) {

@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   background: var(--color-grey2F);
+  cursor: pointer;
 }
 
 .movies__info {
@@ -40,17 +41,17 @@
   cursor: pointer;
 }
 
-.movies__button-like {
-  background-image: url('../../../../images/save-unactive.svg');
+.movies__button_like {
+  background-image: var(--icon-dislike);
 }
 
-.movies__button-deleet {
-  background-image: url('../../../../images/close.svg');
+.movies__button_deleet {
+  background-image: var(--icon-delete);
   background-size: cover;
 }
 
-.movies__button-like_active {
-  background-image: url('../../../../images/save-active.svg');
+.movies__button_like-active {
+  background-image: var(--icon-like);
 }
 
 @media (min-width: 520px) {
@@ -84,6 +85,14 @@
   .movies__title {
     font-size: 18px;
     line-height: 22px;
+  }
 
+  .movies__item:hover {
+    outline: 1px solid var(--color-grey8B);
+    border-radius: 5px;
+  }
+
+  .movies__button:hover {
+    opacity: var(--hover-button);
   }
 }

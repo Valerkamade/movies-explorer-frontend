@@ -18,7 +18,11 @@ const AboutMe = () => {
             Контур». После того, как прошёл курс по веб-разработке, начал
             заниматься фриланс-заказами и ушёл с постоянной работы.
           </p>
-          <Link className='about-me__link' to='https://github.com/Valerkamade'>
+          <Link
+            className='about-me__link'
+            to='https://github.com/Valerkamade'
+            target='_blank'
+          >
             Github
           </Link>
         </div>

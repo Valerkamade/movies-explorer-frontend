@@ -10,8 +10,8 @@ const MoviesCard = ({
   onCardDelete,
 }) => {
   const [isLiked, setIsLiked] = useState(false);
-  const movieLikeButtonClassName = `movies__button-like ${
-    isLiked && 'movies__button-like_active'
+  const movieLikeButtonClassName = `movies__button_like ${
+    isLiked && 'movies__button_like-active'
   }`;
 
   function handleClick() {
@@ -33,7 +33,7 @@ const MoviesCard = ({
 
         <button
           className={`movies__button ${
-            saved ? 'movies__button-deleet' : movieLikeButtonClassName
+            saved ? 'movies__button_deleet' : movieLikeButtonClassName
           }`}
           type='button'
           onClick={handleLikeClick}

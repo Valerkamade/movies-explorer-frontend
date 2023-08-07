@@ -86,7 +86,7 @@
 
   .form__input_type_search {
     padding: 25px 307px 25px 63px;
-    background-image: url(../../../../images/search.svg);
+    background-image:var(--icon-search);
     background-repeat: no-repeat;
     background-position: 19px center;
     background-size: 34px 34px;

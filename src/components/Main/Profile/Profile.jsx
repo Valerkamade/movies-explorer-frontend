@@ -6,8 +6,7 @@ import Input from '../Form/Input/Input';
 import { useNavigate } from 'react-router-dom';
 
 const Profile = ({ isLoading, onSubmit, setLoggedIn }) => {
-  const { validate, name, buttonTextDefault, inputs } =
-    formProfile;
+  const { validate, name, buttonTextDefault, inputs } = formProfile;
   const [value, setValue] = useState({});
   const navigate = useNavigate();
 
@@ -25,7 +24,7 @@ const Profile = ({ isLoading, onSubmit, setLoggedIn }) => {
     navigate('/', { replace: true });
   };
 
-console.log(setLoggedIn);
+  console.log(setLoggedIn);
 
   return (
     <main className='main'>
