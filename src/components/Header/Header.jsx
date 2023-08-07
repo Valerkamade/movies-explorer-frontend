@@ -23,7 +23,6 @@ const Header = ({ loggedIn }) => {
     if (pathAuth) {
       className = `${className} header_auth`;
     }
-    console.log(className);
     return className;
   };
 
@@ -37,7 +36,7 @@ const Header = ({ loggedIn }) => {
 
   return (
     <header className={classNameHeader()}>
-      <Link className='header__link' to='/'>
+      <Link className='header__link header__link_logo' to='/'>
         <img className='header__logo' src={logo} alt='SaveMovie' />
       </Link>
       {!pathAuth &&
@@ -73,12 +72,12 @@ const Header = ({ loggedIn }) => {
                 </ul>
               </Navigation>
               <Navigation>
-                <Link
+                <NavLink
                   className='header__link header__link_profile'
                   to='/profile'
                 >
                   Аккаунт
-                </Link>
+                </NavLink>
               </Navigation>
               <button
                 className='header__button-close'

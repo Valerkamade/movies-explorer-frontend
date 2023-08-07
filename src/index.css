@@ -2,6 +2,11 @@
 @import url(./vendor/inter.css);
 @import url(./vendor/variables.css);
 
+html {
+  scroll-behavior: smooth;
+  scrollbar-gutter: stable;
+}
+
 .page {
   width: 100%;
   max-width: 1280px;
@@ -18,6 +23,10 @@
   font-weight: 400;
   font-size: var(--text-mobile);
   line-height: var(--height-mobile);
+}
+
+.page:has(.header_active) {
+  overflow-y: hidden;
 }
 
 .page__wrapper {
@@ -49,13 +58,18 @@
     opacity: 1;
   }
 }
-/* 
-*:focus-visible {
+
+*:focus-visible,
+button:focus-visible,
+[type="button"]:focus-visible,
+[type="reset"]:focus-visible,
+[type="submit"]:focus-visible {
   outline-color: var(--color-second-two);
   outline-style: solid;
-  outline-width: 1px;
-  outline-offset: 0;
-} */
+  outline-width: 2px;
+  outline-offset: 3px;
+  border-radius: 5px;
+}
 
 .main {
   flex: auto;

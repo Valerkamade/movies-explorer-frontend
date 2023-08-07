@@ -25,7 +25,7 @@
 
   --color-main-08: rgba(0, 0, 0, 0.08);
   --color-second-two-40: rgba(66, 133, 244, .4);
-  
+
   /* Отступы */
   --indent-mobile: 10px;
   --indent-tablet: 30px;
@@ -39,7 +39,10 @@
   --text-desktop: 14px;
   --height-desktop: 20px;
 
-  /* Параметры наведения */
+  /* Параметры интерактивности */
   --hover-button: 0.8;
-  --hover-link: 0.6;
+  --hover-link: 0.7;
+  --disabled: 0.3;
 }
+
+/* ToDo: посмотреть можно ли заголовки вынести в переменные */

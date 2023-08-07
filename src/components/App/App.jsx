@@ -2,13 +2,13 @@ import { useState } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import './App.css';
 import Header from '../Header/Header';
-import Main from '../Main/Main';
 import Footer from '../Footer/Footer';
-import Error from '../Error/Error';
-import Movies from '../Movies/Movies';
-import Profile from '../Profile/Profile';
-import SavedMovies from '../SavedMovies/SavedMovies';
-import Auth from '../Auth/Auth';
+import Landing from '../Main/Landing/Landing';
+import Error from '../Main/Error/Error';
+import Movies from '../Main/Movies/Movies';
+import Profile from '../Main/Profile/Profile';
+import SavedMovies from '../Main/Movies/SavedMovies/SavedMovies';
+import Auth from '../Main/Auth/Auth';
 import ProtectedRouteElement from '../ProtectedRoute/ProtectedRoute';
 
 const App = () => {
@@ -17,14 +17,14 @@ const App = () => {
   const [valueRegister, setValueRegister] = useState({});
   const [valueLogin, setValueLogin] = useState({});
   // const [loadingContent, setLoadingContent] = useState(true);
-
+  const [isErrorPage, setIsErrorPage] = useState(false);
   const { pathname } = useLocation();
 
   return (
     <>
-      <Header loggedIn={loggedIn} />
+      {!isErrorPage && <Header loggedIn={loggedIn} />}
       <Routes>
-        <Route path='/' element={<Main />} loggedIn={loggedIn} />
+        <Route path='/' element={<Landing />} loggedIn={loggedIn} />
         <Route
           path='/movies'
           element={
@@ -91,10 +91,15 @@ const App = () => {
             )
           }
         />
-        <Route path='*' element={<Error />} />
+        <Route
+          path='*'
+          element={
+            <Error setIsErrorPage={setIsErrorPage} />
+          }
+        />
       </Routes>
 
-      {pathname !== '/signin' && '/signup' && <Footer />}
+      {!isErrorPage && pathname !== '/signin' && '/signup' && <Footer />}
     </>
   );
 };

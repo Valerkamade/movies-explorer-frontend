@@ -1,16 +1,27 @@
 .main__container {
-  padding-top: 70px;
-  padding-bottom: 70px;
+  padding: 70px var(--indent-mobile);
+}
+
+.main_movies {
+  padding: 0 var(--indent-mobile);
 }
 
 @media (min-width: 768px) {
   .main__container {
-    padding: 90px 50px;
+    padding: 90px var(--indent-tablet);
+  }
+
+  .main_movies {
+    padding: 0 var(--indent-tablet);
   }
 }
 
 @media (min-width: 1280px) {
   .main__container {
     padding: 110px var(--indent-desktop)
+  }
+
+  .main_movies {
+    padding: 0 var(--indent-desktop);
   }
 }
