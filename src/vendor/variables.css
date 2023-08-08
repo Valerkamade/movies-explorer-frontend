@@ -1,0 +1,53 @@
+:root {
+  /* Цвета */
+  --color-black: #000;
+  --color-white: #fff;
+  --color-main: #202020;
+
+  --color-grey22: #222222;
+  --color-grey27: #272727;
+  --color-grey2F: #2F2F2F;
+  --color-grey30: #303030;
+  --color-grey31: #313131;
+  --color-grey34: #343434;
+  --color-grey42: #424242;
+  --color-grey50: #505050;
+  --color-grey8B: #8B8B8B;
+  --color-grey95: #959595;
+  --color-greyA0: #A0A0A0;
+  --color-greyDA: #DADADA;
+  --color-greyE6: #E6E6E6;
+
+  --color-cover: #073042;
+  --color-selection: #EE3465;
+  --color-second-one: #3DDC84;
+  --color-second-two: #4285F4;
+
+  --color-main-08: rgba(0, 0, 0, 0.08);
+
+  /* Отступы */
+  --indent-mobile: 10px;
+  --indent-tablet: 30px;
+  --indent-desktop: 70px;
+
+  /* Параметры текста */
+  --text-mobile: 11px;
+  --height-mobile: 16px;
+  --text-tablet: 12px;
+  --height-tablet: 18px;
+  --text-desktop: 14px;
+  --height-desktop: 20px;
+
+  /* Параметры интерактивности */
+  --hover-button: 0.8;
+  --hover-link: 0.7;
+  --disabled: 0.3;
+
+  /* Иконки */
+  --icon-dislike: url('../images/save-unactive.svg');
+  --icon-like: url('../images/save-active.svg');
+  --icon-delete: url('../images/delete.svg');
+  --icon-search: url('../images/search.svg');
+}
+
+/* ToDo: посмотреть можно ли заголовки вынести в переменные */

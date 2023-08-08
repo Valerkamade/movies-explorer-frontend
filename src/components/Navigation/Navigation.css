@@ -1,0 +1,11 @@
+.navigation {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+
+@media (min-width: 768px) {
+  .navigation {
+    gap: 30px;
+  }
+}

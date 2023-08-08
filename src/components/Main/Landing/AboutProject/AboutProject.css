@@ -1,0 +1,121 @@
+.about {
+  padding-left: 18px;
+  padding-right: 18px;
+}
+
+.about__list {
+  list-style: none;
+  padding: 60px 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 56px;
+}
+
+.about__subtitle {
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 22px;
+  letter-spacing: -0.72px;
+  margin: 0;
+  padding-bottom: 16px;
+}
+
+.about__description {
+  margin: 0;
+}
+
+.about__stats {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  margin: 0;
+}
+
+.about__stats-duration {
+  background-color: var(--color-grey30);
+  padding: 11px 10px;
+  text-align: center;
+  line-height: 13px;
+}
+
+.about__stats-wrap:first-of-type > .about__stats-duration {
+  background-color: var(--color-second-one);
+  color: var(--color-black);
+}
+
+.about__stats-name {
+  color: var(--color-greyA0);
+  padding-top: 10px;
+  margin: 0;
+  text-align: center;
+  line-height: 12px;
+}
+
+@media (min-width: 768px) {
+  .about {
+    padding-left: 50px;
+    padding-right: 50px;
+  }
+  .about__subtitle {
+    font-size: 20px;
+    letter-spacing: -0.8px;
+    line-height: 24px;
+    padding-bottom: 22px;
+  }
+
+  .about__description {
+    font-size: var(--text-tablet);
+    line-height: var(--height-tablet);
+  }
+
+  .about__list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+
+    padding: 70px 0 93px;
+  }
+
+  .about__stats {
+    grid-template-columns: 140px 1fr;
+    font-size: 14px;
+    line-height: 17px;
+  }
+
+  .about__stats-duration {
+    background-color: var(--color-grey30);
+    padding: 9px 10px;
+    text-align: center;
+    line-height: 18px;
+  }
+
+  .about__stats-name {
+    padding-top: 14px;
+    line-height: 16px;
+  }
+}
+
+@media (min-width: 1280px) {
+.about {
+  padding-left: 70px;
+  padding-right: 70px;
+}
+
+  .about__list {
+    gap: 40px;
+    padding-bottom: 110px;
+  }
+
+  .about__subtitle {
+    padding-bottom: 26px;
+  }
+
+  .about__description {
+    font-size: var(--text-desktop);
+    line-height: var(--height-desktop);
+  }
+
+  .about__stats {
+    grid-template-columns: 228px 1fr;
+  }
+}

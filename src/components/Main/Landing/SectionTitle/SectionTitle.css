@@ -1,0 +1,38 @@
+.title {
+  font-size: 18px;
+  font-weight: 400;
+  letter-spacing: -0.72px;
+  line-height: 22px;
+  
+  position: relative;
+  padding-bottom: 29px;
+  margin: 0;
+}
+
+.title::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 1px;
+  background-color: var(--color-greyDA);
+  bottom: 0;
+  left: 0;  
+}
+
+.techs > .title::after {
+  background-color: var(--color-black);
+}
+
+@media (min-width: 768px) {
+  .title {
+    font-size: 22px;
+    letter-spacing: -0.88px;
+    line-height: 27px;
+
+    padding-bottom: 24px;
+  }
+
+  .techs > .title::after {
+    background-color: var(--color-greyDA);
+  }
+}

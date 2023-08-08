@@ -1,0 +1,127 @@
+.about-me {
+  padding-left: 14px;
+  padding-right: 14px;
+}
+
+.about-me__wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.about-me__img {
+  display: block;
+  width: 292px;
+  height: 352px;
+  border-radius: 10px;
+  object-fit: cover;
+  margin: 60px 0 40px;
+}
+
+.about-me__info {
+  order: 1;
+}
+
+.about-me__title {
+  font-size: 30px;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: -1.2px;
+  margin: 0;
+}
+
+.about-me__subtitle {
+  font-weight: 500;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.about-me__description {
+  margin: 0 0 40px ;
+}
+
+.about-me__link {
+  color: var(--color-white, #FFF);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 70px;
+}
+
+@media (min-width: 768px) {
+  .about-me {
+    padding-left: 50px;
+    padding-right: 50px;
+    font-size: var(--text-tablet);
+    line-height: var(--height-tablet);
+  }
+
+  .about-me__wrapper {
+    flex-direction: row;
+    gap: 49px;
+    margin-top: 67px
+  }
+
+  .about-me__info {
+    order: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .about-me__img {
+    width: 255px;
+    height: 307px;
+    margin: 0;
+  }
+
+  .about-me__title {
+    margin: 0;
+    font-size: 40px;
+    letter-spacing: -1.6px;
+    line-height: 40px;
+  }
+
+  .about-me__subtitle {
+    margin-bottom: 20px;
+    margin-top: 16px;
+  }
+
+  .about-me__link {
+    margin-top: auto;
+    margin-bottom: 0;
+  }
+}
+
+@media (min-width: 1280px) {
+  .about-me {
+    padding-left: var(--indent-desktop);
+    padding-right: var(--indent-desktop);
+    padding-bottom: 101px;
+  }
+
+  .about-me__wrapper {
+    gap: 270px;
+  }
+
+  .about-me__title {
+    font-size: 50px;
+    line-height: 58px;
+    letter-spacing: -2px;
+  }
+
+  .about-me__subtitle {
+    margin-bottom: 26px;
+    margin-top: 19px;
+    font-size: 18px;
+    line-height: 20px;
+  }
+
+  .about-me__description {
+    font-size: var(--text-desktop);
+    line-height: 22px;
+  }
+
+  .about-me__img {
+    width: 270px;
+    height: 327px;
+  }
+}
