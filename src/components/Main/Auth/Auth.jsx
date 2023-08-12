@@ -4,18 +4,44 @@ import Form from '../Form/Form';
 import { formRegister, formLogin } from '../../../utils/data-list';
 import Input from '../Form/Input/Input';
 import Main from '../Main';
+import { api } from '../../../utils/MainApi';
 
-const Auth = ({ isLoading, value, setValue, setLoggedIn }) => {
+const Auth = ({ isLoading, value, setValue, setLoggedIn, setCurrentUser }) => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
 
-  const onRegister = () => {
-    navigate('/signin', { replace: true });
+  const onLogin = () => {
+    if (!value.email || !value.password) {
+      return;
+    }
+    api
+      .authorize(value)
+      .then((user) => {
+        setLoggedIn(true);
+        navigate('/movies', { replace: true });
+        setLoggedIn(true);
+        setValue({});
+        api
+          .getUserInfoApi()
+          .then((user) => {
+            setCurrentUser(user);
+          })
+          .catch();
+      })
+      .catch((err) => console.log(err));
   };
 
-  const onLogin = () => {
-    setLoggedIn(true);
-    navigate('/movies', { replace: true });
+  const onRegister = () => {
+    console.log(value);
+    if (!value.name || !value.email || !value.password) {
+      return;
+    }
+    api
+      .addNewUser(value)
+      .then(() => {
+        onLogin();
+      })
+      .catch((err) => console.log(err));
   };
 
   let data;
@@ -26,7 +52,7 @@ const Auth = ({ isLoading, value, setValue, setLoggedIn }) => {
         link: '/signin',
         linkText: 'Войти',
         text: 'Уже зарегистрированы?',
-        onSubmit: onRegister,
+        onSubmit: () => onRegister(),
       };
       break;
     case '/signin':
@@ -35,7 +61,7 @@ const Auth = ({ isLoading, value, setValue, setLoggedIn }) => {
         link: '/signup',
         linkText: 'Регистрация',
         text: 'Ещё не зарегистрированы?',
-        onSubmit: onLogin,
+        onSubmit: () => onLogin(),
       };
       break;
     default:

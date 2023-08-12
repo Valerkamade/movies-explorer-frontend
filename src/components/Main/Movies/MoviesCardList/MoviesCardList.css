@@ -48,6 +48,11 @@
 
   .movies__button-more {
     width: 320px;
+    transition: all 0.6s;
+  }
+
+  .movies__button-more:hover {
+    opacity: var(--hover-button);
   }
 }
 

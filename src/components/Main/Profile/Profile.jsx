@@ -4,8 +4,10 @@ import './Profile.css';
 import Form from '../Form/Form';
 import Input from '../Form/Input/Input';
 import { useNavigate } from 'react-router-dom';
+import { api } from '../../../utils/MainApi';
 
-const Profile = ({ isLoading, onSubmit, setLoggedIn }) => {
+const Profile = ({ isLoading, onSubmit, setLoggedIn, currentUser }) => {
+  // const {user, email} = currentUser;
   const { validate, name, buttonTextDefault, inputs } = formProfile;
   const [value, setValue] = useState({});
   const navigate = useNavigate();
@@ -20,16 +22,15 @@ const Profile = ({ isLoading, onSubmit, setLoggedIn }) => {
   }
 
   const onSignOut = () => {
+    api.
     setLoggedIn(false);
     navigate('/', { replace: true });
   };
 
-  console.log(setLoggedIn);
-
   return (
     <main className='main'>
       <section className='profile'>
-        <h1 className='profile__title'>Привет, Виталий!</h1>
+        <h1 className='profile__title'>{`Привет, ${currentUser.name}!`}</h1>
         <Form
           validate={validate}
           name={name}
@@ -43,7 +44,7 @@ const Profile = ({ isLoading, onSubmit, setLoggedIn }) => {
                 key={input.name + name}
               >
                 <Input
-                  value={value[`${input.name}`] ?? input.placeholder}
+                  value={value[`${input.name}`] ?? currentUser[`${input.name}`]}
                   input={input}
                   handleChange={handleChange}
                   form={name}

@@ -76,9 +76,9 @@
 }
 
 @media (min-width: 768px) {
-  .form__input::placeholder {
+  /* .form__input::placeholder {
     font-size: 18px;
-  }
+  } */
 
   .form__input_type_login::placeholder,
   .form__input_type_register::placeholder {
