@@ -22,9 +22,14 @@ const Profile = ({ isLoading, onSubmit, setLoggedIn, currentUser }) => {
   }
 
   const onSignOut = () => {
-    api.
-    setLoggedIn(false);
-    navigate('/', { replace: true });
+    api
+      .logout()
+      .then(() => {
+        setLoggedIn(false);
+        navigate('/', { replace: true });
+        localStorage.clear();
+      })
+      .catch((err) => console.log(err));
   };
 
   return (

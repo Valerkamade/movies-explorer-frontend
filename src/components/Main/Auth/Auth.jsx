@@ -6,7 +6,14 @@ import Input from '../Form/Input/Input';
 import Main from '../Main';
 import { api } from '../../../utils/MainApi';
 
-const Auth = ({ isLoading, value, setValue, setLoggedIn, setCurrentUser }) => {
+const Auth = ({
+  isLoading,
+  value,
+  setValue,
+  setLoggedIn,
+  setCurrentUser,
+  loggedIn,
+}) => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
 
@@ -16,23 +23,16 @@ const Auth = ({ isLoading, value, setValue, setLoggedIn, setCurrentUser }) => {
     }
     api
       .authorize(value)
-      .then((user) => {
+      .then(() => {
         setLoggedIn(true);
         navigate('/movies', { replace: true });
-        setLoggedIn(true);
         setValue({});
-        api
-          .getUserInfoApi()
-          .then((user) => {
-            setCurrentUser(user);
-          })
-          .catch();
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err));    
+    
   };
 
   const onRegister = () => {
-    console.log(value);
     if (!value.name || !value.email || !value.password) {
       return;
     }

@@ -4,10 +4,12 @@ import { moviesList } from '../../../utils/movies-data';
 import { useState } from 'react';
 import Main from '../Main';
 
-const Movies = () => {
-  const [maxMovies, setMaxMovies] = useState(7);
+const Movies = ({ allMovies }) => {
+  const [maxMovies, setMaxMovies] = useState(0);
   function handleClickMore() {
-    setMaxMovies(() => maxMovies + 3);
+    if (maxMovies < allMovies.length) {
+      setMaxMovies(() => maxMovies + 1);
+    }
   }
 
   return (
@@ -18,6 +20,7 @@ const Movies = () => {
         saved={false}
         moviesList={moviesList.slice(0, maxMovies)}
         onClickMore={handleClickMore}
+        maxMovies={maxMovies}
       />
     </Main>
   );

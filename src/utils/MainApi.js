@@ -2,7 +2,7 @@ import { apiConfig } from './utils'
 
 class Api {
   constructor({ baseUrl, headers, credentials }) {
-    this._baseUrl = baseUrl;
+    this._baseUrl = baseUrl.mainApi;
     this._headers = headers;
     this._credentials = credentials;
   }
