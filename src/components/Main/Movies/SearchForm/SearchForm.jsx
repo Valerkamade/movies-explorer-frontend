@@ -1,20 +1,42 @@
 import Form from '../../Form/Form';
 import Input from '../../Form/Input/Input';
 import { formSearch } from '../../../../utils/data-list';
-import { useState } from 'react';
+import { useEffect } from 'react';
 import './SearchForm.css';
 
-const SearchForm = ({ isLoading }) => {
+const SearchForm = ({
+  isLoading,
+  onSubmitSearch,
+  saved,
+  valueSerch,
+  setValueSerch,
+}) => {
   const { name, buttonTextLoading, buttonTextDefault, validate } = formSearch;
-  const [valueSerch, setValueSerch] = useState({});
 
   function handleChange(evt) {
     setValueSerch({ ...valueSerch, [evt.target.name]: evt.target.value });
   }
 
+  function handleChangeCheckbox(evt) {
+    setValueSerch({ ...valueSerch, [evt.target.name]: evt.target.checked });
+    !saved && localStorage.setItem('short', evt.target.checked);
+  }
+
   function handleSubmit(evt) {
     evt.preventDefault();
+    if (!saved) {
+      onSubmitSearch(valueSerch);
+    }
   }
+
+  useEffect(() => {
+    !saved &&
+      setValueSerch({
+        ...valueSerch,
+        search: localStorage.getItem('search'),
+        short: localStorage.getItem('short'),
+      });
+  }, []);
 
   return (
     <Form
@@ -28,7 +50,10 @@ const SearchForm = ({ isLoading }) => {
           key={input.name}
           value={valueSerch[`${input.name}`]}
           input={input}
-          handleChange={handleChange}
+          isChecked={valueSerch.short}
+          handleChange={
+            input.type === 'checkbox' ? handleChangeCheckbox : handleChange
+          }
           validate={validate}
         />
       ))}

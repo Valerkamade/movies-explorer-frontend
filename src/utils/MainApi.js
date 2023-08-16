@@ -63,9 +63,9 @@ class Api {
     })
   }
 
-  // метод запроса данных карточек с сервера
-  getInitialCardsApi() {
-    return this._request(`${this._baseUrl}/cards`, {
+  // метод запроса сохраненных фильмов с сервера
+  getMovies() {
+    return this._request(`${this._baseUrl}/movies`, {
       headers: this._headers,
       credentials: this._credentials,
     })
@@ -80,68 +80,36 @@ class Api {
   }
 
   // Метот передачи данных пользователя на сервер
-  setUserInfoApi({ name, about }) {
+  setUserInfoApi({ name, email }) {
     return this._request(`${this._baseUrl}/users/me`, {
       method: 'PATCH',
       headers: this._headers,
       credentials: this._credentials,
       body: JSON.stringify({
         name: name,
-        about: about
+        email: email
       })
-    })
-  }
-
-  // Метод передачи на сервер новых данных о пользователе 
-  setUserAvatarApi({ avatar }) {
-    return this._request(`${this._baseUrl}/users/me/avatar`, {
-      method: 'PATCH',
-      headers: this._headers,
-      credentials: this._credentials,
-      body: JSON.stringify({
-        avatar: avatar
-      })
-    })
-  }
-
-  // Метод добавления новой карточки на сервер
-  addNewCardApi({ name, link }) {
-    return this._request(`${this._baseUrl}/cards`, {
-      method: 'POST',
-      headers: this._headers,
-      credentials: this._credentials,
-      body: JSON.stringify({
-        name: name,
-        link: link
-      })
-    })
-  }
-
-  // Метод удаления карточки с сервера
-  deleteCardApi(cardId) {
-    return this._request(`${this._baseUrl}/cards/${cardId}`, {
-      method: 'DELETE',
-      headers: this._headers,
-      credentials: this._credentials,
     })
   }
 
   // Метод отправки данных об установке/снятии лайка на сервер
-  toggleLikeCardApi(cardID, isLiked) {
-    if (!isLiked) {
-      return this._request(`${this._baseUrl}/cards/${cardID}/likes`, {
-        method: 'PUT',
-        headers: this._headers,
-        credentials: this._credentials,
-      })
-    } else {
-      return this._request(`${this._baseUrl}/cards/${cardID}/likes`, {
-        method: 'DELETE',
-        credentials: this._credentials,
-        headers: this._headers
-      })
-    }
-  }
+  addSavedMovies(movie) {
+    return this._request(`${this._baseUrl}/movies`, {
+      method: 'POST',
+      headers: this._headers,
+      credentials: this._credentials,
+      body: JSON.stringify( movie )
+  })
+}
+
+// Метод удаления карточки с сервера
+deleteMovies(movieId) {
+  return this._request(`${this._baseUrl}/movies/${movieId}`, {
+    method: 'DELETE',
+    headers: this._headers,
+    credentials: this._credentials,
+  })
+}
 }
 
 export const api = new Api(apiConfig);

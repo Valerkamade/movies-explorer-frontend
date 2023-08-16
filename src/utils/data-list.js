@@ -90,7 +90,7 @@ const formProfile = {
       label: 'Имя',
       placeholder: 'Виталий',
       minLength: '2',
-      maxLength: '40',
+      maxLength: '30',
       required: true,
     },
     {

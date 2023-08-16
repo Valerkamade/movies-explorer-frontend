@@ -1,16 +1,14 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { formProfile } from '../../../utils/data-list';
 import './Profile.css';
 import Form from '../Form/Form';
 import Input from '../Form/Input/Input';
-import { useNavigate } from 'react-router-dom';
-import { api } from '../../../utils/MainApi';
+import { CurrentUserContext } from '../../../contexts/CurrentUserContext';
 
-const Profile = ({ isLoading, onSubmit, setLoggedIn, currentUser }) => {
-  // const {user, email} = currentUser;
+const Profile = ({ isLoading, onSubmit, setLoggedIn, onSignout }) => {
+  const currentUser = useContext(CurrentUserContext);
   const { validate, name, buttonTextDefault, inputs } = formProfile;
   const [value, setValue] = useState({});
-  const navigate = useNavigate();
 
   function handleChange(evt) {
     setValue({ ...value, [evt.target.name]: evt.target.value });
@@ -21,15 +19,8 @@ const Profile = ({ isLoading, onSubmit, setLoggedIn, currentUser }) => {
     onSubmit();
   }
 
-  const onSignOut = () => {
-    api
-      .logout()
-      .then(() => {
-        setLoggedIn(false);
-        navigate('/', { replace: true });
-        localStorage.clear();
-      })
-      .catch((err) => console.log(err));
+  const handleClickExit = () => {
+    onSignout();
   };
 
   return (
@@ -59,7 +50,7 @@ const Profile = ({ isLoading, onSubmit, setLoggedIn, currentUser }) => {
             ))}
           </ul>
         </Form>
-        <button className='profile__button-exit' onClick={onSignOut}>
+        <button className='profile__button-exit' onClick={handleClickExit}>
           Выйти из аккаунта
         </button>
       </section>

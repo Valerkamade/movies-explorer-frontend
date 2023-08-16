@@ -14,6 +14,7 @@ import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import { api } from '../../utils/MainApi';
 import Preloader from '../Preloader/Preloader';
 import { apiMovies } from '../../utils/MoviesApi';
+import { useNavigate } from 'react-router-dom';
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -25,7 +26,21 @@ const App = () => {
   const [currentUser, setCurrentUser] = useState({});
   const [isLoadingApp, setIsLoadingApp] = useState(true);
   const [allMovies, setAllMovies] = useState([]);
+  const [searchMovies, setSearchMovies] = useState([]);
+  const [savedMovies, setSavedMovies] = useState([]);
   const { pathname } = useLocation();
+  const navigate = useNavigate();
+
+  const handleSignout = () => {
+    api
+      .logout()
+      .then(() => {
+        setLoggedIn(false);
+        navigate('/', { replace: true });
+        localStorage.clear();
+      })
+      .catch((err) => console.log(err));
+  };
 
   const checkToken = () => {
     api
@@ -33,10 +48,18 @@ const App = () => {
       .then((user) => {
         setLoggedIn(true);
         setCurrentUser(user);
-        // console.log(localStorage.getItem('loggedIn'));
       })
       .catch()
       .finally(setIsLoadingApp(false));
+  };
+
+  const getSavedMovies = () => {
+    api
+      .getMovies()
+      .then((res) => {
+        setSavedMovies(res);
+      })
+      .catch();
   };
 
   const getMovies = () => {
@@ -49,7 +72,61 @@ const App = () => {
   useEffect(() => {
     checkToken();
     getMovies();
-    }, []);
+    getSavedMovies();
+  }, []);
+
+  const handleMovieLike = (movie) => {
+    const isLiked = savedMovies.some((item) => item.movieId === movie.movieId);
+
+    if (!isLiked) {
+      api
+        .addSavedMovies(movie)
+        .then((newMovie) => {
+          setSavedMovies([...savedMovies, newMovie]);
+        })
+        .catch((err) => console.log(err));
+    } else {
+      const id = savedMovies.find((item) => item.movieId === movie.movieId)._id;
+      api
+        .deleteMovies(id)
+        .then((res) => {
+          setSavedMovies(savedMovies.filter((item) => item._id !== id));
+        })
+        .catch();
+    }
+  };
+
+  const handleMovieDelete = (movie) => {
+    api
+      .deleteMovies(movie._id)
+      .then((res) => {
+        setSavedMovies(savedMovies.filter((item) => item._id !== movie._id));
+      })
+      .catch();
+  };
+
+  const handleSubmitSearch = (value) => {
+    let moviesFilter = allMovies;
+    if (localStorage.getItem('short') === true) {
+      moviesFilter = allMovies.filter((item) => item.duration <= 40);
+    } else {
+      setSearchMovies(
+        moviesFilter.filter((item) =>
+          item.nameRU.toLowerCase().includes(value.search.toLowerCase())
+        )
+      );
+    }
+    localStorage.setItem('search', value.search);
+    localStorage.setItem('short', value.short);
+    localStorage.setItem(
+      'searchMovies',
+      JSON.stringify(
+        allMovies.filter((item) =>
+          item.nameRU.toLowerCase().includes(value.search.toLowerCase())
+        )
+      )
+    );
+  };
 
   return isLoadingApp ? (
     <Preloader />
@@ -67,7 +144,12 @@ const App = () => {
               loggedIn={loggedIn}
               isLoading={isLoading}
               // isLoadingContent={loadingContent}
-              allMovies={allMovies}
+              movies={searchMovies}
+              onMovieLike={handleMovieLike}
+              onMoviedDelete={handleMovieDelete}
+              savedMovies={savedMovies}
+              setMovies={setSearchMovies}
+              onSubmitSearch={handleSubmitSearch}
             />
           }
         />
@@ -80,6 +162,10 @@ const App = () => {
               isLoading={isLoading}
               setIsLoading={setIsLoading}
               // isLoadingContent={loadingContent}
+              onMoviedDelete={handleMovieDelete}
+              savedMovies={savedMovies}
+              setMovies={setSavedMovies}
+              onSubmitSearch={() => {}}
             />
           }
         />
@@ -93,7 +179,7 @@ const App = () => {
               isLoading={isLoading}
               // isLoadingContent={loadingContent}
               loggedIn={loggedIn}
-              currentUser={currentUser}
+              onSignout={handleSignout}
             />
           }
         />

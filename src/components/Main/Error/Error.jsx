@@ -14,7 +14,7 @@ export default function Error({ setIsErrorPage }) {
       <p className='error__subtitle'>Страница не найдена</p>
       <Link
         className='error__link'
-        to='/'
+        to={-1}
         onClick={() => setIsErrorPage(false)}
       >
         Назад

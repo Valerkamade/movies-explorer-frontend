@@ -2,7 +2,7 @@ import { apiConfig } from './utils'
 
 class ApiMovies {
   constructor({ baseUrl, headers, credentials }) {
-    this._baseUrl = baseUrl.mainApi;
+    this._baseUrl = baseUrl.moviesApi;
     this._headers = headers;
     this._credentials = credentials;
   }
@@ -24,7 +24,6 @@ class ApiMovies {
   getMovies() {
     return this._request(this._baseUrl, {
       headers: this._headers,
-      credentials: this._credentials,
     })
   }
 }

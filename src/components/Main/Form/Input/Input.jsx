@@ -1,6 +1,7 @@
+// import { REGX_NAME } from '../../../../utils/constants';
 import './Input.css';
 
-const Input = ({ value, handleChange, input, form, validate }) => {
+const Input = ({ value, handleChange, input, form, validate, isChecked }) => {
   const {
     label,
     name,
@@ -24,13 +25,28 @@ const Input = ({ value, handleChange, input, form, validate }) => {
           className={classInput}
           type={type}
           name={name}
-          defaultChecked={checked}
+          defaultChecked={isChecked ? isChecked : checked}
+          // checked={checked}
           required={required}
           onChange={handleChange}
         />
       );
       break;
     case 'search':
+      inputType = (
+        <input
+          className={classInput}
+          type={type}
+          name={name}
+          placeholder={placeholder}
+          required={required}
+          value={value ?? ''}
+          onChange={handleChange}
+          autoComplete='on'
+        />
+      );
+      break;
+    case 'email':
       inputType = (
         <input
           className={classInput}
