@@ -1,34 +1,52 @@
 import Main from '../../Main';
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import useSearch from '../../../hooks/useSearch';
+import Preloader from '../../../Preloader/Preloader';
 
-const SavedMovies = ({ onCardLike, savedMovies, onMoviedDelete }) => {
-  const [valueSerch, setValueSerch] = useState({});
-  const handleClickDelet = () => {
-    onCardLike();
+const SavedMovies = ({ savedMovies, onMoviedDelete }) => {
+  const [valueSearch, setValueSearch] = useState({ search: '', short: false });
+  const [isErrorShow, setErrorShow] = useState(false);
+
+  const { filteredMovies, searchStatus, handleSubmitSearch } = useSearch({
+    movies: savedMovies,
+    isSavedMoviesPage: true,
+  });
+
+  useEffect(() => {
+    if (filteredMovies.length === 0) {
+      setErrorShow(true);
+    } else {
+      setErrorShow(false);
+    }
+  }, [filteredMovies]);
+  
+  const handleClickDelete = (movie) => {
+    onMoviedDelete(movie);
   };
 
   return (
     <Main className='main_movies'>
       <SearchForm
-        saved={true}
-        valueSerch={valueSerch}
-        setValueSerch={setValueSerch}
+        isSavedMoviesPage={true}
+        valueSerch={valueSearch}
+        setValueSerch={setValueSearch}
+        onSubmitSearch={handleSubmitSearch}
+        searchStatus={searchStatus}
+        isErrorShow={isErrorShow}
       />
-      <MoviesCardList
-        saved={true}
-        moviesList={
-          valueSerch.short === true
-            ? savedMovies.filter((item) => item.duration <= 40)
-            : savedMovies
-        }
-        onCardLike={handleClickDelet}
-        onMoviedDelete={onMoviedDelete}
-      />
+      {searchStatus.isLoading ? (
+        <Preloader />
+      ) : (
+        <MoviesCardList
+          isSavedMoviesPage={true}
+          moviesList={filteredMovies}
+          onMoviedDelete={handleClickDelete}
+        />
+      )}
     </Main>
   );
 };
 
 export default SavedMovies;
-// ToDo: липкий футер

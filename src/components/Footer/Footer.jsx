@@ -1,10 +1,12 @@
 import { Link, useLocation } from 'react-router-dom';
 import './Footer.css';
 import Navigation from '../Navigation/Navigation';
+import { ROUTS } from '../../utils/constants';
 const Footer = () => {
   const { pathname } = useLocation();
-  const pathProfile = pathname === '/profile';
-  const pathAuth = pathname === '/signup' || pathname === '/signin';
+  const { profilePath, loginPath, registerPath } = ROUTS;
+  const pathProfile = pathname === profilePath;
+  const pathAuth = pathname === registerPath || pathname === loginPath;
 
   return (
     !pathProfile &&

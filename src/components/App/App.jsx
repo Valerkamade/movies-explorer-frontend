@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import './App.css';
 import Header from '../Header/Header';
@@ -12,68 +12,148 @@ import Auth from '../Main/Auth/Auth';
 import ProtectedRouteElement from '../ProtectedRoute/ProtectedRoute';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import { api } from '../../utils/MainApi';
-import Preloader from '../Preloader/Preloader';
 import { apiMovies } from '../../utils/MoviesApi';
 import { useNavigate } from 'react-router-dom';
+import {
+  DEVICE_SETTING,
+  ROUTS,
+  TIME_OUT_PRELOADER,
+} from '../../utils/constants';
+import Preloader from '../Preloader/Preloader';
 
 const App = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [loggedIn, setLoggedIn] = useState(false);
   const [valueRegister, setValueRegister] = useState({});
   const [valueLogin, setValueLogin] = useState({});
-  // const [loadingContent, setLoadingContent] = useState(true);
-  const [isErrorPage, setIsErrorPage] = useState(false);
-  const [currentUser, setCurrentUser] = useState({});
-  const [isLoadingApp, setIsLoadingApp] = useState(true);
+  const [isLoadingContent, setLoadingContent] = useState(true);
+  const [isErrorPage, setErrorPage] = useState(false);
+  const [currentUser, setCurrentUser] = useState({
+    isLoggedIn: localStorage.getItem('isLoggedIn'),
+  });
+  const [device, setDevice] = useState(DEVICE_SETTING.desktop.device);
   const [allMovies, setAllMovies] = useState([]);
-  const [searchMovies, setSearchMovies] = useState([]);
   const [savedMovies, setSavedMovies] = useState([]);
   const { pathname } = useLocation();
+  const [requestError, setRequestError] = useState({});
   const navigate = useNavigate();
-
-  const handleSignout = () => {
-    api
-      .logout()
-      .then(() => {
-        setLoggedIn(false);
-        navigate('/', { replace: true });
-        localStorage.clear();
-      })
-      .catch((err) => console.log(err));
-  };
-
-  const checkToken = () => {
-    api
-      .checkToken()
-      .then((user) => {
-        setLoggedIn(true);
-        setCurrentUser(user);
-      })
-      .catch()
-      .finally(setIsLoadingApp(false));
-  };
+  const resizeCooldown = useRef(null);
+  const {
+    mainPath,
+    loginPath,
+    registerPath,
+    moviesPath,
+    savedMoviesPath,
+    profilePath,
+    anyOtherPath
+  } = ROUTS;
 
   const getSavedMovies = () => {
     api
       .getMovies()
-      .then((res) => {
-        setSavedMovies(res);
-      })
-      .catch();
+      .then((movies) => setSavedMovies(movies))
+      .catch((err) => console.log(err));
   };
 
   const getMovies = () => {
     apiMovies
       .getMovies()
       .then((movies) => setAllMovies(movies))
-      .catch();
+      .catch((err) => console.log(err));
   };
 
   useEffect(() => {
-    checkToken();
+    setLoadingContent(true);
+    if (currentUser.isLoggedIn) {
+      api
+        .checkToken()
+        .then((user) => {
+          setCurrentUser({
+            name: user.name,
+            email: user.email,
+            isLoggedIn: true,
+          });
+        })
+        .catch((err) => {
+          setCurrentUser({ isLoggedIn: false });
+          console.log(err);
+        })
+        .finally(
+          setTimeout(() => {
+            setLoadingContent(false);
+          }, TIME_OUT_PRELOADER)
+        );
+      getSavedMovies();
+    }
+  }, [currentUser.isLoggedIn]);
+
+  useEffect(() => {
     getMovies();
-    getSavedMovies();
+    setTimeout(() => {
+      setLoadingContent(false);
+    }, TIME_OUT_PRELOADER);
   }, []);
+
+  useEffect(() => {
+    const handleChangeDevice = () => {
+      clearTimeout(resizeCooldown.current);
+      resizeCooldown.current = setTimeout(() => {
+        if (window.innerWidth < DEVICE_SETTING.mobile.maxSize) {
+          setDevice(DEVICE_SETTING.mobile.device);
+        } else if (window.innerWidth < DEVICE_SETTING.tablet.maxSize) {
+          setDevice(DEVICE_SETTING.tablet.device);
+        } else {
+          setDevice(DEVICE_SETTING.desktop.device);
+        }
+      }, TIME_OUT_PRELOADER);
+    };
+
+    handleChangeDevice();
+    window.addEventListener('resize', handleChangeDevice);
+
+    return () => {
+      clearTimeout(resizeCooldown.current);
+      window.removeEventListener('resize', handleChangeDevice);
+    };
+  }, [device]);
+
+  const handleLogin = (value) => {
+    setLoadingContent(true);
+    api
+      .authorize(value)
+      .then(() => {
+        navigate(moviesPath, { replace: true });
+        setValueLogin({});
+        setCurrentUser({ ...currentUser, isLoggedIn: true });
+        localStorage.setItem('isLoggedIn', true);
+      })
+      .catch((err) => {
+        setRequestError(err);
+        console.log(err);
+      })
+      .finally(
+        setTimeout(() => {
+          setLoadingContent(false);
+        }, TIME_OUT_PRELOADER)
+      );
+  };
+
+  const handleRegister = (value) => {
+    setLoadingContent(true);
+    api
+      .addNewUser(value)
+      .then(() => {
+        handleLogin(value);
+        setCurrentUser({ ...currentUser, isLoggedIn: true });
+      })
+      .catch((err) => {
+        setRequestError(err);
+        console.log(err);
+      })
+      .finally(
+        setTimeout(() => {
+          setLoadingContent(false);
+        }, TIME_OUT_PRELOADER)
+      );
+  };
 
   const handleMovieLike = (movie) => {
     const isLiked = savedMovies.some((item) => item.movieId === movie.movieId);
@@ -89,139 +169,150 @@ const App = () => {
       const id = savedMovies.find((item) => item.movieId === movie.movieId)._id;
       api
         .deleteMovies(id)
-        .then((res) => {
+        .then(() => {
           setSavedMovies(savedMovies.filter((item) => item._id !== id));
         })
-        .catch();
+        .catch((err) => console.log(err));
     }
   };
 
   const handleMovieDelete = (movie) => {
     api
       .deleteMovies(movie._id)
-      .then((res) => {
-        setSavedMovies(savedMovies.filter((item) => item._id !== movie._id));
+      .then(() => {
+        setSavedMovies((movies) =>
+          movies.filter((item) => item._id !== movie._id)
+        );
+        console.log(savedMovies.filter((item) => item._id !== movie._id));
       })
-      .catch();
+      .catch((err) => console.log(err));
   };
 
-  const handleSubmitSearch = (value) => {
-    let moviesFilter = allMovies;
-    if (localStorage.getItem('short') === true) {
-      moviesFilter = allMovies.filter((item) => item.duration <= 40);
-    } else {
-      setSearchMovies(
-        moviesFilter.filter((item) =>
-          item.nameRU.toLowerCase().includes(value.search.toLowerCase())
-        )
+  const handleChengeProfile = (value) => {
+    setLoadingContent(true);
+    api
+      .setUserInfoApi(value)
+      .then(({ name, email }) => {
+        setCurrentUser({ ...currentUser, name, email });
+      })
+      .catch((err) => console.log(err))
+      .finally(
+        setTimeout(() => {
+          setLoadingContent(false);
+        }, TIME_OUT_PRELOADER)
       );
-    }
-    localStorage.setItem('search', value.search);
-    localStorage.setItem('short', value.short);
-    localStorage.setItem(
-      'searchMovies',
-      JSON.stringify(
-        allMovies.filter((item) =>
-          item.nameRU.toLowerCase().includes(value.search.toLowerCase())
-        )
-      )
-    );
   };
 
-  return isLoadingApp ? (
+  const handleSignout = () => {
+    api
+      .logout()
+      .then(() => {
+        navigate(mainPath, { replace: true });
+        localStorage.clear();
+        setCurrentUser({ name: '', email: '', isLoggedIn: false });
+        setSavedMovies([]);
+        setRequestError({});
+      })
+      .catch((err) => console.log(err))
+      .finally(
+        setTimeout(() => {
+          setLoadingContent(false);
+        }, TIME_OUT_PRELOADER)
+      );
+  };
+
+  return isLoadingContent ? (
     <Preloader />
   ) : (
     <CurrentUserContext.Provider value={currentUser}>
-      {!isErrorPage && <Header loggedIn={loggedIn} />}
-      {/* <Suspense fallback={<Preloader />}> */}
+      {!isErrorPage && <Header />}
       <Routes>
-        <Route path='/' element={<Landing />} loggedIn={loggedIn} />
         <Route
-          path='/movies'
+          path={mainPath}
+          element={<Landing isLoadingContent={isLoadingContent} />}
+        />
+        <Route
+          path={moviesPath}
           element={
             <ProtectedRouteElement
               element={Movies}
-              loggedIn={loggedIn}
-              isLoading={isLoading}
-              // isLoadingContent={loadingContent}
-              movies={searchMovies}
+              isLoggedIn={currentUser.isLoggedIn}
+              movies={allMovies}
               onMovieLike={handleMovieLike}
-              onMoviedDelete={handleMovieDelete}
               savedMovies={savedMovies}
-              setMovies={setSearchMovies}
-              onSubmitSearch={handleSubmitSearch}
+              device={device}
             />
           }
         />
         <Route
-          path='/saved-movies'
+          path={savedMoviesPath}
           element={
             <ProtectedRouteElement
               element={SavedMovies}
-              loggedIn={loggedIn}
-              isLoading={isLoading}
-              setIsLoading={setIsLoading}
-              // isLoadingContent={loadingContent}
+              isLoggedIn={currentUser.isLoggedIn}
               onMoviedDelete={handleMovieDelete}
               savedMovies={savedMovies}
-              setMovies={setSavedMovies}
-              onSubmitSearch={() => {}}
+              device={device}
             />
           }
         />
         <Route
-          path='/profile'
+          path={profilePath}
           element={
             <ProtectedRouteElement
               element={Profile}
-              onSubmit={() => console.log('click')}
-              setLoggedIn={setLoggedIn}
-              isLoading={isLoading}
-              // isLoadingContent={loadingContent}
-              loggedIn={loggedIn}
+              onSubmit={handleChengeProfile}
+              isLoggedIn={currentUser.isLoggedIn}
               onSignout={handleSignout}
+              isLoadingContent={isLoadingContent}
+              setRequestError={setRequestError}
+              requestError={requestError}
             />
           }
         />
         <Route
-          path='/signup'
+          path={registerPath}
           element={
-            loggedIn ? (
-              <Navigate to='/' replace />
+            currentUser.isLoggedIn ? (
+              <Navigate to={mainPath} replace />
             ) : (
               <Auth
-                name='registration'
                 value={valueRegister}
                 setValue={setValueRegister}
-                isLoading={isLoading}
-                setLoggedIn={setLoggedIn}
-                loggedIn={loggedIn}
+                onRegister={handleRegister}
+                requestError={requestError}
+                setRequestError={setRequestError}
+                isLoadingContent={isLoadingContent}
               />
             )
           }
         />
         <Route
-          path='/signin'
+          path={loginPath}
           element={
-            loggedIn ? (
-              <Navigate to='/movies' replace />
+            currentUser.isLoggedIn ? (
+              <Navigate to={moviesPath} replace />
             ) : (
               <Auth
                 value={valueLogin}
                 setValue={setValueLogin}
-                isLoading={isLoading}
-                setLoggedIn={setLoggedIn}
-                setCurrentUser={setCurrentUser}
-                loggedIn={loggedIn}
+                onLogin={handleLogin}
+                requestError={requestError}
+                setRequestError={setRequestError}
+                isLoadingContent={isLoadingContent}
               />
             )
           }
         />
-        <Route path='*' element={<Error setIsErrorPage={setIsErrorPage} />} />
+        <Route
+          path={anyOtherPath}
+          element={<Error setIsErrorPage={setErrorPage} />}
+        />
       </Routes>
 
-      {!isErrorPage && pathname !== '/signin' && '/signup' && <Footer />}
-      {/* </Suspense> */}
+      {!isErrorPage && pathname !== loginPath && registerPath && (
+        <Footer />
+      )}
     </CurrentUserContext.Provider>
   );
 };

@@ -96,8 +96,8 @@
     line-height: 22px;
   }
 
-  .movies__item:hover {
-    outline: 1px solid var(--color-grey8B);
+  .movies__link:hover {
+    outline: 1px solid var(--color-second-two-50);
     border-radius: 5px;
   }
 

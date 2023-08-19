@@ -2,70 +2,79 @@ import MoviesCardList from './MoviesCardList/MoviesCardList';
 import SearchForm from './SearchForm/SearchForm';
 import { useEffect, useState } from 'react';
 import Main from '../Main';
+import useSearch from '../../hooks/useSearch';
+import Preloader from '../../Preloader/Preloader';
+import { deviceSettings } from '../../../utils/data-list';
+import { DATA_SAVE } from '../../../utils/constants';
 
-const Movies = ({
-  movies,
-  onMovieLike,
-  savedMovies,
-  onSubmitSearch,
-  setMovies,
-}) => {
-  const [maxMovies, setMaxMovies] = useState(3);
-  const [valueSerch, setValueSerch] = useState({});
+const Movies = ({ movies, onMovieLike, savedMovies, device }) => {
+  const { filteredMovies, savedSearch, searchStatus, handleSubmitSearch } =
+    useSearch({
+      movies: movies,
+      isSavedMoviesPage: false,
+    });
 
-  function handleClickMore() {
-    if (maxMovies < movies.length) {
-      setMaxMovies(() => maxMovies + 1);
-    }
-  }
+  const [valueSerch, setValueSerch] = useState({
+    search: savedSearch.search ?? '',
+    short: savedMovies.short ?? '',
+  });
+  const [moreMovies, setMoreMovies] = useState(0);
+  const [isShowMoreButton, setShowMoreButton] = useState(false);
+  const [maxShowMovies, setMaxShowMovies] = useState(0);
+
+  const handleClickMore = () => {
+    setMaxShowMovies((maxMovies) => maxMovies + moreMovies);
+  };
 
   useEffect(() => {
-    if (localStorage.getItem('searchMovies')) {
-      valueSerch.short === true
-        ? setMovies(
-            JSON.parse(localStorage.getItem('searchMovies')).filter(
-              (item) => item.duration <= 40
-            )
-          )
-        : setMovies(JSON.parse(localStorage.getItem('searchMovies')));
-    };
-  }, [valueSerch.short]);
-  
+    if (DATA_SAVE in localStorage) {
+      const { search, short } = JSON.parse(localStorage.getItem(DATA_SAVE));
+      setValueSerch({
+        search: search,
+        short: short,
+      });
+    }
+  }, []);
 
-  // useEffect(() => {
-  //   switch ((isErrorPage, loggedIn)) {
-  //     case isErrorPage && loggedIn:
-  //       console.log('зашибись');
-  //       break;
-  //     case isErrorPage && !loggedIn:
-  //       console.log('незашибись');
-  //       break;
-  //     case !isErrorPage && loggedIn:
-  //       console.log('123');
-  //       break;
-  //     default:
-  //       console.log('однако');
-  //       break;
-  //   }
-  // }, [isErrorPage, loggedIn]);
+  useEffect(() => {
+    setMaxShowMovies(deviceSettings[device].maxMovies);
+    setMoreMovies(deviceSettings[device].moreMovies);
+  }, [device, movies]);
+
+  useEffect(() => {
+    if (!(filteredMovies.length <= maxShowMovies)) {
+      setShowMoreButton(true);
+    } else {
+      setShowMoreButton(false);
+    }
+  }, [filteredMovies, maxShowMovies]);
 
   return (
     <Main className='main_movies'>
       <SearchForm
-        onSubmitSearch={onSubmitSearch}
-        saved={false}
+        onSubmitSearch={handleSubmitSearch}
+        isSavedMoviesPage={false}
         valueSerch={valueSerch}
         setValueSerch={setValueSerch}
+        searchStatus={searchStatus}
+        savedSearch={savedSearch}
+        setMaxShowMovies={setMaxShowMovies}
+        device={device}
       />
-
-      <MoviesCardList
-        saved={false}
-        moviesList={movies.slice(0, maxMovies)}
-        onClickMore={handleClickMore}
-        maxMovies={maxMovies === movies.length || movies.length === 0 || maxMovies>movies.length}
-        onMovieLike={onMovieLike}
-        savedMovies={savedMovies}
-      />
+      {searchStatus.isLoading ? (
+        <Preloader />
+      ) : (
+        <MoviesCardList
+          isSavedMoviesPage={false}
+          moviesList={filteredMovies.slice(0, maxShowMovies)}
+          searchStatus={searchStatus}
+          onMovieLike={onMovieLike}
+          savedMovies={savedMovies}
+          isShowMoreButton={isShowMoreButton}
+          onSubmitMoreButton={handleClickMore}
+          showMoreButton={isShowMoreButton}
+        />
+      )}
     </Main>
   );
 };

@@ -1,4 +1,8 @@
+import { METHODS_FETCH, ROUTS } from './constants';
 import { apiConfig } from './utils'
+
+const { loginPath, logoutPath, registerPath, userPath, moviesPath } = ROUTS;
+const { postFetch, patchFetch, deleteFetch } = METHODS_FETCH;
 
 class Api {
   constructor({ baseUrl, headers, credentials }) {
@@ -12,7 +16,7 @@ class Api {
     if (res.ok) {
       return res.json();
     }
-    return Promise.reject(`Что-то где-то пошло не так... Код ошибки ${res.status}`);
+    return res.json().then(res => { throw res });
   }
 
   // Метод запроса с проверкой ответа
@@ -22,8 +26,8 @@ class Api {
 
   // Метод создания нового пользователя
   addNewUser({ name, password, email }) {
-    return this._request(`${this._baseUrl}/signup`, {
-      method: 'POST',
+    return this._request(`${this._baseUrl}${registerPath}`, {
+      method: postFetch,
       headers: this._headers,
       credentials: this._credentials,
       body: JSON.stringify({
@@ -36,8 +40,8 @@ class Api {
 
   // Метод авторизации
   authorize({ password, email }) {
-    return this._request(`${this._baseUrl}/signin`, {
-      method: 'POST',
+    return this._request(`${this._baseUrl}${loginPath}`, {
+      method: postFetch,
       headers: this._headers,
       credentials: this._credentials,
       body: JSON.stringify({
@@ -49,7 +53,7 @@ class Api {
 
   // Метод запроса данных пользователя с сервера
   checkToken() {
-    return this._request(`${this._baseUrl}/users/me`, {
+    return this._request(`${this._baseUrl}${userPath}`, {
       headers: this._headers,
       credentials: this._credentials,
     })
@@ -57,7 +61,7 @@ class Api {
 
   // Метод запроса данных пользователя с сервера
   logout() {
-    return this._request(`${this._baseUrl}/signout`, {
+    return this._request(`${this._baseUrl}${logoutPath}`, {
       headers: this._headers,
       credentials: this._credentials,
     })
@@ -65,7 +69,7 @@ class Api {
 
   // метод запроса сохраненных фильмов с сервера
   getMovies() {
-    return this._request(`${this._baseUrl}/movies`, {
+    return this._request(`${this._baseUrl}${moviesPath}`, {
       headers: this._headers,
       credentials: this._credentials,
     })
@@ -73,7 +77,7 @@ class Api {
 
   // Метод запроса данных пользователя с сервера
   getUserInfoApi() {
-    return this._request(`${this._baseUrl}/users/me`, {
+    return this._request(`${this._baseUrl}${userPath}`, {
       headers: this._headers,
       credentials: this._credentials,
     })
@@ -81,8 +85,8 @@ class Api {
 
   // Метот передачи данных пользователя на сервер
   setUserInfoApi({ name, email }) {
-    return this._request(`${this._baseUrl}/users/me`, {
-      method: 'PATCH',
+    return this._request(`${this._baseUrl}${userPath}`, {
+      method: patchFetch,
       headers: this._headers,
       credentials: this._credentials,
       body: JSON.stringify({
@@ -94,22 +98,22 @@ class Api {
 
   // Метод отправки данных об установке/снятии лайка на сервер
   addSavedMovies(movie) {
-    return this._request(`${this._baseUrl}/movies`, {
-      method: 'POST',
+    return this._request(`${this._baseUrl}${moviesPath}`, {
+      method: postFetch,
       headers: this._headers,
       credentials: this._credentials,
-      body: JSON.stringify( movie )
-  })
-}
+      body: JSON.stringify(movie)
+    })
+  }
 
-// Метод удаления карточки с сервера
-deleteMovies(movieId) {
-  return this._request(`${this._baseUrl}/movies/${movieId}`, {
-    method: 'DELETE',
-    headers: this._headers,
-    credentials: this._credentials,
-  })
-}
+  // Метод удаления карточки с сервера
+  deleteMovies(movieId) {
+    return this._request(`${this._baseUrl}${moviesPath}/${movieId}`, {
+      method: deleteFetch,
+      headers: this._headers,
+      credentials: this._credentials,
+    })
+  }
 }
 
 export const api = new Api(apiConfig);

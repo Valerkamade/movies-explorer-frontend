@@ -1,19 +1,4 @@
-// const popupConfirmation = {
-//   name: 'confirmation',
-//   title: 'Вы уверены?',
-//   buttonTextDefault: 'Да',
-//   buttonTextLoading: 'Удаление...',
-// };
-
-// const popupInfo = {
-//   name: 'info',
-//   title: 'Вы успешно зарегистрировались!',
-//   // iconPositive: iconPositive,
-//   // iconNegative: iconNegative,
-// };
-
-const formRegister = {
-  validate: true,
+const registerForm = {
   name: 'register',
   title: 'Добро пожаловать!',
   buttonTextDefault: 'Зарегистрироваться',
@@ -27,6 +12,7 @@ const formRegister = {
       minLength: '2',
       maxLength: '40',
       required: true,
+      autoFocus: true,
     },
     {
       type: 'email',
@@ -49,8 +35,7 @@ const formRegister = {
   ]
 };
 
-const formLogin = {
-  validate: true,
+const loginForm = {
   name: 'login',
   title: 'Рады видеть!',
   buttonTextDefault: 'Войти',
@@ -64,6 +49,7 @@ const formLogin = {
       minLength: '4',
       maxLength: '40',
       required: true,
+      autoFocus: true,
     },
     {
       type: 'password',
@@ -77,12 +63,12 @@ const formLogin = {
   ]
 };
 
-const formProfile = {
-  validate: false,
+const profileForm = {
   name: 'profile',
   title: 'Привет, Виталий!',
-  buttonTextDefault: 'Редактировать',
-  buttonTextLoading: 'Редактировать',
+  buttonTextDefault: 'Сохранить',
+  buttonTextLoading: 'Сохранение...',
+  textError: 'При обновлении профиля произошла ошибка.',
   inputs: [
     {
       type: 'text',
@@ -92,6 +78,7 @@ const formProfile = {
       minLength: '2',
       maxLength: '30',
       required: true,
+      autoFocus: true,
     },
     {
       type: 'email',
@@ -105,8 +92,7 @@ const formProfile = {
   ]
 }
 
-const formSearch = {
-  validate: false,
+const searchForm = {
   name: 'search',
   title: 'Найти',
   buttonTextDefault: 'Найти',
@@ -117,6 +103,7 @@ const formSearch = {
       name: 'search',
       placeholder: 'Фильм',
       required: true,
+      autoFocus: true,
     },
     {
       type: 'checkbox',
@@ -128,11 +115,27 @@ const formSearch = {
   ]
 };
 
+const deviceSettings = {
+  mobile: {
+    maxSize: 768,
+    maxMovies: 5,
+    moreMovies: 2,
+  },
+  tablet: {
+    maxSize: 1024,
+    maxMovies: 4,
+    moreMovies: 3,
+  },
+  desktop: {
+    maxMovies: 4,
+    moreMovies: 4,
+  }
+}
+
 export {
-  // popupConfirmation,
-  // popupInfo,
-  formRegister,
-  formLogin,
-  formSearch,
-  formProfile,
+  registerForm,
+  loginForm,
+  searchForm,
+  profileForm,
+  deviceSettings
 };

@@ -1,7 +1,16 @@
-// import { REGX_NAME } from '../../../../utils/constants';
+import { INPUT_TYPE_NAME } from '../../../../utils/constants';
 import './Input.css';
 
-const Input = ({ value, handleChange, input, form, validate, isChecked }) => {
+const Input = ({
+  value,
+  handleChange,
+  input,
+  form,
+  validate,
+  isChecked,
+  disabled,
+  onFocus,
+}) => {
   const {
     label,
     name,
@@ -10,29 +19,30 @@ const Input = ({ value, handleChange, input, form, validate, isChecked }) => {
     minLength,
     maxLength,
     required,
-    checked,
+    autoFocus,
   } = input;
-
+  const { email, checkbox, search } = INPUT_TYPE_NAME;
   const classInputForm = form ? `form__input_type_${form}` : '';
   const classLabelForm = form ? `form__label_type_${form}` : '';
   const classInput = `form__input form__input_type_${name} ${classInputForm}`;
 
   let inputType;
   switch (type) {
-    case 'checkbox':
+    case checkbox:
       inputType = (
         <input
           className={classInput}
           type={type}
           name={name}
-          defaultChecked={isChecked ? isChecked : checked}
-          // checked={checked}
+          checked={isChecked}
           required={required}
           onChange={handleChange}
+          autoFocus={autoFocus ?? false}
+          onFocus={onFocus}
         />
       );
       break;
-    case 'search':
+    case search:
       inputType = (
         <input
           className={classInput}
@@ -43,10 +53,11 @@ const Input = ({ value, handleChange, input, form, validate, isChecked }) => {
           value={value ?? ''}
           onChange={handleChange}
           autoComplete='on'
+          autoFocus={autoFocus ?? false}
         />
       );
       break;
-    case 'email':
+    case email:
       inputType = (
         <input
           className={classInput}
@@ -57,6 +68,9 @@ const Input = ({ value, handleChange, input, form, validate, isChecked }) => {
           value={value ?? ''}
           onChange={handleChange}
           autoComplete='on'
+          disabled={disabled}
+          autoFocus={autoFocus ?? false}
+          onFocus={onFocus}
         />
       );
       break;
@@ -73,6 +87,9 @@ const Input = ({ value, handleChange, input, form, validate, isChecked }) => {
           value={value ?? ''}
           onChange={handleChange}
           autoComplete='on'
+          disabled={disabled}
+          autoFocus={autoFocus ?? false}
+          onFocus={onFocus}
         />
       );
       break;
@@ -82,7 +99,7 @@ const Input = ({ value, handleChange, input, form, validate, isChecked }) => {
     <label className={`form__label form__label_type_${name} ${classLabelForm}`}>
       {label && `${label}`}
       {inputType}
-      {type === 'checkbox' && <span>{label ? label : placeholder}</span>}
+      {type === checkbox && <span>{label ? label : placeholder}</span>}
       {validate && <span className={`form__error ${name}-error`} />}
     </label>
   );

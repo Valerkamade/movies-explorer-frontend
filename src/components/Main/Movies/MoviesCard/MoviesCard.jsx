@@ -4,18 +4,17 @@ import { BASE_URL_API_MOVIES } from '../../../../utils/constants';
 import { Link } from 'react-router-dom';
 
 const MoviesCard = ({
-  saved,
+  isSavedMoviesPage,
   movie,
   onMovieLike,
   onMoviedDelete,
   savedMovies,
 }) => {
   const isLiked =
-    !saved && savedMovies.some((item) => item.movieId === movie.id);
+    !isSavedMoviesPage && savedMovies.some((item) => item.movieId === movie.id);
   const movieLikeButtonClassName = `movies__button_like ${
     isLiked && 'movies__button_like-active'
   }`;
-  // function handleClick() {}
 
   function handleLikeClick() {
     onMovieLike({
@@ -42,7 +41,7 @@ const MoviesCard = ({
   }
 
   return (
-    <li className='movies__item' tabIndex={0}>
+    <li className='movies__item'>
       <Link
         className='movies__link'
         to={`${movie.trailerLink}`}
@@ -58,7 +57,9 @@ const MoviesCard = ({
         <img
           className='movies__photo'
           src={
-            saved ? movie.image : BASE_URL_API_MOVIES + movie.image.url ?? plug
+            isSavedMoviesPage
+              ? movie.image
+              : BASE_URL_API_MOVIES + movie.image.url ?? plug
           }
           onError={onImageError}
           alt={movie.nameRU}
@@ -66,10 +67,10 @@ const MoviesCard = ({
       </Link>
       <button
         className={`movies__button ${
-          saved ? 'movies__button_deleet' : movieLikeButtonClassName
+          isSavedMoviesPage ? 'movies__button_deleet' : movieLikeButtonClassName
         }`}
         type='button'
-        onClick={!saved ? handleLikeClick : handleDeletClick}
+        onClick={!isSavedMoviesPage ? handleLikeClick : handleDeletClick}
       />
     </li>
   );

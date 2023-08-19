@@ -1,67 +1,43 @@
 import './Auth.css';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import Form from '../Form/Form';
-import { formRegister, formLogin } from '../../../utils/data-list';
+import { registerForm, loginForm } from '../../../utils/data-list';
 import Input from '../Form/Input/Input';
 import Main from '../Main';
-import { api } from '../../../utils/MainApi';
+import { useState } from 'react';
+import { ROUTS } from '../../../utils/constants';
 
 const Auth = ({
   isLoading,
   value,
   setValue,
-  setLoggedIn,
-  setCurrentUser,
-  loggedIn,
+  onLogin,
+  onRegister,
+  requestError,
+  setRequestError,
 }) => {
+  const { registerPath, loginPath } = ROUTS;
+  const [validate, setValidate] = useState(false);
   const { pathname } = useLocation();
-  const navigate = useNavigate();
-
-  const onLogin = () => {
-    if (!value.email || !value.password) {
-      return;
-    }
-    api
-      .authorize(value)
-      .then(() => {
-        setLoggedIn(true);
-        navigate('/movies', { replace: true });
-        setValue({});
-      })
-      .catch((err) => console.log(err));    
-    
-  };
-
-  const onRegister = () => {
-    if (!value.name || !value.email || !value.password) {
-      return;
-    }
-    api
-      .addNewUser(value)
-      .then(() => {
-        onLogin();
-      })
-      .catch((err) => console.log(err));
-  };
 
   let data;
   switch (pathname) {
-    case '/signup':
+    case registerPath:
       data = {
-        form: formRegister,
-        link: '/signin',
+        form: registerForm,
+        link: loginPath,
         linkText: 'Войти',
         text: 'Уже зарегистрированы?',
-        onSubmit: () => onRegister(),
+        onSubmit: onRegister,
       };
       break;
-    case '/signin':
+    case loginPath:
       data = {
-        form: formLogin,
-        link: '/signup',
+        form: loginForm,
+        link: registerPath,
         linkText: 'Регистрация',
         text: 'Ещё не зарегистрированы?',
-        onSubmit: () => onLogin(),
+        onSubmit: onLogin,
       };
       break;
     default:
@@ -75,23 +51,19 @@ const Auth = ({
       break;
   }
 
-  const {
-    validate,
-    name,
-    title,
-    buttonTextLoading,
-    buttonTextDefault,
-    inputs,
-  } = data.form;
+  const { name, title, buttonTextLoading, buttonTextDefault, inputs } =
+    data.form;
 
-  function handleChange(evt) {
+  const handleChange = (evt) => {
     setValue({ ...value, [evt.target.name]: evt.target.value });
-  }
+    setValidate(true);
+    setRequestError({});
+  };
 
-  function handleSubmit(evt) {
+  const handleSubmit = (evt) => {
     evt.preventDefault();
-    data.onSubmit();
-  }
+    data.onSubmit(value);
+  };
 
   return (
     <Main>
@@ -102,6 +74,8 @@ const Auth = ({
           name={name}
           buttonText={isLoading ? buttonTextLoading : buttonTextDefault}
           onSubmit={handleSubmit}
+          isFormActivated={true}
+          requestError={requestError}
         >
           <ul className={`form__list form__list_type_${name}`}>
             {inputs.map((input) => (

@@ -1,3 +1,13 @@
+.form__input {
+  box-sizing: border-box;
+  border: none;
+  width: 100%;
+  appearance: none;
+  font-size: 14px;
+  line-height: 22px;
+  transition: 0.5s opacity ease-out;
+}
+
 .form:not([novalidate]) .form__input:invalid {
   color: var(--color-selection);
 }
@@ -8,6 +18,11 @@
   padding: 0;
   color: var(--color-grey8B);
   background-color: transparent;
+}
+
+.form__input:disabled:hover {
+  cursor: default;
+  opacity: 1;
 }
 
 /* Auth */
@@ -76,12 +91,20 @@
 }
 
 @media (min-width: 768px) {
-  /* .form__input::placeholder {
-    font-size: 18px;
-  } */
 
   .form__input_type_login::placeholder,
   .form__input_type_register::placeholder {
     font-size: 13px;
+  }
+}
+
+@media (min-width: 880px) {
+  .form__input:hover {
+    cursor: text;
+    opacity: var(--hover-button);
+  }
+
+  .form__input_type_short:hover {
+    cursor: pointer;
   }
 }

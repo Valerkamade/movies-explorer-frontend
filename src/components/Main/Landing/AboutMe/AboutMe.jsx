@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import SectionTite from '../SectionTitle/SectionTitle';
 import './AboutMe.css';
 import me from '../../../../images/me.jpg';
+import { EXTERNAL_URLS } from '../../../../utils/constants';
 
 const AboutMe = () => {
   return (
@@ -20,7 +21,7 @@ const AboutMe = () => {
           </p>
           <Link
             className='about-me__link'
-            to='https://github.com/Valerkamade'
+            to={EXTERNAL_URLS.myGitHub}
             target='_blank'
           >
             Github

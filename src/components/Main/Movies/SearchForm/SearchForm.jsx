@@ -1,42 +1,45 @@
 import Form from '../../Form/Form';
 import Input from '../../Form/Input/Input';
-import { formSearch } from '../../../../utils/data-list';
-import { useEffect } from 'react';
+import { deviceSettings, searchForm } from '../../../../utils/data-list';
+import { INPUT_TYPE_NAME } from '../../../../utils/constants';
 import './SearchForm.css';
 
 const SearchForm = ({
   isLoading,
   onSubmitSearch,
-  saved,
+  isSavedMoviesPage,
   valueSerch,
   setValueSerch,
+  searchStatus,
+  setMaxShowMovies,
+  device,
+  isErrorShow,
 }) => {
-  const { name, buttonTextLoading, buttonTextDefault, validate } = formSearch;
+  const { name, buttonTextLoading, buttonTextDefault, validate } = searchForm;
 
-  function handleChange(evt) {
-    setValueSerch({ ...valueSerch, [evt.target.name]: evt.target.value });
-  }
+  const handleChange = (evt) => {
+    setValueSerch((valueSerch) => {
+      return { ...valueSerch, [evt.target.name]: evt.target.value };
+    });
+  };
 
-  function handleChangeCheckbox(evt) {
-    setValueSerch({ ...valueSerch, [evt.target.name]: evt.target.checked });
-    !saved && localStorage.setItem('short', evt.target.checked);
-  }
+  const handleChangeCheckbox = (evt) => {
+    setValueSerch((valueSerch) => {
+      return { ...valueSerch, [evt.target.name]: evt.target.checked };
+    });
 
-  function handleSubmit(evt) {
-    evt.preventDefault();
-    if (!saved) {
-      onSubmitSearch(valueSerch);
+    if (!isSavedMoviesPage && searchStatus.isFirstSearch) {
+      return;
     }
-  }
+    onSubmitSearch({ ...valueSerch, [evt.target.name]: evt.target.checked });
+    !isSavedMoviesPage && setMaxShowMovies(deviceSettings[device].maxMovies);
+  };
 
-  useEffect(() => {
-    !saved &&
-      setValueSerch({
-        ...valueSerch,
-        search: localStorage.getItem('search'),
-        short: localStorage.getItem('short'),
-      });
-  }, []);
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+    onSubmitSearch(valueSerch);
+    !isSavedMoviesPage && setMaxShowMovies(deviceSettings[device].maxMovies);
+  };
 
   return (
     <Form
@@ -44,17 +47,23 @@ const SearchForm = ({
       name={name}
       buttonText={isLoading ? buttonTextLoading : buttonTextDefault}
       onSubmit={handleSubmit}
+      isFormActivated={true}
+      searchStatus={searchStatus}
+      isErrorShow={isErrorShow}
     >
-      {formSearch.inputs.map((input) => (
+      {searchForm.inputs.map((input) => (
         <Input
           key={input.name}
           value={valueSerch[`${input.name}`]}
           input={input}
           isChecked={valueSerch.short}
           handleChange={
-            input.type === 'checkbox' ? handleChangeCheckbox : handleChange
+            input.type === INPUT_TYPE_NAME.checkbox
+              ? handleChangeCheckbox
+              : handleChange
           }
           validate={validate}
+          isSavedMoviesPage={isSavedMoviesPage}
         />
       ))}
     </Form>

@@ -55,7 +55,7 @@ html {
   [type="button"]:focus-visible,
   [type="reset"]:focus-visible,
   [type="submit"]:focus-visible {
-    outline-color: var(--color-second-two);
+    outline-color: var(--color-second-two-50);
     outline-style: solid;
     outline-width: 2px;
     outline-offset: 3px;

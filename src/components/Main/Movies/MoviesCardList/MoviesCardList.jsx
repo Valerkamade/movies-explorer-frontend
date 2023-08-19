@@ -2,14 +2,14 @@ import './MoviesCardList.css';
 import MoviesCard from '../MoviesCard/MoviesCard';
 
 const MoviesCardList = ({
-  saved,
+  isSavedMoviesPage,
   moviesList,
-  onClickMore,
-  maxMovies,
   onMovieLike,
   currentUser,
   savedMovies,
   onMoviedDelete,
+  onSubmitMoreButton,
+  showMoreButton,
 }) => {
   return (
     <section className='movies'>
@@ -20,15 +20,15 @@ const MoviesCardList = ({
             key={movie.id ?? movie._id}
             onMovieLike={onMovieLike}
             onMoviedDelete={onMoviedDelete}
-            saved={saved}
+            isSavedMoviesPage={isSavedMoviesPage}
             currentUser={currentUser}
             savedMovies={savedMovies}
           />
         ))}
       </ul>
       <div className='movies__wrapper'>
-        {!maxMovies && !saved && (
-          <button className='movies__button-more' onClick={onClickMore}>
+        {showMoreButton && (
+          <button className='movies__button-more' onClick={onSubmitMoreButton}>
             Ещё
           </button>
         )}

@@ -1,23 +1,34 @@
 import './Header.css';
 import logo from '../../images/logo.svg';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import Navigation from '../Navigation/Navigation';
+import { CurrentUserContext } from '../../contexts/CurrentUserContext';
+import { ROUTS } from '../../utils/constants';
 
-const Header = ({ loggedIn }) => {
+const Header = () => {
   const [menuActive, setMenuActive] = useState(false);
+  const {
+    registerPath,
+    loginPath,
+    mainPath,
+    moviesPath,
+    savedMoviesPath,
+    profilePath,
+  } = ROUTS;
   const { pathname } = useLocation();
-  const pathAuth = pathname === '/signup' || pathname === '/signin';
+  const pathAuth = pathname === registerPath || pathname === loginPath;
+  const { isLoggedIn } = useContext(CurrentUserContext);
 
   const classNameHeader = () => {
     let className = 'header';
     if (menuActive) {
       className = `${className} header_active`;
     }
-    if (loggedIn) {
+    if (isLoggedIn) {
       className = `${className} header_login`;
     }
-    if (pathname === '/') {
+    if (pathname === mainPath) {
       className = `${className} header_cover`;
     }
     if (pathAuth) {
@@ -36,16 +47,16 @@ const Header = ({ loggedIn }) => {
 
   return (
     <header className={classNameHeader()}>
-      <Link className='header__link header__link_logo' to='/'>
+      <Link className='header__link header__link_logo' to={mainPath}>
         <img className='header__logo' src={logo} alt='SaveMovie' />
       </Link>
       {!pathAuth &&
-        (!loggedIn ? (
+        (!isLoggedIn ? (
           <Navigation>
-            <Link className='header__link' to='/signup'>
+            <Link className='header__link' to={registerPath}>
               Регистрация
             </Link>
-            <Link className='header__button' to='/signin'>
+            <Link className='header__button' to={loginPath}>
               Войти
             </Link>
           </Navigation>
@@ -55,17 +66,17 @@ const Header = ({ loggedIn }) => {
               <Navigation>
                 <ul className='header__list'>
                   <li className='header__item'>
-                    <NavLink className='header__link' to='/'>
+                    <NavLink className='header__link' to={mainPath}>
                       Главная
                     </NavLink>
                   </li>
                   <li className='header__item'>
-                    <NavLink className='header__link' to='/movies'>
+                    <NavLink className='header__link' to={moviesPath}>
                       Фильмы
                     </NavLink>
                   </li>
                   <li className='header__item'>
-                    <NavLink className='header__link' to='/saved-movies'>
+                    <NavLink className='header__link' to={savedMoviesPath}>
                       Сохранённые фильмы
                     </NavLink>
                   </li>
@@ -74,7 +85,7 @@ const Header = ({ loggedIn }) => {
               <Navigation>
                 <NavLink
                   className='header__link header__link_profile'
-                  to='/profile'
+                  to={profilePath}
                 >
                   Аккаунт
                 </NavLink>

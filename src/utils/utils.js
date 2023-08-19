@@ -1,12 +1,11 @@
-import { BASE_URL, BASE_URL_API_MOVIES, ROUT_MOVIES } from "./constants"
+import { BASE_URL, BASE_URL_API_MOVIES, ROUTS } from "./constants"
 
 // Данные для запроса на сервер
 const apiConfig = {
   baseUrl: {
     mainApi: BASE_URL,
-    moviesApi: BASE_URL_API_MOVIES + '/' + ROUT_MOVIES,
+    moviesApi: BASE_URL_API_MOVIES + '/' + ROUTS.beatfilm,
   },
-  // baseUrl: 'http://localhost:3001',
   credentials: 'include',
   headers: {
     'Accept': 'application/json',
@@ -14,5 +13,4 @@ const apiConfig = {
   }
 }
 
-// Экспорт данных
 export { apiConfig }

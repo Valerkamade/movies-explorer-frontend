@@ -1,27 +1,39 @@
-import { useContext, useState } from 'react';
-import { formProfile } from '../../../utils/data-list';
+import { useContext, useEffect, useState } from 'react';
+import { profileForm } from '../../../utils/data-list';
 import './Profile.css';
 import Form from '../Form/Form';
 import Input from '../Form/Input/Input';
 import { CurrentUserContext } from '../../../contexts/CurrentUserContext';
 
-const Profile = ({ isLoading, onSubmit, setLoggedIn, onSignout }) => {
+const Profile = ({ onSubmit, onSignout, requestError }) => {
   const currentUser = useContext(CurrentUserContext);
-  const { validate, name, buttonTextDefault, inputs } = formProfile;
+  const { validate, name, buttonTextDefault, inputs } = profileForm;
   const [value, setValue] = useState({});
+  const [isFormActivated, setFormActivated] = useState(false);
 
-  function handleChange(evt) {
+  const handleChange = (evt) => {
     setValue({ ...value, [evt.target.name]: evt.target.value });
-  }
+  };
 
-  function handleSubmit(evt) {
+  const handleActivated = (evt) => {
+    setFormActivated(true);
+  };
+
+  const handleSubmit = (evt) => {
     evt.preventDefault();
-    onSubmit();
-  }
+    onSubmit(value);
+    setFormActivated(false);
+  };
 
   const handleClickExit = () => {
     onSignout();
   };
+
+  useEffect(() => {
+    setValue((value) => {
+      return { ...value, name: currentUser.name, email: currentUser.email };
+    });
+  }, [currentUser]);
 
   return (
     <main className='main'>
@@ -32,6 +44,11 @@ const Profile = ({ isLoading, onSubmit, setLoggedIn, onSignout }) => {
           name={name}
           buttonText={buttonTextDefault}
           onSubmit={handleSubmit}
+          isFormActivated={isFormActivated}
+          disabledDafault={
+            currentUser.name === value.name && currentUser.email === value.email
+          }
+          requestError={requestError}
         >
           <ul className={`form__list form__list_type_${name}`}>
             {inputs.map((input) => (
@@ -40,19 +57,38 @@ const Profile = ({ isLoading, onSubmit, setLoggedIn, onSignout }) => {
                 key={input.name + name}
               >
                 <Input
-                  value={value[`${input.name}`] ?? currentUser[`${input.name}`]}
+                  value={value[`${input.name}`]}
                   input={input}
                   handleChange={handleChange}
                   form={name}
                   validate={validate}
+                  disabled={!isFormActivated}
+                  onFocus={(e) => e.currentTarget.select()}
                 />
               </li>
             ))}
           </ul>
         </Form>
-        <button className='profile__button-exit' onClick={handleClickExit}>
-          Выйти из аккаунта
-        </button>
+        {!isFormActivated && (
+          <ul className='profile__list'>
+            <li className='profale__item'>
+              <button
+                className='profile__button profile__button_edit'
+                onClick={handleActivated}
+              >
+                Редактировать
+              </button>
+            </li>
+            <li className='profale__item'>
+              <button
+                className='profile__button profile__button_exit'
+                onClick={handleClickExit}
+              >
+                Выйти из аккаунта
+              </button>
+            </li>
+          </ul>
+        )}
       </section>
     </main>
   );
