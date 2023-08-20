@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
+import { MESSAGE } from "../../utils/constants";
 
 const useSearch = ({ movies, isSavedMoviesPage }) => {
   const [filteredMovies, setFilteredMovies] = useState([]);
+  const { beforeSearching, noMovies } = MESSAGE;
 
   const [savedSearch, setSavedSearch] = useState({
     search: '',
@@ -60,11 +62,11 @@ const useSearch = ({ movies, isSavedMoviesPage }) => {
         return {
           ...data,
           isFirstSearch: true,
-          statusMessage: 'Для отображения фильмов начните поиск'
+          statusMessage: beforeSearching,
         };
       });
     }
-  }, [isSavedMoviesPage]);
+  }, [beforeSearching, isSavedMoviesPage]);
 
   useEffect(() => {
     if (isSavedMoviesPage && savedSearch) {
@@ -110,7 +112,7 @@ const useSearch = ({ movies, isSavedMoviesPage }) => {
         setSearchStatus((data) => {
           return {
             ...data,
-            statusMessage: 'Нет фильмов для отображения',
+            statusMessage: noMovies,
           };
         });
       }

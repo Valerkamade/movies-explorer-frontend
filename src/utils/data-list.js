@@ -13,6 +13,7 @@ const registerForm = {
       maxLength: '40',
       required: true,
       autoFocus: true,
+      autoComplete: 'off',
     },
     {
       type: 'email',
@@ -22,6 +23,7 @@ const registerForm = {
       minLength: '4',
       maxLength: '40',
       required: true,
+      autoComplete: 'off',
     },
     {
       type: 'password',
@@ -31,6 +33,7 @@ const registerForm = {
       minLength: '4',
       maxLength: '40',
       required: true,
+      autoComplete: 'off',
     },
   ]
 };
@@ -50,6 +53,7 @@ const loginForm = {
       maxLength: '40',
       required: true,
       autoFocus: true,
+      autoComplete: 'on',
     },
     {
       type: 'password',
@@ -59,6 +63,7 @@ const loginForm = {
       minLength: '4',
       maxLength: '40',
       required: true,
+      autoComplete: 'on',
     },
   ]
 };
@@ -79,6 +84,7 @@ const profileForm = {
       maxLength: '30',
       required: true,
       autoFocus: true,
+      autoComplete: 'off',
     },
     {
       type: 'email',
@@ -88,6 +94,7 @@ const profileForm = {
       minLength: '4',
       maxLength: '40',
       required: true,
+      autoComplete: 'off',
     },
   ]
 }
@@ -104,6 +111,7 @@ const searchForm = {
       placeholder: 'Фильм',
       required: true,
       autoFocus: true,
+      autoComplete:'on'
     },
     {
       type: 'checkbox',

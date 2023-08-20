@@ -6,7 +6,7 @@ const ProtectedRouteElement = ({ element: Component, ...props }) => {
   return props.isLoggedIn ? (
     <Component {...props} />
   ) : (
-    <Navigate to={ROUTS.registerPath} state={{ backUrl: pathname }} replace />
+    <Navigate to={ROUTS.mainPath} state={{ backUrl: pathname }} replace />
   );
 };
 

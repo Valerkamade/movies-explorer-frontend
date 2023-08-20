@@ -59,8 +59,12 @@
 .form__label_type_profile {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 10px;
+  gap: 2px;
   height: 13px;
+}
+
+.form__message_profile {
+  grid-column: span 2;
 }
 
 .form__input_type_profile {

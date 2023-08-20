@@ -5,24 +5,30 @@ import Form from '../Form/Form';
 import Input from '../Form/Input/Input';
 import { CurrentUserContext } from '../../../contexts/CurrentUserContext';
 
-const Profile = ({ onSubmit, onSignout, requestError }) => {
+const Profile = ({
+  onSubmit,
+  onSignout,
+  requestError,
+  isFormActivated,
+  setFormActivated,
+}) => {
   const currentUser = useContext(CurrentUserContext);
-  const { validate, name, buttonTextDefault, inputs } = profileForm;
+  const { name, buttonTextDefault, inputs } = profileForm;
   const [value, setValue] = useState({});
-  const [isFormActivated, setFormActivated] = useState(false);
+  const [validate, setValidate] = useState(false);
 
   const handleChange = (evt) => {
     setValue({ ...value, [evt.target.name]: evt.target.value });
+    setValidate(true);
   };
 
-  const handleActivated = (evt) => {
+  const handleActivated = () => {
     setFormActivated(true);
   };
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
     onSubmit(value);
-    setFormActivated(false);
   };
 
   const handleClickExit = () => {

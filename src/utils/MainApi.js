@@ -1,14 +1,13 @@
-import { METHODS_FETCH, ROUTS } from './constants';
+import { METHODS_FETCH, ROUTS, CREDENTIALS } from './constants';
 import { apiConfig } from './utils'
 
 const { loginPath, logoutPath, registerPath, userPath, moviesPath } = ROUTS;
 const { postFetch, patchFetch, deleteFetch } = METHODS_FETCH;
 
 class Api {
-  constructor({ baseUrl, headers, credentials }) {
+  constructor({ baseUrl, headers }) {
     this._baseUrl = baseUrl.mainApi;
     this._headers = headers;
-    this._credentials = credentials;
   }
 
   // Метод проверки успешности запроса
@@ -29,7 +28,7 @@ class Api {
     return this._request(`${this._baseUrl}${registerPath}`, {
       method: postFetch,
       headers: this._headers,
-      credentials: this._credentials,
+      credentials: CREDENTIALS,
       body: JSON.stringify({
         name: name,
         email: email,
@@ -43,7 +42,7 @@ class Api {
     return this._request(`${this._baseUrl}${loginPath}`, {
       method: postFetch,
       headers: this._headers,
-      credentials: this._credentials,
+      credentials: CREDENTIALS,
       body: JSON.stringify({
         email: email,
         password: password,
@@ -55,15 +54,15 @@ class Api {
   checkToken() {
     return this._request(`${this._baseUrl}${userPath}`, {
       headers: this._headers,
-      credentials: this._credentials,
+      credentials: CREDENTIALS,
     })
   }
 
-  // Метод запроса данных пользователя с сервера
+  // Метод выхода пользователя
   logout() {
     return this._request(`${this._baseUrl}${logoutPath}`, {
       headers: this._headers,
-      credentials: this._credentials,
+      credentials: CREDENTIALS,
     })
   }
 
@@ -71,15 +70,7 @@ class Api {
   getMovies() {
     return this._request(`${this._baseUrl}${moviesPath}`, {
       headers: this._headers,
-      credentials: this._credentials,
-    })
-  }
-
-  // Метод запроса данных пользователя с сервера
-  getUserInfoApi() {
-    return this._request(`${this._baseUrl}${userPath}`, {
-      headers: this._headers,
-      credentials: this._credentials,
+      credentials: CREDENTIALS,
     })
   }
 
@@ -88,7 +79,7 @@ class Api {
     return this._request(`${this._baseUrl}${userPath}`, {
       method: patchFetch,
       headers: this._headers,
-      credentials: this._credentials,
+      credentials: CREDENTIALS,
       body: JSON.stringify({
         name: name,
         email: email
@@ -101,7 +92,7 @@ class Api {
     return this._request(`${this._baseUrl}${moviesPath}`, {
       method: postFetch,
       headers: this._headers,
-      credentials: this._credentials,
+      credentials: CREDENTIALS,
       body: JSON.stringify(movie)
     })
   }
@@ -111,7 +102,7 @@ class Api {
     return this._request(`${this._baseUrl}${moviesPath}/${movieId}`, {
       method: deleteFetch,
       headers: this._headers,
-      credentials: this._credentials,
+      credentials: CREDENTIALS,
     })
   }
 }

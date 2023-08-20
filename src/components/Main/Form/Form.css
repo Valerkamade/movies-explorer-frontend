@@ -31,7 +31,7 @@
   color: var(--color-white);
 }
 
-.form__error {
+.form__message {
   font-size: 11px;
   line-height: 13px;
   color: var(--color-selection);

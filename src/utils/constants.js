@@ -63,3 +63,11 @@ export const ANCHOR_LINKS = {
   techs: '#techs',
   abouteMe: '#about-me',
 }
+
+export const CREDENTIALS = 'include';
+
+export const MESSAGE = {
+  successfulRegistration: 'Вы удачно зарегистрировалис. Перенаправление на страницу с фильмами.',
+  beforeSearching: 'Для отображения фильмов начните поиск',
+  noMovies: 'Нет фильмов для отображения',
+}

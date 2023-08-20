@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import './Form.css';
 
-const Form = ({
+function Form({
   children,
   name,
   onSubmit,
@@ -12,7 +12,7 @@ const Form = ({
   searchStatus,
   requestError,
   isErrorShow,
-}) => {
+}) {
   const [isValidForm, setIsValidForm] = useState(false);
   const formRef = useRef(0);
   const [errorMessage, setErrorMessage] = useState('');
@@ -41,11 +41,6 @@ const Form = ({
   }, [children, validate]);
 
   useEffect(() => {
-    if (isErrorShow) {
-      return setErrorMessage('Нет фильмов для отображения');
-    } else {
-      setErrorMessage('');
-    }
     if (!!requestError) {
       if (requestError.message === 'Validation failed') {
         return setErrorMessage(
@@ -54,7 +49,12 @@ const Form = ({
       }
       setErrorMessage(requestError.message);
     }
-  }, [requestError, isErrorShow]);
+    if (isErrorShow) {
+      return setErrorMessage('Нет фильмов для отображения');
+    } else {
+      setErrorMessage('');
+    }
+  }, [isErrorShow, requestError]);
 
   return (
     <form
@@ -69,9 +69,9 @@ const Form = ({
       {children}
       {isFormActivated && (
         <>
-          <p className={`form__error form__error_${name}`}>
+          <p className={`form__message form__message_${name}`}>
             {name === 'search'
-              ? searchStatus.statusMessage || errorMessage
+              ? searchStatus.statusMessage
               : errorMessage}
           </p>
           <button
@@ -85,6 +85,6 @@ const Form = ({
       )}
     </form>
   );
-};
+}
 
 export default Form;

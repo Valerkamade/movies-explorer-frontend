@@ -43,8 +43,11 @@ const App = () => {
     moviesPath,
     savedMoviesPath,
     profilePath,
-    anyOtherPath
+    anyOtherPath,
   } = ROUTS;
+  const [message, setMessage] = useState('');
+
+  const [isFormActivated, setFormActivated] = useState(false);
 
   const getSavedMovies = () => {
     api
@@ -60,29 +63,60 @@ const App = () => {
       .catch((err) => console.log(err));
   };
 
+  const checkToken = () => {
+    api
+      .checkToken()
+      .then((user) => {
+        setCurrentUser({
+          name: user.name,
+          email: user.email,
+          isLoggedIn: true,
+        });
+      })
+      .catch((err) => {
+        setCurrentUser({ isLoggedIn: false });
+        console.log(err);
+      });
+    // .finally(
+    //   setTimeout(() => {
+    //     setLoadingContent(false);
+    //   }, TIME_OUT_PRELOADER)
+    // );
+  };
+
   useEffect(() => {
-    setLoadingContent(true);
+    // setLoadingContent(true);
     if (currentUser.isLoggedIn) {
-      api
-        .checkToken()
-        .then((user) => {
+      Promise.all([api.checkToken(), api.getMovies(), apiMovies.getMovies()])
+        .then(([user, savedMovies, allMovies]) => {
           setCurrentUser({
             name: user.name,
             email: user.email,
             isLoggedIn: true,
           });
+          setSavedMovies(savedMovies);
+          setAllMovies(allMovies);
         })
-        .catch((err) => {
-          setCurrentUser({ isLoggedIn: false });
-          console.log(err);
-        })
+        .catch()
         .finally(
           setTimeout(() => {
             setLoadingContent(false);
           }, TIME_OUT_PRELOADER)
         );
+      setTimeout(() => {
+        setLoadingContent(false);
+      }, TIME_OUT_PRELOADER);
+    }
+  }, [currentUser.isLoggedIn]);
+
+  useEffect(() => {
+    if (currentUser.isLoggedIn) {
+      checkToken();
       getSavedMovies();
     }
+    setTimeout(() => {
+      setLoadingContent(false);
+    }, TIME_OUT_PRELOADER);
   }, [currentUser.isLoggedIn]);
 
   useEffect(() => {
@@ -141,8 +175,9 @@ const App = () => {
     api
       .addNewUser(value)
       .then(() => {
+        setMessage('')
         handleLogin(value);
-        setCurrentUser({ ...currentUser, isLoggedIn: true });
+        setValueRegister({});
       })
       .catch((err) => {
         setRequestError(err);
@@ -183,7 +218,6 @@ const App = () => {
         setSavedMovies((movies) =>
           movies.filter((item) => item._id !== movie._id)
         );
-        console.log(savedMovies.filter((item) => item._id !== movie._id));
       })
       .catch((err) => console.log(err));
   };
@@ -194,8 +228,9 @@ const App = () => {
       .setUserInfoApi(value)
       .then(({ name, email }) => {
         setCurrentUser({ ...currentUser, name, email });
+        setFormActivated(false);
       })
-      .catch((err) => console.log(err))
+      .catch((err) => setRequestError(err))
       .finally(
         setTimeout(() => {
           setLoadingContent(false);
@@ -267,6 +302,8 @@ const App = () => {
               isLoadingContent={isLoadingContent}
               setRequestError={setRequestError}
               requestError={requestError}
+              isFormActivated={isFormActivated}
+              setFormActivated={setFormActivated}
             />
           }
         />
@@ -310,9 +347,7 @@ const App = () => {
         />
       </Routes>
 
-      {!isErrorPage && pathname !== loginPath && registerPath && (
-        <Footer />
-      )}
+      {!isErrorPage && pathname !== loginPath && registerPath && <Footer />}
     </CurrentUserContext.Provider>
   );
 };

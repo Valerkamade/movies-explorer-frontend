@@ -20,6 +20,7 @@ const Input = ({
     maxLength,
     required,
     autoFocus,
+    autoComplete,
   } = input;
   const { email, checkbox, search } = INPUT_TYPE_NAME;
   const classInputForm = form ? `form__input_type_${form}` : '';
@@ -52,7 +53,7 @@ const Input = ({
           required={required}
           value={value ?? ''}
           onChange={handleChange}
-          autoComplete='on'
+          autoComplete={autoComplete}
           autoFocus={autoFocus ?? false}
         />
       );
@@ -67,7 +68,7 @@ const Input = ({
           required={required}
           value={value ?? ''}
           onChange={handleChange}
-          autoComplete='on'
+          autoComplete={autoComplete}
           disabled={disabled}
           autoFocus={autoFocus ?? false}
           onFocus={onFocus}
@@ -86,7 +87,7 @@ const Input = ({
           required={required}
           value={value ?? ''}
           onChange={handleChange}
-          autoComplete='on'
+          autoComplete={autoComplete}
           disabled={disabled}
           autoFocus={autoFocus ?? false}
           onFocus={onFocus}
@@ -100,7 +101,7 @@ const Input = ({
       {label && `${label}`}
       {inputType}
       {type === checkbox && <span>{label ? label : placeholder}</span>}
-      {validate && <span className={`form__error ${name}-error`} />}
+      {validate && <span className={`form__message form__message_${form} ${name}-error`} />}
     </label>
   );
 };
