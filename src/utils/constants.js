@@ -1,8 +1,9 @@
 export const BASE_URL = 'https://api.savemovies.valerkamade.ru';
-export const REGX_NAME = /^[a-zA-Zа-яА-Я\s-]*$/;
+export const REGX_NAME = /^[a-zA-Zа-яА-Я\\s-]*'$/;
+export const REGX_EMAIL = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 export const BASE_URL_API_MOVIES = 'https://api.nomoreparties.co';
 
-export const TIME_OUT_PRELOADER = 300;
+export const TIME_OUT_PRELOADER = 500;
 export const DATA_SAVE = 'search';
 
 export const ROUTS = {

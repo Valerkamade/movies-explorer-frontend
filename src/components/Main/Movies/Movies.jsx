@@ -7,7 +7,14 @@ import Preloader from '../../Preloader/Preloader';
 import { deviceSettings } from '../../../utils/data-list';
 import { DATA_SAVE } from '../../../utils/constants';
 
-const Movies = ({ movies, onMovieLike, savedMovies, device }) => {
+const Movies = ({
+  movies,
+  onMovieLike,
+  savedMovies,
+  device,
+  setMessage,
+  isFormActivated,
+}) => {
   const { filteredMovies, savedSearch, searchStatus, handleSubmitSearch } =
     useSearch({
       movies: movies,
@@ -60,6 +67,8 @@ const Movies = ({ movies, onMovieLike, savedMovies, device }) => {
         savedSearch={savedSearch}
         setMaxShowMovies={setMaxShowMovies}
         device={device}
+        setMessage={setMessage}
+        isFormActivated={!searchStatus.isLoading}
       />
       {searchStatus.isLoading ? (
         <Preloader />

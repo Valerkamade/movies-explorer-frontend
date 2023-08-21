@@ -11,6 +11,8 @@ const Profile = ({
   requestError,
   isFormActivated,
   setFormActivated,
+  isSendRequest,
+  setMessage,
 }) => {
   const currentUser = useContext(CurrentUserContext);
   const { name, buttonTextDefault, inputs } = profileForm;
@@ -24,10 +26,16 @@ const Profile = ({
 
   const handleActivated = () => {
     setFormActivated(true);
+    setMessage({
+      isMessageShow: false,
+      isError: false,
+      text: '',
+    });
   };
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
+    setFormActivated(false);
     onSubmit(value);
   };
 
@@ -40,6 +48,15 @@ const Profile = ({
       return { ...value, name: currentUser.name, email: currentUser.email };
     });
   }, [currentUser]);
+
+  useEffect(() => {
+    setFormActivated(false);
+    setMessage({
+      isMessageShow: false,
+      isError: false,
+      text: '',
+    });
+  }, [setFormActivated, setMessage]);
 
   return (
     <main className='main'>
@@ -55,6 +72,7 @@ const Profile = ({
             currentUser.name === value.name && currentUser.email === value.email
           }
           requestError={requestError}
+          isSendRequest={isSendRequest}
         >
           <ul className={`form__list form__list_type_${name}`}>
             {inputs.map((input) => (
@@ -75,7 +93,7 @@ const Profile = ({
             ))}
           </ul>
         </Form>
-        {!isFormActivated && (
+        {!isFormActivated && !isSendRequest && (
           <ul className='profile__list'>
             <li className='profale__item'>
               <button

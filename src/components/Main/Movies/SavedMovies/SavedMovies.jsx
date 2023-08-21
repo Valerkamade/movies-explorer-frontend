@@ -5,9 +5,9 @@ import { useEffect, useState } from 'react';
 import useSearch from '../../../hooks/useSearch';
 import Preloader from '../../../Preloader/Preloader';
 
-const SavedMovies = ({ savedMovies, onMoviedDelete }) => {
+const SavedMovies = ({ savedMovies, onMoviedDelete, setMessage, message }) => {
   const [valueSearch, setValueSearch] = useState({ search: '', short: false });
-  const [isErrorShow, setErrorShow] = useState(false);
+  const [isMessageShow, setMessageShow] = useState(false);
 
   const { filteredMovies, searchStatus, handleSubmitSearch } = useSearch({
     movies: savedMovies,
@@ -16,12 +16,12 @@ const SavedMovies = ({ savedMovies, onMoviedDelete }) => {
 
   useEffect(() => {
     if (filteredMovies.length === 0) {
-      setErrorShow(true);
+      setMessageShow(true);
     } else {
-      setErrorShow(false);
+      setMessageShow(false);
     }
   }, [filteredMovies]);
-  
+
   const handleClickDelete = (movie) => {
     onMoviedDelete(movie);
   };
@@ -34,7 +34,9 @@ const SavedMovies = ({ savedMovies, onMoviedDelete }) => {
         setValueSerch={setValueSearch}
         onSubmitSearch={handleSubmitSearch}
         searchStatus={searchStatus}
-        isErrorShow={isErrorShow}
+        isMessageShow={isMessageShow}
+        setMessage={setMessage}
+        message={message}
       />
       {searchStatus.isLoading ? (
         <Preloader />

@@ -15,7 +15,9 @@ class Api {
     if (res.ok) {
       return res.json();
     }
+    console.log(res);
     return res.json().then(res => { throw res });
+    // return Promise.reject(`Что-то где-то пошло не так... Код ошибки ${res.status}`);
   }
 
   // Метод запроса с проверкой ответа

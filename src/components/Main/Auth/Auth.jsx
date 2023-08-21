@@ -15,6 +15,10 @@ const Auth = ({
   onRegister,
   requestError,
   setRequestError,
+  message,
+  setFormActivated,
+  isFormActivated,
+  isSendRequest,
 }) => {
   const { registerPath, loginPath } = ROUTS;
   const [validate, setValidate] = useState(false);
@@ -62,6 +66,7 @@ const Auth = ({
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
+    setFormActivated(false);
     data.onSubmit(value);
   };
 
@@ -74,8 +79,10 @@ const Auth = ({
           name={name}
           buttonText={isLoading ? buttonTextLoading : buttonTextDefault}
           onSubmit={handleSubmit}
-          isFormActivated={true}
+          isFormActivated={isFormActivated}
           requestError={requestError}
+          message={message}
+          isSendRequest={isSendRequest}
         >
           <ul className={`form__list form__list_type_${name}`}>
             {inputs.map((input) => (
@@ -89,17 +96,20 @@ const Auth = ({
                   handleChange={handleChange}
                   validate={validate}
                   form={name}
+                  disabled={!isFormActivated}
                 />
               </li>
             ))}
           </ul>
         </Form>
-        <div className='auth__wrapper'>
-          <p className='auth__text'>{data.text}&nbsp;</p>
-          <Link className='auth__link' to={data.link}>
-            {data.linkText}
-          </Link>
-        </div>
+        {!isSendRequest && (
+          <div className='auth__wrapper'>
+            <p className='auth__text'>{data.text}&nbsp;</p>
+            <Link className='auth__link' to={data.link}>
+              {data.linkText}
+            </Link>
+          </div>
+        )}
       </section>
     </Main>
   );

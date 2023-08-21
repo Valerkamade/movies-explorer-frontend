@@ -8,8 +8,8 @@ const Input = ({
   form,
   validate,
   isChecked,
-  disabled,
   onFocus,
+  disabled,
 }) => {
   const {
     label,
@@ -38,6 +38,7 @@ const Input = ({
           checked={isChecked}
           required={required}
           onChange={handleChange}
+          disabled={disabled}
           autoFocus={autoFocus ?? false}
           onFocus={onFocus}
         />
@@ -54,6 +55,7 @@ const Input = ({
           value={value ?? ''}
           onChange={handleChange}
           autoComplete={autoComplete}
+          disabled={disabled}
           autoFocus={autoFocus ?? false}
         />
       );
@@ -101,7 +103,9 @@ const Input = ({
       {label && `${label}`}
       {inputType}
       {type === checkbox && <span>{label ? label : placeholder}</span>}
-      {validate && <span className={`form__message form__message_${form} ${name}-error`} />}
+      {validate && (
+        <span className={`form__error form__error_${form} ${name}-error`} />
+      )}
     </label>
   );
 };

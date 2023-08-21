@@ -34,12 +34,18 @@
 .form__message {
   font-size: 11px;
   line-height: 13px;
-  color: var(--color-selection);
   transition: 0.5s;
   min-height: 14px;
   padding: 0;
-  margin: auto 0 20px;
   text-align: center;
+}
+
+.form__message_error {
+  color: var(--color-selection);
+}
+
+.form__message_ok {
+  color: var(--color-second-one);
 }
 
 .form__button-save:disabled {
@@ -77,6 +83,7 @@
 .form_type_profile {
   display: flex;
   flex-direction: column;
+  min-height: 150px;
 }
 
 .form__list_type_profile {
@@ -95,7 +102,7 @@
   line-height: 17px;
 }
 
-.form_active.form_type_profile {
+.form_type_profile {
   min-height: 468px;
 }
 
@@ -130,7 +137,7 @@
     line-height: 16px;
   }
 
-  .form_active.form_type_profile {
+  .form_type_profile {
     min-height: 380px;
   }
 }
@@ -153,6 +160,10 @@
   }
 
   /* Profile */
+  .form_type_profile {
+    min-height: 270px;
+  }
+
   .form_active.form_type_profile {
     min-height: 330px;
   }

@@ -20,6 +20,12 @@
   background-color: transparent;
 }
 
+.form__input:disabled,
+.form__input::placeholder:disabled {
+  color: red;
+  outline-color: red;
+}
+
 .form__input:disabled:hover {
   cursor: default;
   opacity: 1;
@@ -46,12 +52,26 @@
 .form__input_type_register::placeholder,
 .form__input_type_login::placeholder {
   color: var(--color-white);
-  opacity: 1;
   font-size: 13px;
   line-height: 16px;
 }
 
 .form__input_type_error {
+  color: var(--color-selection);
+  outline: 1px solid var(--color-selection);
+}
+
+.form__error {
+  font-size: 10px;
+  line-height: 13px;
+  transition: 0.5s;
+  min-height: 14px;
+  padding: 0;
+  margin: auto 0 20px;
+  text-align: center;
+}
+
+.form__error {
   color: var(--color-selection);
 }
 
@@ -63,7 +83,7 @@
   height: 13px;
 }
 
-.form__message_profile {
+.form__error_profile {
   grid-column: span 2;
 }
 
