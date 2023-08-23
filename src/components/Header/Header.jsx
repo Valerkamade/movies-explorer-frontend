@@ -20,19 +20,19 @@ const Header = () => {
   const pathAuth = pathname === registerPath || pathname === loginPath;
   const { isLoggedIn } = useContext(CurrentUserContext);
 
-  const classNameHeader = () => {
-    let className = 'header';
+  const classNameHeaderContainer = () => {
+    let className = 'header__container';
     if (menuActive) {
-      className = `${className} header_active`;
+      className = `${className} header__container_active`;
     }
     if (isLoggedIn) {
-      className = `${className} header_login`;
+      className = `${className} header__container_login`;
     }
     if (pathname === mainPath) {
-      className = `${className} header_cover`;
+      className = `${className} header__container_cover`;
     }
     if (pathAuth) {
-      className = `${className} header_auth`;
+      className = `${className} header__container_auth`;
     }
     return className;
   };
@@ -46,65 +46,67 @@ const Header = () => {
   }
 
   return (
-    <header className={classNameHeader()}>
-      <Link className='header__link header__link_logo' to={mainPath}>
-        <img className='header__logo' src={logo} alt='SaveMovie' />
-      </Link>
-      {!pathAuth &&
-        (!isLoggedIn ? (
-          <Navigation>
-            <Link className='header__link' to={registerPath}>
-              Регистрация
-            </Link>
-            <Link className='header__button' to={loginPath}>
-              Войти
-            </Link>
-          </Navigation>
-        ) : (
-          <>
-            <div className='header__wrapper'>
-              <Navigation>
-                <ul className='header__list'>
-                  <li className='header__item'>
-                    <NavLink className='header__link' to={mainPath}>
-                      Главная
-                    </NavLink>
-                  </li>
-                  <li className='header__item'>
-                    <NavLink className='header__link' to={moviesPath}>
-                      Фильмы
-                    </NavLink>
-                  </li>
-                  <li className='header__item'>
-                    <NavLink className='header__link' to={savedMoviesPath}>
-                      Сохранённые фильмы
-                    </NavLink>
-                  </li>
-                </ul>
-              </Navigation>
-              <Navigation>
-                <NavLink
-                  className='header__link header__link_profile'
-                  to={profilePath}
-                >
-                  Аккаунт
-                </NavLink>
-              </Navigation>
+    <header className={pathname === mainPath?'header header_cover': 'header'}>
+      <div className={classNameHeaderContainer()}>
+        <Link className='header__link header__link_logo' to={mainPath}>
+          <img className='header__logo' src={logo} alt='SaveMovie' />
+        </Link>
+        {!pathAuth &&
+          (!isLoggedIn ? (
+            <Navigation>
+              <Link className='header__link' to={registerPath}>
+                Регистрация
+              </Link>
+              <Link className='header__button' to={loginPath}>
+                Войти
+              </Link>
+            </Navigation>
+          ) : (
+            <>
+              <div className='header__wrapper'>
+                <Navigation>
+                  <ul className='header__list'>
+                    <li className='header__item'>
+                      <NavLink className='header__link' to={mainPath}>
+                        Главная
+                      </NavLink>
+                    </li>
+                    <li className='header__item'>
+                      <NavLink className='header__link' to={moviesPath}>
+                        Фильмы
+                      </NavLink>
+                    </li>
+                    <li className='header__item'>
+                      <NavLink className='header__link' to={savedMoviesPath}>
+                        Сохранённые фильмы
+                      </NavLink>
+                    </li>
+                  </ul>
+                </Navigation>
+                <Navigation>
+                  <NavLink
+                    className='header__link header__link_profile'
+                    to={profilePath}
+                  >
+                    Аккаунт
+                  </NavLink>
+                </Navigation>
+                <button
+                  className='header__button-close'
+                  type='button'
+                  aria-label='Закрыть меню'
+                  onClick={handleCloseClick}
+                />
+              </div>
               <button
-                className='header__button-close'
+                className='header__button-menu'
                 type='button'
-                aria-label='Закрыть меню'
-                onClick={handleCloseClick}
+                aria-label='Окрыть меню'
+                onClick={handleMenuClick}
               />
-            </div>
-            <button
-              className='header__button-menu'
-              type='button'
-              aria-label='Окрыть меню'
-              onClick={handleMenuClick}
-            />
-          </>
-        ))}
+            </>
+          ))}
+      </div>
     </header>
   );
 };

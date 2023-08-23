@@ -1,9 +1,10 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect } from 'react';
 import { profileForm } from '../../../utils/data-list';
 import './Profile.css';
 import Form from '../Form/Form';
 import Input from '../Form/Input/Input';
 import { CurrentUserContext } from '../../../contexts/CurrentUserContext';
+import { useValidate } from '../../hooks/useValidate';
 
 const Profile = ({
   onSubmit,
@@ -16,12 +17,18 @@ const Profile = ({
 }) => {
   const currentUser = useContext(CurrentUserContext);
   const { name, buttonTextDefault, inputs } = profileForm;
-  const [value, setValue] = useState({});
-  const [validate, setValidate] = useState(false);
+  const {
+    values,
+    handleChange,
+    errors,
+    isValid,
+    setValues,
+    isFormValid,
+    setValid,
+  } = useValidate(inputs);
 
-  const handleChange = (evt) => {
-    setValue({ ...value, [evt.target.name]: evt.target.value });
-    setValidate(true);
+  const handleChangeProfile = (evt) => {
+    handleChange(evt);
   };
 
   const handleActivated = () => {
@@ -36,7 +43,7 @@ const Profile = ({
   const handleSubmit = (evt) => {
     evt.preventDefault();
     setFormActivated(false);
-    onSubmit(value);
+    onSubmit(values);
   };
 
   const handleClickExit = () => {
@@ -44,9 +51,14 @@ const Profile = ({
   };
 
   useEffect(() => {
-    setValue((value) => {
-      return { ...value, name: currentUser.name, email: currentUser.email };
-    });
+    setValues((values) => ({
+      ...values,
+      name: currentUser.name,
+      email: currentUser.email,
+    }));
+    if (currentUser) {
+      setValid((isValid) => ({ ...isValid, name: true, email: true }));
+    }
   }, [currentUser]);
 
   useEffect(() => {
@@ -63,16 +75,18 @@ const Profile = ({
       <section className='profile'>
         <h1 className='profile__title'>{`Привет, ${currentUser.name}!`}</h1>
         <Form
-          validate={validate}
           name={name}
           buttonText={buttonTextDefault}
           onSubmit={handleSubmit}
           isFormActivated={isFormActivated}
           disabledDafault={
-            currentUser.name === value.name && currentUser.email === value.email
+            currentUser.name === values.name &&
+            currentUser.email === values.email
           }
           requestError={requestError}
           isSendRequest={isSendRequest}
+          isValid={isValid}
+          isFormValid={isFormValid}
         >
           <ul className={`form__list form__list_type_${name}`}>
             {inputs.map((input) => (
@@ -81,13 +95,14 @@ const Profile = ({
                 key={input.name + name}
               >
                 <Input
-                  value={value[`${input.name}`]}
+                  value={values[`${input.name}`]}
                   input={input}
-                  handleChange={handleChange}
+                  handleChange={handleChangeProfile}
                   form={name}
-                  validate={validate}
+                  isValid={isValid}
                   disabled={!isFormActivated}
                   onFocus={(e) => e.currentTarget.select()}
+                  errors={errors}
                 />
               </li>
             ))}

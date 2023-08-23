@@ -37,6 +37,7 @@ const SavedMovies = ({ savedMovies, onMoviedDelete, setMessage, message }) => {
         isMessageShow={isMessageShow}
         setMessage={setMessage}
         message={message}
+        isFormActivated={!searchStatus.isLoading}
       />
       {searchStatus.isLoading ? (
         <Preloader />

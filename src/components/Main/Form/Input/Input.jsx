@@ -1,4 +1,5 @@
-import { INPUT_TYPE_NAME } from '../../../../utils/constants';
+import { useLocation } from 'react-router-dom';
+import { INPUT_TYPE_NAME, ROUTS } from '../../../../utils/constants';
 import './Input.css';
 
 const Input = ({
@@ -6,10 +7,11 @@ const Input = ({
   handleChange,
   input,
   form,
-  validate,
+  isValid = true,
   isChecked,
   onFocus,
   disabled,
+  errors,
 }) => {
   const {
     label,
@@ -22,7 +24,9 @@ const Input = ({
     autoFocus,
     autoComplete,
   } = input;
+
   const { email, checkbox, search } = INPUT_TYPE_NAME;
+  const { pathname } = useLocation();
   const classInputForm = form ? `form__input_type_${form}` : '';
   const classLabelForm = form ? `form__label_type_${form}` : '';
   const classInput = `form__input form__input_type_${name} ${classInputForm}`;
@@ -103,9 +107,14 @@ const Input = ({
       {label && `${label}`}
       {inputType}
       {type === checkbox && <span>{label ? label : placeholder}</span>}
-      {validate && (
-        <span className={`form__error form__error_${form} ${name}-error`} />
-      )}
+      {!isValid[name] &&
+        !(
+          pathname === ROUTS.moviesPath || pathname === ROUTS.savedMoviesPath
+        ) && (
+          <span className={`form__error form__error_${form} ${name}-error`}>
+            {errors[name]}
+          </span>
+        )}
     </label>
   );
 };

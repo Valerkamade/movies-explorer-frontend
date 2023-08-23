@@ -9,7 +9,6 @@ html {
 
 .page {
   width: 100%;
-  max-width: 1280px;
   min-height: 100dvh;
   box-sizing: border-box;
   background-color: var(--color-main);

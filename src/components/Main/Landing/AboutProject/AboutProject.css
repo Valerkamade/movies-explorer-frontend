@@ -1,6 +1,8 @@
 .about {
   padding-left: 18px;
   padding-right: 18px;
+  max-width: 1280PX;
+  margin: 0 auto;
 }
 
 .about__list {
@@ -38,7 +40,7 @@
   line-height: 13px;
 }
 
-.about__stats-wrap:first-of-type > .about__stats-duration {
+.about__stats-wrap:first-of-type>.about__stats-duration {
   background-color: var(--color-second-one);
   color: var(--color-black);
 }
@@ -56,6 +58,7 @@
     padding-left: 50px;
     padding-right: 50px;
   }
+
   .about__subtitle {
     font-size: 20px;
     letter-spacing: -0.8px;
@@ -96,10 +99,10 @@
 }
 
 @media (min-width: 1280px) {
-.about {
-  padding-left: 70px;
-  padding-right: 70px;
-}
+  .about {
+    padding-left: 70px;
+    padding-right: 70px;
+  }
 
   .about__list {
     gap: 40px;

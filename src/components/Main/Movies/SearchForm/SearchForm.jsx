@@ -17,7 +17,8 @@ const SearchForm = ({
   message,
   isFormActivated,
 }) => {
-  const { name, buttonTextLoading, buttonTextDefault, validate } = searchForm;
+  const { name, buttonTextLoading, buttonTextDefault, validate, inputs } =
+    searchForm;
 
   const handleChange = (evt) => {
     setValueSerch((valueSerch) => {
@@ -53,8 +54,9 @@ const SearchForm = ({
       searchStatus={searchStatus}
       isErrorShow={isErrorShow}
       message={message}
+      isFormValid={valueSerch.search.length !== 0}
     >
-      {searchForm.inputs.map((input) => (
+      {inputs.map((input) => (
         <Input
           key={input.name}
           value={valueSerch[`${input.name}`]}

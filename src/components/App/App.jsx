@@ -16,16 +16,16 @@ import { apiMovies } from '../../utils/MoviesApi';
 import { useNavigate } from 'react-router-dom';
 import {
   DEVICE_SETTING,
+  MESSAGE,
   ROUTS,
   TIME_OUT_PRELOADER,
+  TIME_REGISTER,
 } from '../../utils/constants';
 import Preloader from '../Preloader/Preloader';
 import { MessageContext } from '../../contexts/MessageContext';
 import { selectErrorMessag } from '../../utils/utils';
 
 const App = () => {
-  const [valueRegister, setValueRegister] = useState({});
-  const [valueLogin, setValueLogin] = useState({});
   const [isLoadingContent, setLoadingContent] = useState(true);
   const [isSendRequest, setSendRequest] = useState(false);
   const [isErrorPage, setErrorPage] = useState(false);
@@ -132,7 +132,6 @@ const App = () => {
       .authorize(value)
       .then(() => {
         navigate(moviesPath, { replace: true });
-        setValueLogin({});
         setCurrentUser({ ...currentUser, isLoggedIn: true });
         localStorage.setItem('isLoggedIn', true);
       })
@@ -162,17 +161,16 @@ const App = () => {
         setMessage({
           isMessageShow: true,
           isError: false,
-          text: 'Регистрация успешна. Перенаправление на страницу поиска фильмов',
+          text: MESSAGE.registred,
         });
         setTimeout(() => {
           handleLogin(value);
-          setValueRegister({});
           setMessage({
             isMessageShow: false,
             isError: false,
             text: '',
           });
-        }, 2000);
+        }, TIME_REGISTER);
       })
       .catch((err) => {
         setFormActivated(true);
@@ -235,7 +233,7 @@ const App = () => {
           setMessage({
             isMessageShow: true,
             isError: false,
-            text: 'Данные успешно изменены',
+            text: MESSAGE.profileUpdate,
           });
         }, TIME_OUT_PRELOADER);
       })
@@ -279,6 +277,10 @@ const App = () => {
         }, TIME_OUT_PRELOADER)
       );
   };
+
+  useEffect(() => {
+    setMessage('');
+  }, [pathname]);
 
   return isLoadingContent ? (
     <Preloader />
@@ -344,8 +346,6 @@ const App = () => {
                 <Navigate to={mainPath} replace />
               ) : (
                 <Auth
-                  value={valueRegister}
-                  setValue={setValueRegister}
                   onRegister={handleRegister}
                   requestError={requestError}
                   setRequestError={setRequestError}
@@ -366,8 +366,6 @@ const App = () => {
                 <Navigate to={moviesPath} replace />
               ) : (
                 <Auth
-                  value={valueLogin}
-                  setValue={setValueLogin}
                   onLogin={handleLogin}
                   requestError={requestError}
                   setRequestError={setRequestError}

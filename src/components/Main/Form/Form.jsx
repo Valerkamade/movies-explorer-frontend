@@ -1,55 +1,23 @@
-import React, { useRef, useEffect, useState } from 'react';
 import './Form.css';
 import { useContext } from 'react';
 import { MessageContext } from '../../../contexts/MessageContext';
 import Preloader from '../../Preloader/Preloader';
 import { useLocation } from 'react-router-dom';
-import { INPUT_TYPE_NAME, REGX_EMAIL, ROUTS } from '../../../utils/constants';
+import { ROUTS } from '../../../utils/constants';
 
 function Form({
   children,
   name,
   onSubmit,
-  validate,
   buttonText,
   isFormActivated,
   disabledDafault,
   searchStatus,
   isSendRequest,
+  isFormValid,
 }) {
-  const [isValidForm, setIsValidForm] = useState(false);
-  const formRef = useRef(0);
   const message = useContext(MessageContext);
   const { pathname } = useLocation();
-
-  useEffect(() => {
-    validate &&
-      Array.from(formRef.current)
-        .filter((item) => {
-          return item.localName !== 'button';
-        })
-        .forEach((item) => {
-          if (
-            item.type === INPUT_TYPE_NAME.email &&
-            !REGX_EMAIL.test(item.value)
-          ) {
-            console.log(!item.validity.valid);
-          }
-          item.classList.toggle(
-            'form__input_type_error',
-            item.validationMessage
-          );
-          item.nextSibling.textContent = item.validationMessage;
-        });
-
-    const validation = () => {
-      if (children === undefined) {
-        return true;
-      }
-      return formRef.current.checkValidity();
-    };
-    setIsValidForm(validation());
-  }, [children, validate]);
 
   return (
     <form
@@ -59,7 +27,6 @@ function Form({
       name={name}
       noValidate
       onSubmit={onSubmit}
-      ref={formRef}
     >
       {children}
 
@@ -80,7 +47,7 @@ function Form({
             <button
               className={`form__button-save form__button-save_type_${name}`}
               type='submit'
-              disabled={disabledDafault ? disabledDafault : !isValidForm}
+              disabled={disabledDafault ? disabledDafault : !isFormValid}
             >
               {buttonText}
             </button>

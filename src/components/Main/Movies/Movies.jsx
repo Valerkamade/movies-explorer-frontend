@@ -7,14 +7,7 @@ import Preloader from '../../Preloader/Preloader';
 import { deviceSettings } from '../../../utils/data-list';
 import { DATA_SAVE } from '../../../utils/constants';
 
-const Movies = ({
-  movies,
-  onMovieLike,
-  savedMovies,
-  device,
-  setMessage,
-  isFormActivated,
-}) => {
+const Movies = ({ movies, onMovieLike, savedMovies, device, setMessage }) => {
   const { filteredMovies, savedSearch, searchStatus, handleSubmitSearch } =
     useSearch({
       movies: movies,

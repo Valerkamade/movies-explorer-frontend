@@ -4,24 +4,20 @@ import Form from '../Form/Form';
 import { registerForm, loginForm } from '../../../utils/data-list';
 import Input from '../Form/Input/Input';
 import Main from '../Main';
-import { useState } from 'react';
 import { ROUTS } from '../../../utils/constants';
+import { useValidate } from '../../hooks/useValidate';
 
 const Auth = ({
   isLoading,
-  value,
-  setValue,
   onLogin,
   onRegister,
   requestError,
-  setRequestError,
   message,
   setFormActivated,
   isFormActivated,
   isSendRequest,
 }) => {
   const { registerPath, loginPath } = ROUTS;
-  const [validate, setValidate] = useState(false);
   const { pathname } = useLocation();
 
   let data;
@@ -54,20 +50,20 @@ const Auth = ({
       };
       break;
   }
-
   const { name, title, buttonTextLoading, buttonTextDefault, inputs } =
     data.form;
 
-  const handleChange = (evt) => {
-    setValue({ ...value, [evt.target.name]: evt.target.value });
-    setValidate(true);
-    setRequestError({});
+  const { values, handleChange, errors, isValid, isFormValid } =
+    useValidate(inputs);
+
+  const handleChangeAuth = (evt) => {
+    handleChange(evt);
   };
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
     setFormActivated(false);
-    data.onSubmit(value);
+    data.onSubmit(values);
   };
 
   return (
@@ -75,7 +71,6 @@ const Auth = ({
       <section className='auth'>
         <h1 className='auth__title'>{title}</h1>
         <Form
-          validate={validate}
           name={name}
           buttonText={isLoading ? buttonTextLoading : buttonTextDefault}
           onSubmit={handleSubmit}
@@ -83,6 +78,7 @@ const Auth = ({
           requestError={requestError}
           message={message}
           isSendRequest={isSendRequest}
+          isFormValid={isFormValid}
         >
           <ul className={`form__list form__list_type_${name}`}>
             {inputs.map((input) => (
@@ -91,12 +87,13 @@ const Auth = ({
                 key={input.name}
               >
                 <Input
-                  value={value[`${input.name}`]}
+                  value={values[`${input.name}`]}
                   input={input}
-                  handleChange={handleChange}
-                  validate={validate}
+                  handleChange={handleChangeAuth}
+                  isValid={isValid}
                   form={name}
                   disabled={!isFormActivated}
+                  errors={errors}
                 />
               </li>
             ))}

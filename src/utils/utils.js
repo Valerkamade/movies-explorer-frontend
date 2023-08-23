@@ -1,4 +1,4 @@
-import { BASE_URL, BASE_URL_API_MOVIES, ROUTS } from "./constants"
+import { BASE_URL, BASE_URL_API_MOVIES, MESSAGE, ROUTS } from "./constants"
 
 // Данные для запроса на сервер
 const apiConfig = {
@@ -15,7 +15,7 @@ const apiConfig = {
 
 const selectErrorMessag = (err) => {
   if (err.message === 'Validation failed') {
-    return 'Неверный формат данных: ' + err.validation.body.keys[0];
+    return MESSAGE.validation + err.validation.body.keys[0];
   }
   return err.message;
 }
