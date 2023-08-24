@@ -58,7 +58,8 @@
     margin-bottom: 96px;
   }
 
-  .profile__button_exit {
+  .profile__button_exit,
+  .profile__button_edit {
     font-size: 13px;
     line-height: 16px;
   }

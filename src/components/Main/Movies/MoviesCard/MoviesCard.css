@@ -48,6 +48,8 @@
   bottom: 36px;
   right: 16px;
   z-index: 10;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .movies__button_like {

@@ -9,6 +9,7 @@ export function useValidate(inputs) {
 
   useEffect(() => {
     if (inputs) {
+      setErrors({});
       setValid({});
       setValues({});
       inputs.forEach(input => {
@@ -34,7 +35,7 @@ export function useValidate(inputs) {
       setValid((isValid) => ({ ...isValid, [name]: valid }));
     }
     setValues({ ...values, [name]: value });
-    
+
   };
   useEffect(() => {
     if (!Object.values(isValid).includes(false)) {

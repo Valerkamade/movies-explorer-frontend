@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { MESSAGE } from "../../utils/constants";
+import { KEYWORD_SEARCH, MESSAGE } from "../../utils/constants";
 
 const useSearch = ({ movies, isSavedMoviesPage }) => {
   const [filteredMovies, setFilteredMovies] = useState([]);
@@ -47,8 +47,8 @@ const useSearch = ({ movies, isSavedMoviesPage }) => {
   }
 
   useEffect(() => {
-    if ('search' in localStorage && !isSavedMoviesPage) {
-      const savedSearch = JSON.parse(localStorage.getItem('search'));
+    if (KEYWORD_SEARCH in localStorage && !isSavedMoviesPage) {
+      const savedSearch = JSON.parse(localStorage.getItem(KEYWORD_SEARCH));
       setSavedSearch({
         search: savedSearch.search,
         short: savedSearch.short,
@@ -57,7 +57,7 @@ const useSearch = ({ movies, isSavedMoviesPage }) => {
       setFilteredMovies(savedSearch.movies);
     }
 
-    if (!localStorage.getItem('search') && !isSavedMoviesPage) {
+    if (!localStorage.getItem(KEYWORD_SEARCH) && !isSavedMoviesPage) {
       setSearchStatus((data) => {
         return {
           ...data,
@@ -79,7 +79,7 @@ const useSearch = ({ movies, isSavedMoviesPage }) => {
   }, [isSavedMoviesPage, movies]);
 
   useEffect(() => {
-    if (!isSavedMoviesPage && localStorage.getItem('search')) {
+    if (!isSavedMoviesPage && localStorage.getItem(KEYWORD_SEARCH)) {
       setFilteredMovies(savedSearch.savedMovies);
     }
   }, [isSavedMoviesPage, savedSearch]);
@@ -121,7 +121,7 @@ const useSearch = ({ movies, isSavedMoviesPage }) => {
     }, 300);
 
     if (!isSavedMoviesPage) {
-      localStorage.setItem('search', JSON.stringify({
+      localStorage.setItem(KEYWORD_SEARCH, JSON.stringify({
         savedMovies: filteredMovies,
         short: value.short,
         search: value.search,

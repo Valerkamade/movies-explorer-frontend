@@ -1,6 +1,6 @@
 import './Header.css';
 import logo from '../../images/logo.svg';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import Navigation from '../Navigation/Navigation';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
@@ -45,8 +45,14 @@ const Header = () => {
     setMenuActive(false);
   }
 
+  useEffect(() => {
+    setMenuActive(false);
+  }, [pathname]);
+
   return (
-    <header className={pathname === mainPath?'header header_cover': 'header'}>
+    <header
+      className={pathname === mainPath ? 'header header_cover' : 'header'}
+    >
       <div className={classNameHeaderContainer()}>
         <Link className='header__link header__link_logo' to={mainPath}>
           <img className='header__logo' src={logo} alt='SaveMovie' />

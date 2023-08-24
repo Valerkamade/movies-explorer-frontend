@@ -107,14 +107,15 @@ const Input = ({
       {label && `${label}`}
       {inputType}
       {type === checkbox && <span>{label ? label : placeholder}</span>}
-      {!isValid[name] &&
-        !(
-          pathname === ROUTS.moviesPath || pathname === ROUTS.savedMoviesPath
-        ) && (
-          <span className={`form__error form__error_${form} ${name}-error`}>
-            {errors[name]}
-          </span>
-        )}
+      {!(
+        pathname === ROUTS.moviesPath || pathname === ROUTS.savedMoviesPath
+      ) && (
+        <span
+          className={`form__error form__error_${form} ${name}-error`}
+        >
+          {errors[name]}
+        </span>
+      )}
     </label>
   );
 };

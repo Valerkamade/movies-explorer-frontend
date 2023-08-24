@@ -21,7 +21,7 @@
   background-color: var(--color-cover);
 }
 
-.header_auth {
+.header__container_auth {
   padding: 56px var(--indent-mobile) 50px;
   justify-content: center;
 }

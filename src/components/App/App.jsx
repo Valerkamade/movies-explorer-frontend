@@ -16,6 +16,8 @@ import { apiMovies } from '../../utils/MoviesApi';
 import { useNavigate } from 'react-router-dom';
 import {
   DEVICE_SETTING,
+  KEYWORD_ISLOGGEDIN,
+  KEYWORD_RESIZE,
   MESSAGE,
   ROUTS,
   TIME_OUT_PRELOADER,
@@ -30,7 +32,7 @@ const App = () => {
   const [isSendRequest, setSendRequest] = useState(false);
   const [isErrorPage, setErrorPage] = useState(false);
   const [currentUser, setCurrentUser] = useState({
-    isLoggedIn: localStorage.getItem('isLoggedIn'),
+    isLoggedIn: localStorage.getItem(KEYWORD_ISLOGGEDIN),
   });
   const [device, setDevice] = useState(DEVICE_SETTING.desktop.device);
   const [allMovies, setAllMovies] = useState([]);
@@ -117,11 +119,11 @@ const App = () => {
     };
 
     handleChangeDevice();
-    window.addEventListener('resize', handleChangeDevice);
+    window.addEventListener(KEYWORD_RESIZE, handleChangeDevice);
 
     return () => {
       clearTimeout(resizeCooldown.current);
-      window.removeEventListener('resize', handleChangeDevice);
+      window.removeEventListener(KEYWORD_RESIZE, handleChangeDevice);
     };
   }, [device]);
 
@@ -133,7 +135,7 @@ const App = () => {
       .then(() => {
         navigate(moviesPath, { replace: true });
         setCurrentUser({ ...currentUser, isLoggedIn: true });
-        localStorage.setItem('isLoggedIn', true);
+        localStorage.setItem(KEYWORD_ISLOGGEDIN, true);
       })
       .catch((err) => {
         setFormActivated(true);
