@@ -333,6 +333,7 @@ const App = () => {
                 element={SavedMovies}
                 onMoviedDelete={handleMovieDelete}
                 savedMovies={savedMovies}
+                isLoggedIn={currentUser.isLoggedIn}
               />
             }
           />

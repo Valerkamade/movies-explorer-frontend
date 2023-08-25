@@ -10,6 +10,9 @@
 
 .main_movies {
   padding: 0 var(--indent-mobile);
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
 }
 
 @media (min-width: 768px) {

@@ -69,8 +69,7 @@ const Profile = ({
       text: '',
     });
   }, [setFormActivated, setMessage]);
-  
-  console.log(isSendRequest);
+
   return (
     <main className='main'>
       <section className='profile'>

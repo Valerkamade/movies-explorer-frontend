@@ -15,7 +15,7 @@ const useSearch = ({ movies, isSavedMoviesPage }) => {
   const [searchStatus, setSearchStatus] = useState({
     statusMessage: '',
     isLoading: false,
-    isFirstSearch: false,
+    isFirstSearch: true,
   });
 
   const { pathname } = useLocation();
@@ -93,7 +93,7 @@ const useSearch = ({ movies, isSavedMoviesPage }) => {
       return {
         ...data,
         isLoading: boolean,
-        isFirstSearch: !boolean && false,
+        isFirstSearch: false,
       };
     });
   };
@@ -102,6 +102,7 @@ const useSearch = ({ movies, isSavedMoviesPage }) => {
 
   const resetStatus = () => {
     setSearchStatus({
+      ...searchStatus,
       statusMessage: '',
       isLoading: false,
     });
