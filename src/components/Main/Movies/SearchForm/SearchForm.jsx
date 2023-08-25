@@ -14,7 +14,6 @@ const SearchForm = ({
   setMaxShowMovies,
   device,
   isErrorShow,
-  message,
   isFormActivated,
 }) => {
   const { name, buttonTextLoading, buttonTextDefault, validate, inputs } =
@@ -53,7 +52,6 @@ const SearchForm = ({
       isFormActivated={isFormActivated}
       searchStatus={searchStatus}
       isErrorShow={isErrorShow}
-      message={message}
       isFormValid={valueSerch.search.length !== 0}
     >
       {inputs.map((input) => (

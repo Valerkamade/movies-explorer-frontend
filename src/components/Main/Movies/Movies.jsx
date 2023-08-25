@@ -2,7 +2,7 @@ import MoviesCardList from './MoviesCardList/MoviesCardList';
 import SearchForm from './SearchForm/SearchForm';
 import { useEffect, useState } from 'react';
 import Main from '../Main';
-import useSearch from '../../hooks/useSearch';
+import useSearch from '../../../hooks/useSearch';
 import Preloader from '../../Preloader/Preloader';
 import { deviceSettings } from '../../../utils/data-list';
 import { DATA_SAVE } from '../../../utils/constants';
@@ -16,7 +16,7 @@ const Movies = ({ movies, onMovieLike, savedMovies, device, setMessage }) => {
 
   const [valueSerch, setValueSerch] = useState({
     search: savedSearch.search ?? '',
-    short: savedMovies.short ?? '',
+    short: savedMovies.short ?? false,
   });
   const [moreMovies, setMoreMovies] = useState(0);
   const [isShowMoreButton, setShowMoreButton] = useState(false);
@@ -42,10 +42,12 @@ const Movies = ({ movies, onMovieLike, savedMovies, device, setMessage }) => {
   }, [device, movies]);
 
   useEffect(() => {
-    if (!(filteredMovies.length <= maxShowMovies)) {
-      setShowMoreButton(true);
-    } else {
-      setShowMoreButton(false);
+    if (!!filteredMovies) {
+      if (!(filteredMovies.length <= maxShowMovies)) {
+        setShowMoreButton(true);
+      } else {
+        setShowMoreButton(false);
+      }
     }
   }, [filteredMovies, maxShowMovies]);
 

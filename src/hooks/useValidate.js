@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { INPUT_NAME, INPUT_TYPE_NAME, MESSAGE, REGX_EMAIL, REGX_NAME } from '../../utils/constants';
+import { INPUT_NAME, INPUT_TYPE_NAME, MESSAGE, REGX_EMAIL, REGX_NAME } from '../utils/constants';
 
 export function useValidate(inputs) {
   const [values, setValues] = useState({});

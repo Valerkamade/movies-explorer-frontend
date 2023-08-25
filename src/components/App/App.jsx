@@ -60,15 +60,29 @@ const App = () => {
   const getSavedMovies = () => {
     api
       .getMovies()
-      .then((movies) => setSavedMovies(movies))
-      .catch((err) => console.log(err));
+      .then((movies) => {
+        setSavedMovies(movies);
+      })
+      .catch((err) => {
+        setRequestError(err);
+        console.log(err);
+      });
   };
 
   const getMovies = () => {
     apiMovies
       .getMovies()
-      .then((movies) => setAllMovies(movies))
-      .catch((err) => console.log(err));
+      .then((movies) => {
+        setAllMovies(movies);
+      })
+      .catch((err) => {
+        setMessage({
+          isMessageShow: true,
+          isError: true,
+          text: MESSAGE.serverError,
+        });
+        console.log(err);
+      });
   };
 
   const checkToken = () => {
@@ -98,11 +112,13 @@ const App = () => {
   }, [currentUser.isLoggedIn]);
 
   useEffect(() => {
-    getMovies();
-    setTimeout(() => {
-      setLoadingContent(false);
-    }, TIME_OUT_PRELOADER);
-  }, []);
+    if (currentUser.isLoggedIn) {
+      getMovies();
+      setTimeout(() => {
+        setLoadingContent(false);
+      }, TIME_OUT_PRELOADER);
+    }
+  }, [currentUser.isLoggedIn]);
 
   useEffect(() => {
     const handleChangeDevice = () => {
@@ -206,7 +222,7 @@ const App = () => {
       api
         .deleteMovies(id)
         .then(() => {
-          setSavedMovies(savedMovies.filter((item) => item._id !== id));
+          setSavedMovies((movies) => movies.filter((item) => item._id !== id));
         })
         .catch((err) => console.log(err));
     }
@@ -271,6 +287,7 @@ const App = () => {
           text: '',
         });
         setFormActivated(true);
+        setAllMovies([]);
       })
       .catch((err) => console.log(err))
       .finally(
@@ -281,7 +298,7 @@ const App = () => {
   };
 
   useEffect(() => {
-    setMessage('');
+    setMessage((message) => ({ ...message, text: '' }));
   }, [pathname]);
 
   return isLoadingContent ? (
@@ -314,12 +331,8 @@ const App = () => {
             element={
               <ProtectedRouteElement
                 element={SavedMovies}
-                isLoggedIn={currentUser.isLoggedIn}
                 onMoviedDelete={handleMovieDelete}
                 savedMovies={savedMovies}
-                device={device}
-                setMessage={setMessage}
-                isFormActivated={isFormActivated}
               />
             }
           />

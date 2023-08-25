@@ -39,7 +39,11 @@ function Form({
               message.isError ? 'form__message_error' : 'form__message_ok'
             }`}
           >
-            {name === 'search' ? searchStatus.statusMessage : message.text}
+            {name === 'search'
+              ? searchStatus.statusMessage
+                ? searchStatus.statusMessage
+                : message.text
+              : message.text}
           </p>
           {(isFormActivated ||
             pathname === ROUTS.moviesPath ||

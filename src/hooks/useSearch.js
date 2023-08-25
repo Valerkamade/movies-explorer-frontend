@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { KEYWORD_SEARCH, MESSAGE } from "../../utils/constants";
+import { KEYWORD_SEARCH, MESSAGE, TIME_DOWNLOAD, TIME_OUT_PRELOADER, TIME_SHORT_MOVIES } from "../utils/constants";
+import { useLocation } from "react-router-dom";
 
 const useSearch = ({ movies, isSavedMoviesPage }) => {
   const [filteredMovies, setFilteredMovies] = useState([]);
@@ -17,6 +18,8 @@ const useSearch = ({ movies, isSavedMoviesPage }) => {
     isFirstSearch: false,
   });
 
+  const { pathname } = useLocation();
+
   const filterSearh = (value) => {
     return movies.filter(
       (movie) =>
@@ -27,24 +30,31 @@ const useSearch = ({ movies, isSavedMoviesPage }) => {
   };
 
   const filterShort = (moviesList) => {
-    return moviesList.filter((movie) => movie.duration <= 40);
+    return moviesList.filter((movie) => movie.duration <= TIME_SHORT_MOVIES);
   };
 
-
   const filterMovies = (value) => {
-
-    if (isSavedMoviesPage) {
-      setSavedSearch({
-        search: value.search,
-        short: value.short,
-      });
-    }
     if (value.short) {
       return filterShort(filterSearh(value));
     } else {
       return filterSearh(value);
     }
   }
+
+  useEffect(() => {
+    if (isSavedMoviesPage && !searchStatus.isLoading) {
+      setFilteredMovies(filterMovies(savedSearch));
+    }
+  }, [isSavedMoviesPage, savedSearch])
+
+  useEffect(() => {
+    if (filteredMovies.length === 0) {
+      setSearchStatus(searchStatus => ({ ...searchStatus, statusMessage: noMovies }));
+    } else {
+      resetStatus();
+    }
+  }, [filteredMovies]);
+
 
   useEffect(() => {
     if (KEYWORD_SEARCH in localStorage && !isSavedMoviesPage) {
@@ -54,7 +64,7 @@ const useSearch = ({ movies, isSavedMoviesPage }) => {
         short: savedSearch.short,
         savedMovies: savedSearch.savedMovies,
       });
-      setFilteredMovies(savedSearch.movies);
+      setFilteredMovies(savedSearch.savedMovies);
     }
 
     if (!localStorage.getItem(KEYWORD_SEARCH) && !isSavedMoviesPage) {
@@ -69,13 +79,7 @@ const useSearch = ({ movies, isSavedMoviesPage }) => {
   }, [beforeSearching, isSavedMoviesPage]);
 
   useEffect(() => {
-    if (isSavedMoviesPage && savedSearch) {
-      setFilteredMovies(savedSearch);
-    }
-  }, [isSavedMoviesPage, savedSearch])
-
-  useEffect(() => {
-    if (isSavedMoviesPage) setFilteredMovies(movies);
+    if (isSavedMoviesPage) setFilteredMovies(filterMovies(savedSearch));
   }, [isSavedMoviesPage, movies]);
 
   useEffect(() => {
@@ -89,10 +93,12 @@ const useSearch = ({ movies, isSavedMoviesPage }) => {
       return {
         ...data,
         isLoading: boolean,
-        isFirstSearch: false,
+        isFirstSearch: !boolean && false,
       };
     });
   };
+
+  useEffect(() => { resetStatus() }, [pathname])
 
   const resetStatus = () => {
     setSearchStatus({
@@ -102,13 +108,18 @@ const useSearch = ({ movies, isSavedMoviesPage }) => {
   };
 
   const handleSubmitSearch = (value) => {
+    if (isSavedMoviesPage) {
+      setSavedSearch({
+        search: value.search,
+        short: value.short,
+      });
+    }
+
     resetStatus();
-    const filteredMovies = filterMovies(value, movies);
-
     setLoader(true);
-
+    const data = filterMovies(value);
     setTimeout(() => {
-      if (filteredMovies.length === 0) {
+      if (data.length === 0) {
         setSearchStatus((data) => {
           return {
             ...data,
@@ -116,20 +127,20 @@ const useSearch = ({ movies, isSavedMoviesPage }) => {
           };
         });
       }
-      setFilteredMovies(filteredMovies);
+      setFilteredMovies(data);
       setLoader(false);
-    }, 300);
+    }, searchStatus.isFirstSearch ? TIME_DOWNLOAD : TIME_OUT_PRELOADER);
 
     if (!isSavedMoviesPage) {
       localStorage.setItem(KEYWORD_SEARCH, JSON.stringify({
-        savedMovies: filteredMovies,
+        savedMovies: data,
         short: value.short,
         search: value.search,
       }));
     }
-  };
 
-  return { filteredMovies, savedSearch, searchStatus, handleSubmitSearch }
+  };
+  return { filteredMovies, savedSearch, searchStatus, handleSubmitSearch, setSearchStatus, resetStatus }
 }
 
 export default useSearch;

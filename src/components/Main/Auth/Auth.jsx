@@ -5,7 +5,7 @@ import { registerForm, loginForm } from '../../../utils/data-list';
 import Input from '../Form/Input/Input';
 import Main from '../Main';
 import { ROUTS } from '../../../utils/constants';
-import { useValidate } from '../../hooks/useValidate';
+import { useValidate } from '../../../hooks/useValidate';
 
 const Auth = ({
   isLoading,

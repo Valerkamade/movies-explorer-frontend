@@ -7,6 +7,8 @@ export const KEYWORD_ISLOGGEDIN = 'isLoggedIn';
 export const KEYWORD_RESIZE = 'resize';
 export const TIME_OUT_PRELOADER = 500;
 export const TIME_REGISTER = 2000;
+export const TIME_DOWNLOAD = 1500;
+export const TIME_SHORT_MOVIES =40;
 export const DATA_SAVE = 'search';
 
 export const ROUTS = {

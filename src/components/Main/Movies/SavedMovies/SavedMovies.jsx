@@ -2,29 +2,26 @@ import Main from '../../Main';
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import { useEffect, useState } from 'react';
-import useSearch from '../../../hooks/useSearch';
+import useSearch from '../../../../hooks/useSearch';
 import Preloader from '../../../Preloader/Preloader';
 
-const SavedMovies = ({ savedMovies, onMoviedDelete, setMessage, message }) => {
+const SavedMovies = ({ savedMovies, onMoviedDelete }) => {
   const [valueSearch, setValueSearch] = useState({ search: '', short: false });
   const [isMessageShow, setMessageShow] = useState(false);
-
   const { filteredMovies, searchStatus, handleSubmitSearch } = useSearch({
     movies: savedMovies,
     isSavedMoviesPage: true,
   });
 
   useEffect(() => {
-    if (filteredMovies.length === 0) {
-      setMessageShow(true);
-    } else {
-      setMessageShow(false);
+    if (!!filteredMovies) {
+      if (filteredMovies.length === 0) {
+        setMessageShow(true);
+      } else {
+        setMessageShow(false);
+      }
     }
   }, [filteredMovies]);
-
-  const handleClickDelete = (movie) => {
-    onMoviedDelete(movie);
-  };
 
   return (
     <Main className='main_movies'>
@@ -35,8 +32,6 @@ const SavedMovies = ({ savedMovies, onMoviedDelete, setMessage, message }) => {
         onSubmitSearch={handleSubmitSearch}
         searchStatus={searchStatus}
         isMessageShow={isMessageShow}
-        setMessage={setMessage}
-        message={message}
         isFormActivated={!searchStatus.isLoading}
       />
       {searchStatus.isLoading ? (
@@ -45,7 +40,7 @@ const SavedMovies = ({ savedMovies, onMoviedDelete, setMessage, message }) => {
         <MoviesCardList
           isSavedMoviesPage={true}
           moviesList={filteredMovies}
-          onMoviedDelete={handleClickDelete}
+          onMoviedDelete={onMoviedDelete}
         />
       )}
     </Main>

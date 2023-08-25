@@ -1,10 +1,9 @@
 import { apiConfig } from './utils'
 
 class ApiMovies {
-  constructor({ baseUrl, headers, credentials }) {
+  constructor({ baseUrl, headers }) {
     this._baseUrl = baseUrl.moviesApi;
     this._headers = headers;
-    this._credentials = credentials;
   }
 
   // Метод проверки успешности запроса

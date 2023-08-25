@@ -82,8 +82,12 @@
 }
 
 .form__message_search {
-  color: var(--color-white);
+  width: 80%;
   font-size: var(--text-mobile);
+  margin-left: auto;
+  margin-right: auto;
+  padding-bottom: 10px;
+  color: var(--color-white);
 }
 
 @media (min-width: 768px) {
@@ -130,8 +134,7 @@
 @media (min-width: 1280px) {
   .form_type_search {
     padding-top: 70px;
-
-    min-height: 220px;
+    min-height: 222px;
   }
 
   .form__input_type_search {

@@ -4,7 +4,7 @@ import './Profile.css';
 import Form from '../Form/Form';
 import Input from '../Form/Input/Input';
 import { CurrentUserContext } from '../../../contexts/CurrentUserContext';
-import { useValidate } from '../../hooks/useValidate';
+import { useValidate } from '../../../hooks/useValidate';
 
 const Profile = ({
   onSubmit,
@@ -69,7 +69,8 @@ const Profile = ({
       text: '',
     });
   }, [setFormActivated, setMessage]);
-
+  
+  console.log(isSendRequest);
   return (
     <main className='main'>
       <section className='profile'>
