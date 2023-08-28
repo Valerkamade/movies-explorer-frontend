@@ -2,6 +2,11 @@
   padding: 0 14px 50px;
 }
 
+.portfolio__container {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
 .portfolio__title {
   color: var(--color-greyA0);
   font-size: 14px;

@@ -3,6 +3,11 @@
   padding-right: 14px;
 }
 
+.about-me__container {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
 .about-me__wrapper {
   display: flex;
   flex-direction: column;
@@ -36,7 +41,7 @@
 }
 
 .about-me__description {
-  margin: 0 0 40px ;
+  margin: 0 0 40px;
 }
 
 .about-me__link {

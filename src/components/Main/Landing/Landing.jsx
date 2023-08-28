@@ -11,7 +11,7 @@ const Landing = () => {
       <Promo />
       <AboutProject />
       <Techs />
-      <AboutMe/>
+      <AboutMe />
       <Portfolio />
     </Main>
   );

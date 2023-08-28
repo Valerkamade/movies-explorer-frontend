@@ -9,7 +9,6 @@ html {
 
 .page {
   width: 100%;
-  max-width: 1280px;
   min-height: 100dvh;
   box-sizing: border-box;
   background-color: var(--color-main);
@@ -48,31 +47,27 @@ html {
   padding: 0;
 }
 
+.visuali {
+  visibility: hidden;
+}
+
 @media (min-width: 880px) {
-  .button:hover {
-    opacity: 0.6;
+
+  *:focus-visible,
+  button:focus-visible,
+  [type="button"]:focus-visible,
+  [type="reset"]:focus-visible,
+  [type="submit"]:focus-visible {
+    outline-color: var(--color-second-two-50);
+    outline-style: solid;
+    outline-width: 2px;
+    outline-offset: 1px;
+    border-radius: 5px;
   }
 
-  .button:focus,
-  .button:active {
-    opacity: 1;
+  .main {
+    flex: auto;
+    display: flex;
+    flex-direction: column;
   }
-}
-
-*:focus-visible,
-button:focus-visible,
-[type="button"]:focus-visible,
-[type="reset"]:focus-visible,
-[type="submit"]:focus-visible {
-  outline-color: var(--color-second-two);
-  outline-style: solid;
-  outline-width: 2px;
-  outline-offset: 3px;
-  border-radius: 5px;
-}
-
-.main {
-  flex: auto;
-  display: flex;
-  flex-direction: column;
 }

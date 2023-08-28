@@ -1,38 +1,40 @@
 import './Auth.css';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import Form from '../Form/Form';
-import { formRegister, formLogin } from '../../../utils/data-list';
+import { registerForm, loginForm } from '../../../utils/data-list';
 import Input from '../Form/Input/Input';
 import Main from '../Main';
+import { ROUTS } from '../../../utils/constants';
+import { useValidate } from '../../../hooks/useValidate';
 
-const Auth = ({ isLoading, value, setValue, setLoggedIn }) => {
+const Auth = ({
+  isLoading,
+  onLogin,
+  onRegister,
+  requestError,
+  message,
+  setFormActivated,
+  isFormActivated,
+  isSendRequest,
+}) => {
+  const { registerPath, loginPath } = ROUTS;
   const { pathname } = useLocation();
-  const navigate = useNavigate();
-
-  const onRegister = () => {
-    navigate('/signin', { replace: true });
-  };
-
-  const onLogin = () => {
-    setLoggedIn(true);
-    navigate('/movies', { replace: true });
-  };
 
   let data;
   switch (pathname) {
-    case '/signup':
+    case registerPath:
       data = {
-        form: formRegister,
-        link: '/signin',
+        form: registerForm,
+        link: loginPath,
         linkText: 'Войти',
         text: 'Уже зарегистрированы?',
         onSubmit: onRegister,
       };
       break;
-    case '/signin':
+    case loginPath:
       data = {
-        form: formLogin,
-        link: '/signup',
+        form: loginForm,
+        link: registerPath,
         linkText: 'Регистрация',
         text: 'Ещё не зарегистрированы?',
         onSubmit: onLogin,
@@ -48,34 +50,35 @@ const Auth = ({ isLoading, value, setValue, setLoggedIn }) => {
       };
       break;
   }
+  const { name, title, buttonTextLoading, buttonTextDefault, inputs } =
+    data.form;
 
-  const {
-    validate,
-    name,
-    title,
-    buttonTextLoading,
-    buttonTextDefault,
-    inputs,
-  } = data.form;
+  const { values, handleChange, errors, isValid, isFormValid } =
+    useValidate(inputs);
 
-  function handleChange(evt) {
-    setValue({ ...value, [evt.target.name]: evt.target.value });
-  }
+  const handleChangeAuth = (evt) => {
+    handleChange(evt);
+  };
 
-  function handleSubmit(evt) {
+  const handleSubmit = (evt) => {
     evt.preventDefault();
-    data.onSubmit();
-  }
+    setFormActivated(false);
+    data.onSubmit(values);
+  };
 
   return (
     <Main>
       <section className='auth'>
         <h1 className='auth__title'>{title}</h1>
         <Form
-          validate={validate}
           name={name}
           buttonText={isLoading ? buttonTextLoading : buttonTextDefault}
           onSubmit={handleSubmit}
+          isFormActivated={isFormActivated}
+          requestError={requestError}
+          message={message}
+          isSendRequest={isSendRequest}
+          isFormValid={isFormValid}
         >
           <ul className={`form__list form__list_type_${name}`}>
             {inputs.map((input) => (
@@ -84,22 +87,26 @@ const Auth = ({ isLoading, value, setValue, setLoggedIn }) => {
                 key={input.name}
               >
                 <Input
-                  value={value[`${input.name}`]}
+                  value={values[`${input.name}`]}
                   input={input}
-                  handleChange={handleChange}
-                  validate={validate}
+                  handleChange={handleChangeAuth}
+                  isValid={isValid}
                   form={name}
+                  disabled={!isFormActivated}
+                  errors={errors}
                 />
               </li>
             ))}
           </ul>
         </Form>
-        <div className='auth__wrapper'>
-          <p className='auth__text'>{data.text}&nbsp;</p>
-          <Link className='auth__link' to={data.link}>
-            {data.linkText}
-          </Link>
-        </div>
+        {!isSendRequest && (
+          <div className='auth__wrapper'>
+            <p className='auth__text'>{data.text}&nbsp;</p>
+            <Link className='auth__link' to={data.link}>
+              {data.linkText}
+            </Link>
+          </div>
+        )}
       </section>
     </Main>
   );

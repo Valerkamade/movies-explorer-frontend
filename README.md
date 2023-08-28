@@ -7,3 +7,5 @@
 URL: [savemovies.valerkamade.ru](https://savemovies.valerkamade.ru/)
 
 URL API: [api.savemovies.valerkamade.ru](https://api.savemovies.valerkamade.ru/)
+
+PR: [ссылка на пулреквест](https://github.com/Valerkamade/movies-explorer-frontend/pull/2)
