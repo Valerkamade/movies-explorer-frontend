@@ -2,14 +2,15 @@ export const BASE_URL = 'https://api.savemovies.valerkamade.ru';
 export const REGX_NAME = /^[a-zA-Zа-яА-Я\s-]+$/;
 export const REGX_EMAIL = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 export const BASE_URL_API_MOVIES = 'https://api.nomoreparties.co';
-export const KEYWORD_SEARCH = 'search';
+export const KEYWORD_MOVIES = 'allMovies';
+export const KEYWORD_SEARCHED_MOVIES = 'searchedMovies';
+export const KEYWORD_VALUES = 'search';
 export const KEYWORD_ISLOGGEDIN = 'isLoggedIn';
 export const KEYWORD_RESIZE = 'resize';
 export const TIME_OUT_PRELOADER = 500;
 export const TIME_REGISTER = 2000;
 export const TIME_DOWNLOAD = 1500;
 export const TIME_SHORT_MOVIES =40;
-export const DATA_SAVE = 'search';
 
 export const ROUTS = {
   mainPath: '/',

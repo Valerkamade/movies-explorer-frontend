@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { KEYWORD_SEARCH, MESSAGE, TIME_DOWNLOAD, TIME_OUT_PRELOADER, TIME_SHORT_MOVIES } from "../utils/constants";
+import { KEYWORD_MOVIES, KEYWORD_SEARCHED_MOVIES, KEYWORD_VALUES, MESSAGE, TIME_DOWNLOAD, TIME_OUT_PRELOADER, TIME_SHORT_MOVIES } from "../utils/constants";
 import { useLocation } from "react-router-dom";
 
-const useSearch = ({ movies, isSavedMoviesPage }) => {
+const useSearch = ({ movies, isSavedMoviesPage, getMovies }) => {
   const [filteredMovies, setFilteredMovies] = useState([]);
   const { beforeSearching, noMovies } = MESSAGE;
 
@@ -15,13 +15,13 @@ const useSearch = ({ movies, isSavedMoviesPage }) => {
   const [searchStatus, setSearchStatus] = useState({
     statusMessage: '',
     isLoading: false,
-    isFirstSearch: true,
+    isFirstSearch: false,
   });
 
   const { pathname } = useLocation();
 
-  const filterSearh = (value) => {
-    return movies.filter(
+  const filterSearh = (value, moviesList) => {
+    return moviesList.filter(
       (movie) =>
         movie.nameRU.trim().toLowerCase().includes(value.search.trim().toLowerCase())
         ||
@@ -33,17 +33,18 @@ const useSearch = ({ movies, isSavedMoviesPage }) => {
     return moviesList.filter((movie) => movie.duration <= TIME_SHORT_MOVIES);
   };
 
-  const filterMovies = (value) => {
+  const filterMovies = (value, moviesList) => {
+    console.log(moviesList);
     if (value.short) {
-      return filterShort(filterSearh(value));
+      return filterShort(filterSearh(value, moviesList));
     } else {
-      return filterSearh(value);
+      return filterSearh(value, moviesList);
     }
   }
 
   useEffect(() => {
     if (isSavedMoviesPage && !searchStatus.isLoading) {
-      setFilteredMovies(filterMovies(savedSearch));
+      setFilteredMovies(filterMovies(savedSearch, movies));
     }
   }, [isSavedMoviesPage, savedSearch])
 
@@ -55,35 +56,36 @@ const useSearch = ({ movies, isSavedMoviesPage }) => {
     }
   }, [filteredMovies]);
 
-
   useEffect(() => {
-    if (KEYWORD_SEARCH in localStorage && !isSavedMoviesPage) {
-      const savedSearch = JSON.parse(localStorage.getItem(KEYWORD_SEARCH));
+    if (KEYWORD_MOVIES in localStorage && !isSavedMoviesPage) {
+      const savedMovies = JSON.parse(localStorage.getItem(KEYWORD_SEARCHED_MOVIES));
+      const savedSearch = JSON.parse(localStorage.getItem(KEYWORD_VALUES));
       setSavedSearch({
         search: savedSearch.search,
         short: savedSearch.short,
-        savedMovies: savedSearch.savedMovies,
+        savedMovies: savedMovies,
       });
-      setFilteredMovies(savedSearch.savedMovies);
+      setFilteredMovies(savedMovies);
     }
-
-    if (!localStorage.getItem(KEYWORD_SEARCH) && !isSavedMoviesPage) {
-      setSearchStatus((data) => {
-        return {
-          ...data,
+    if (!(KEYWORD_MOVIES in localStorage) && !isSavedMoviesPage) {
+      setSearchStatus(
+        {
+          ...searchStatus,
           isFirstSearch: true,
           statusMessage: beforeSearching,
-        };
-      });
+        }
+      );
     }
   }, [beforeSearching, isSavedMoviesPage]);
 
   useEffect(() => {
-    if (isSavedMoviesPage) setFilteredMovies(filterMovies(savedSearch));
+    if (isSavedMoviesPage) {
+      setFilteredMovies(filterMovies(savedSearch, movies));
+    };
   }, [isSavedMoviesPage, movies]);
 
   useEffect(() => {
-    if (!isSavedMoviesPage && localStorage.getItem(KEYWORD_SEARCH)) {
+    if (!isSavedMoviesPage && localStorage.getItem(KEYWORD_MOVIES)) {
       setFilteredMovies(savedSearch.savedMovies);
     }
   }, [isSavedMoviesPage, savedSearch]);
@@ -98,7 +100,7 @@ const useSearch = ({ movies, isSavedMoviesPage }) => {
     });
   };
 
-  useEffect(() => { resetStatus() }, [pathname])
+  // useEffect(() => { resetStatus() }, [pathname])
 
   const resetStatus = () => {
     setSearchStatus({
@@ -108,17 +110,19 @@ const useSearch = ({ movies, isSavedMoviesPage }) => {
     });
   };
 
-  const handleSubmitSearch = (value) => {
-    if (isSavedMoviesPage) {
-      setSavedSearch({
-        search: value.search,
-        short: value.short,
-      });
+  const handleSubmitSearch = async (value) => {
+    let allMovies;
+    let data;
+    if (searchStatus.isFirstSearch && !isSavedMoviesPage) {
+      allMovies = await getMovies();
+      data = filterMovies(value, allMovies);
+    } else {
+      data = filterMovies(value, movies);
     }
 
     resetStatus();
     setLoader(true);
-    const data = filterMovies(value);
+
     setTimeout(() => {
       if (data.length === 0) {
         setSearchStatus((data) => {
@@ -132,9 +136,16 @@ const useSearch = ({ movies, isSavedMoviesPage }) => {
       setLoader(false);
     }, searchStatus.isFirstSearch ? TIME_DOWNLOAD : TIME_OUT_PRELOADER);
 
-    if (!isSavedMoviesPage) {
-      localStorage.setItem(KEYWORD_SEARCH, JSON.stringify({
-        savedMovies: data,
+    if (!isSavedMoviesPage && searchStatus.isFirstSearch) {
+      localStorage.setItem(KEYWORD_MOVIES, JSON.stringify(allMovies));
+      localStorage.setItem(KEYWORD_SEARCHED_MOVIES, JSON.stringify(data));
+      localStorage.setItem(KEYWORD_VALUES, JSON.stringify({
+        short: value.short,
+        search: value.search,
+      }));
+    } else if (!isSavedMoviesPage) {
+      localStorage.setItem(KEYWORD_SEARCHED_MOVIES, JSON.stringify(data));
+      localStorage.setItem(KEYWORD_VALUES, JSON.stringify({
         short: value.short,
         search: value.search,
       }));

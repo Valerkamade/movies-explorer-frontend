@@ -2,6 +2,7 @@
   background: var(--color-grey2F);
   cursor: pointer;
   position: relative;
+  border-radius: 9px;
 }
 
 .movies__link {
@@ -30,6 +31,8 @@
   display: block;
   width: 100%;
   aspect-ratio: 1.786;
+  border-top-left-radius: 9px;
+  border-top-right-radius: 9px;
 }
 
 .movies__duration {
@@ -39,17 +42,18 @@
 }
 
 .movies__button {
-  width: 14px;
-  height: 12px;
-  background-color: transparent;
+  width: 32px;
+  height: 32px;
+  background-color: var(--color-grey42);
   border: none;
   cursor: pointer;
   position: absolute;
-  bottom: 36px;
+  bottom: 16px;
   right: 16px;
   z-index: 10;
   background-repeat: no-repeat;
   background-position: center;
+  border-radius: 50%;
 }
 
 .movies__button_like {
@@ -58,7 +62,7 @@
 
 .movies__button_deleet {
   background-image: var(--icon-delete);
-  background-size: cover;
+  background-size: 14px 14px ;
 }
 
 .movies__button_like-active {
@@ -76,6 +80,7 @@
     width: 220px;
     height: 122px;
     padding: 6px;
+    border-radius: 12px;
   }
 
   .movies__button {
@@ -99,8 +104,9 @@
   }
 
   .movies__link:hover {
-    outline: 1px solid var(--color-second-two-50);
-    border-radius: 5px;
+    outline: none;
+    box-shadow: 0 0 5px var(--color-second-two-50);
+    border-radius: 9px;
   }
 
   .movies__button:hover {
