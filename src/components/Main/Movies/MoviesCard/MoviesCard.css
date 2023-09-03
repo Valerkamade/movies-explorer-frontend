@@ -17,7 +17,7 @@
   flex-direction: column;
   gap: 8px;
   order: 1;
-  margin: 14px 16px 14px 12px;
+  margin: 14px 12px;
 }
 
 .movies__title {
@@ -25,6 +25,7 @@
   font-weight: 500;
   line-height: 15px;
   margin: 0;
+  width: calc(100% - 40px);
 }
 
 .movies__photo {
@@ -36,6 +37,7 @@
 }
 
 .movies__duration {
+  width: calc(100% - 40px);
   line-height: 13px;
   color: var(--color-grey8B);
   margin: 0;
@@ -49,7 +51,7 @@
   cursor: pointer;
   position: absolute;
   bottom: 16px;
-  right: 16px;
+  right: 12px;
   z-index: 10;
   background-repeat: no-repeat;
   background-position: center;
@@ -62,7 +64,7 @@
 
 .movies__button_deleet {
   background-image: var(--icon-delete);
-  background-size: 14px 14px ;
+  background-size: 14px 14px;
 }
 
 .movies__button_like-active {
@@ -89,6 +91,7 @@
   }
 
   .movies__info {
+    width: 100%;
     margin: 22px;
     display: flex;
     flex-direction: column;

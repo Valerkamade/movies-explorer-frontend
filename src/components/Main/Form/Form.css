@@ -85,7 +85,7 @@
 .form_type_profile {
   display: flex;
   flex-direction: column;
-  min-height: 441px;
+  /* min-height: 441px; */
 }
 
 .form__list_type_profile {

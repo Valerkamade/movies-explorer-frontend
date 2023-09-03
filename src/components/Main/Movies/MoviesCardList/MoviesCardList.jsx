@@ -26,13 +26,14 @@ const MoviesCardList = ({
           />
         ))}
       </ul>
-      <div className='movies__wrapper'>
-        {showMoreButton && (
+
+      {showMoreButton && (
+        <div className='movies__wrapper'>
           <button className='movies__button-more' onClick={onSubmitMoreButton}>
             Ещё
           </button>
-        )}
-      </div>
+        </div>
+      )}
     </section>
   );
 };
