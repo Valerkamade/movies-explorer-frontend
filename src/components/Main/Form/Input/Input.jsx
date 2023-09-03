@@ -7,7 +7,6 @@ const Input = ({
   handleChange,
   input,
   form,
-  isValid = true,
   isChecked,
   onFocus,
   disabled,

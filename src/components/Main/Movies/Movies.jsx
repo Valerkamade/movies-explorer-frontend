@@ -5,13 +5,21 @@ import Main from '../Main';
 import useSearch from '../../../hooks/useSearch';
 import Preloader from '../../Preloader/Preloader';
 import { deviceSettings } from '../../../utils/data-list';
-import { DATA_SAVE } from '../../../utils/constants';
+import { KEYWORD_VALUES } from '../../../utils/constants';
 
-const Movies = ({ movies, onMovieLike, savedMovies, device, setMessage }) => {
+const Movies = ({
+  movies,
+  onMovieLike,
+  savedMovies,
+  device,
+  setMessage,
+  getMovies,
+}) => {
   const { filteredMovies, savedSearch, searchStatus, handleSubmitSearch } =
     useSearch({
       movies: movies,
       isSavedMoviesPage: false,
+      getMovies: getMovies,
     });
 
   const [valueSerch, setValueSerch] = useState({
@@ -27,8 +35,10 @@ const Movies = ({ movies, onMovieLike, savedMovies, device, setMessage }) => {
   };
 
   useEffect(() => {
-    if (DATA_SAVE in localStorage) {
-      const { search, short } = JSON.parse(localStorage.getItem(DATA_SAVE));
+    if (KEYWORD_VALUES in localStorage) {
+      const { search, short } = JSON.parse(
+        localStorage.getItem(KEYWORD_VALUES)
+      );
       setValueSerch({
         search: search,
         short: short,

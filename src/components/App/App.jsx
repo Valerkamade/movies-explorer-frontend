@@ -17,6 +17,7 @@ import { useNavigate } from 'react-router-dom';
 import {
   DEVICE_SETTING,
   KEYWORD_ISLOGGEDIN,
+  KEYWORD_MOVIES,
   KEYWORD_RESIZE,
   MESSAGE,
   ROUTS,
@@ -69,22 +70,20 @@ const App = () => {
       });
   };
 
-  const getMovies = () => {
-    apiMovies
-      .getMovies()
-      .then((movies) => {
-        setAllMovies(movies);
-      })
-      .catch((err) => {
-        setMessage({
-          isMessageShow: true,
-          isError: true,
-          text: MESSAGE.serverError,
-        });
-        console.log(err);
+  const getMovies = async () => {
+    try {
+      const movies = await apiMovies.getMovies();
+      setAllMovies(movies);
+      return movies;
+    } catch (err) {
+      setMessage({
+        isMessageShow: true,
+        isError: true,
+        text: MESSAGE.serverError,
       });
+    }
   };
-
+  console.log(allMovies);
   const checkToken = () => {
     api
       .checkToken()
@@ -105,20 +104,23 @@ const App = () => {
     if (currentUser.isLoggedIn) {
       checkToken();
       getSavedMovies();
+      if (KEYWORD_MOVIES in localStorage) {
+        setAllMovies(JSON.parse(localStorage.getItem(KEYWORD_MOVIES)));
+      }
     }
     setTimeout(() => {
       setLoadingContent(false);
     }, TIME_OUT_PRELOADER);
   }, [currentUser.isLoggedIn]);
 
-  useEffect(() => {
-    if (currentUser.isLoggedIn) {
-      getMovies();
-      setTimeout(() => {
-        setLoadingContent(false);
-      }, TIME_OUT_PRELOADER);
-    }
-  }, [currentUser.isLoggedIn]);
+  // useEffect(() => {
+  //   if (currentUser.isLoggedIn) {
+  //     getMovies();
+  //     setTimeout(() => {
+  //       setLoadingContent(false);
+  //     }, TIME_OUT_PRELOADER);
+  //   }
+  // }, [currentUser.isLoggedIn]);
 
   useEffect(() => {
     const handleChangeDevice = () => {
@@ -323,6 +325,7 @@ const App = () => {
                 savedMovies={savedMovies}
                 device={device}
                 isFormActivated={isFormActivated}
+                getMovies={getMovies}
               />
             }
           />

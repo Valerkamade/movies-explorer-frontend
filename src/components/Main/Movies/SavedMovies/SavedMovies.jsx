@@ -13,6 +13,8 @@ const SavedMovies = ({ savedMovies, onMoviedDelete }) => {
     isSavedMoviesPage: true,
   });
 
+  // const movies = valueSearch.search.length === 0 ? savedMovies : filteredMovies;
+
   useEffect(() => {
     if (!!filteredMovies) {
       if (filteredMovies.length === 0) {
